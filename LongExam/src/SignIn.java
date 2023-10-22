@@ -60,10 +60,11 @@ public class SignIn extends JFrame {
         panel.setLayout(null);
         
                 showPass = new JRadioButton("");
-                showPass.setEnabled(false);
-                showPass.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\eye.png"));
+                showPass.setHorizontalTextPosition(SwingConstants.LEADING);
+                showPass.setForeground(new Color(192, 192, 192));
+                showPass.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\eye1.png"));
                 showPass.setBackground(new Color(192, 192, 192));
-                showPass.setBounds(309, 186, 40, 15);
+                showPass.setBounds(309, 184, 40, 16);
                 panel.add(showPass);
                 
                         showPass.addItemListener(new ItemListener() {
@@ -151,6 +152,9 @@ public class SignIn extends JFrame {
                     String password = new String(pwdText);
                     if (userText.equals("Admin1") && password.equals("Pass123")) {
                         JOptionPane.showMessageDialog(lblEnter, "Redirecting to Next Page", "Login Successfully", 1);
+                        setVisible(false);
+                        LeagueStats leagueStatsFrame = new LeagueStats();
+                        leagueStatsFrame.setVisible(true);
                     } else {
                         if (!userText.equals("Admin1")) {
                             JOptionPane.showMessageDialog(null, "Incorrect username. Please try again.");
