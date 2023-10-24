@@ -178,8 +178,8 @@ public class SignIn extends JFrame {
                             setVisible(false);
 
                             // This Line of Code will redirecting to Admin Home Page
-                            LeagueStats leagueStatsAdminFrame = new LeagueStats();
-                            leagueStatsAdminFrame.setVisible(true);
+                            AdminHomePage toAdminHomePAge = new AdminHomePage();
+                            toAdminHomePAge.setVisible(true);
                         } else {
                             JOptionPane.showMessageDialog(null, "Incorrect password for admin. Please try again.");
                         }
