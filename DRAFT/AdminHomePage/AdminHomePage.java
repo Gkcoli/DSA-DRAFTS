@@ -219,5 +219,35 @@ public class AdminHomePage extends JFrame {
 		lblAdminHPBanner.setBounds(0, 0, 1066, 115);
 		lblAdminHPBanner.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/adminHP.png"));
 		contentPane.add(lblAdminHPBanner);
+		
+		JPanel panelLogOut = new JPanel();
+		panelLogOut.setBackground(new Color(228, 195, 197));
+		panelLogOut.setBounds(882, 505, 96, 26);
+		contentPane.add(panelLogOut);
+		panelLogOut.setLayout(null);
+		
+		JLabel lblLogOut = new JLabel("SIGN OUT", SwingConstants.CENTER);
+		lblLogOut.setForeground(Color.BLACK);
+		lblLogOut.setFont(new Font("Tungsten Bold", Font.PLAIN, 15));
+		lblLogOut.setBounds(0, 0, 96, 26);
+		lblLogOut.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				panelLogOut.setBackground(new Color(236, 73, 84));
+				lblLogOut.setForeground(Color.WHITE);
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				panelLogOut.setBackground(new Color(228, 195, 197));
+				lblLogOut.setForeground(Color.BLACK);
+			}
+			
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+				SignIn toSignIn = new SignIn();
+				toSignIn.setVisible(true);
+			}
+		});
+		panelLogOut.add(lblLogOut);
 	}
 }
