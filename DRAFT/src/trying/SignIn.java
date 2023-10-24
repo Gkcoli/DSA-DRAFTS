@@ -1,5 +1,4 @@
 package trying;
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.ImageIcon;
@@ -13,8 +12,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
-
+import java.util.Hashtable;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.border.CompoundBorder;
@@ -23,6 +21,7 @@ import java.awt.Dimension;
 import javax.swing.JRadioButton;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import javax.swing.JComboBox;
 
 public class SignIn extends JFrame {
 
@@ -32,6 +31,9 @@ public class SignIn extends JFrame {
     private JTextField txtUser;
     private JPasswordField passField;
     private JRadioButton showPass;
+
+    private Hashtable<String, String> predefinedUser; 
+    private Hashtable<String, String> predefinedAdmin;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -60,34 +62,25 @@ public class SignIn extends JFrame {
         panel.setBounds(275, 131, 495, 372);
         contentPane.add(panel);
         panel.setLayout(null);
-        
-                showPass = new JRadioButton("");
-                showPass.setHorizontalTextPosition(SwingConstants.LEADING);
-                showPass.setForeground(new Color(192, 192, 192));
-                showPass.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\eye1.png"));
-                showPass.setBackground(new Color(192, 192, 192));
-                showPass.setBounds(309, 184, 40, 16);
-                panel.add(showPass);
-                
-                        showPass.addItemListener(new ItemListener() {
-                            public void itemStateChanged(ItemEvent e) {
-                                if (e.getStateChange() == ItemEvent.SELECTED) {
-                                    passField.setEchoChar((char) 0); // Show the password
-                                } else {
-                                    passField.setEchoChar('\u2022'); // Hide the password
-                                }
-                            }
-                        });
-                        showPass.addItemListener(new ItemListener() {
-                            public void itemStateChanged(ItemEvent e) {
-                                if (e.getStateChange() == ItemEvent.SELECTED) {
-                                    passField.setEchoChar((char) 0); // Show the password
-                                } else {
-                                    passField.setEchoChar('\u2022'); // Hide the password
-                                }
-                            }
-                        });
-    
+
+        showPass = new JRadioButton("");
+        showPass.setHorizontalTextPosition(SwingConstants.LEADING);
+        showPass.setForeground(new Color(192, 192, 192));
+        showPass.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\eye1.png"));
+        showPass.setBackground(new Color(192, 192, 192));
+        showPass.setBounds(309, 184, 40, 16);
+        panel.add(showPass);
+
+        showPass.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    passField.setEchoChar((char) 0); // Show the password
+                } else {
+                    passField.setEchoChar('\u2022'); // Hide the password
+                }
+            }
+        });
+
         textSignIn = new JTextField();
         textSignIn.setBackground(new Color(255, 255, 255));
         textSignIn.setDisabledTextColor(new Color(255, 255, 255));
@@ -103,8 +96,9 @@ public class SignIn extends JFrame {
         textSignIn.setForeground(cc);
 
         txtUser = new JTextField();
+        txtUser.setHorizontalAlignment(SwingConstants.LEFT);
         txtUser.setFont(new Font("Tungsten Bold", Font.PLAIN, 17));
-        txtUser.setText("USERNAME");
+        txtUser.setText(" USERNAME");
         txtUser.setBackground(new Color(192, 192, 192));
         txtUser.setBorder(null);
         txtUser.setBounds(141, 113, 208, 35);
@@ -124,6 +118,17 @@ public class SignIn extends JFrame {
         passField.setBackground(new Color(192, 192, 192));
         passField.setBounds(141, 174, 208, 35);
         panel.add(passField);
+
+        predefinedUser = new Hashtable<String, String>();
+        predefinedUser.put("User1", "Pass123");
+        predefinedUser.put("User2", "Pass1234");
+        predefinedUser.put("User3", "Pass12345");
+        predefinedUser.put("User4", "Pass123456");
+        
+        predefinedAdmin = new Hashtable<String, String>();
+        predefinedAdmin.put("Admin1", "Pass12");
+        
+        
 
         JLabel lblFB = new JLabel("");
         lblFB.setBounds(141, 220, 40, 30);
@@ -147,22 +152,39 @@ public class SignIn extends JFrame {
         panel.add(lblEnter);
         lblEnter.addMouseListener(new MouseAdapter() {
             @Override
+            //Condition Statement Para Sa Predefine User and Admin tho edit nyo nalang since ito nadaw gagamitin sa draft.
             public void mouseClicked(MouseEvent e) {
                 if (e.getSource() == lblEnter) {
                     String userText = txtUser.getText();
                     char[] pwdText = passField.getPassword();
                     String password = new String(pwdText);
-                    if (userText.equals("Admin1") && password.equals("Pass123")) {
-                        JOptionPane.showMessageDialog(lblEnter, "Redirecting to Next Page", "Login Successfully", 1);
-                        setVisible(false);
-                        LeagueStats leagueStatsFrame = new LeagueStats();
-                        leagueStatsFrame.setVisible(true);
-                    } else {
-                        if (!userText.equals("Admin1")) {
-                            JOptionPane.showMessageDialog(null, "Incorrect username. Please try again.");
-                        } else if (!password.equals("Pass123")) {
-                            JOptionPane.showMessageDialog(null, "Incorrect password. Please try again.");
+
+                    if (predefinedUser.containsKey(userText)) {
+                        String expectedPassword = predefinedUser.get(userText);
+                        if (password.equals(expectedPassword)) {
+                            JOptionPane.showMessageDialog(lblEnter, "Redirecting to User Home Page", "Login Successfully", 1);
+                            setVisible(false);
+
+                            // This Line of Code will redirect to User Home Page
+                            LeagueStats leagueStatsUserFrame = new LeagueStats();
+                            leagueStatsUserFrame.setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Incorrect password for user. Please try again.");
                         }
+                    } else if (predefinedAdmin.containsKey(userText)) {
+                        String expectedPassword = predefinedAdmin.get(userText);
+                        if (password.equals(expectedPassword)) {
+                            JOptionPane.showMessageDialog(lblEnter, "Redirecting to Admin Home Page", "Login Successfully", 1);
+                            setVisible(false);
+
+                            // This Line of Code will redirecting to Admin Home Page
+                            LeagueStats leagueStatsAdminFrame = new LeagueStats();
+                            leagueStatsAdminFrame.setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Incorrect password for admin. Please try again.");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Incorrect username. Please try again.");
                     }
                 }
             }
