@@ -210,5 +210,9 @@ public class PlayMatch {
 		tablePlayerStats.getColumnModel().getColumn(11).setPreferredWidth(30);
 		frame.setBounds(100, 100, 1080, 820);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JTableHeader tableHeader = tablePlayerStats.getTableHeader();
+		tableHeader.setBackground(new Color(191, 151, 159));
+		tableHeader.setForeground(Color.black);
 	}
 }
