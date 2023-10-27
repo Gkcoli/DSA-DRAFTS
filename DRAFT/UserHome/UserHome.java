@@ -25,6 +25,8 @@ public class UserHome extends JFrame {
 	JLabel lblNewMember3;
 	JLabel lblNewMember4;
 	JLabel lblNewMember5;
+	// Edit fileDirectory
+	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +71,7 @@ public class UserHome extends JFrame {
 		
 		JLabel lblUserHPBanner = new JLabel("New label");
 		lblUserHPBanner.setBounds(0, 0, 1067, 105);
-		lblUserHPBanner.setIcon(new ImageIcon("C:\\Users\\carlo\\OneDrive\\Desktop\\pransue\\School\\SECOND YEAR\\FIRST TERM\\DSA\\adminHP.jpg"));
+		lblUserHPBanner.setIcon(new ImageIcon(fileDirectory + "adminHP.jpg"));
 		contentPane.add(lblUserHPBanner);
 		
 		JPanel panelRecentTourna = new JPanel();
