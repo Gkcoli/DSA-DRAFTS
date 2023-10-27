@@ -1,4 +1,5 @@
 package trying;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.ImageIcon;
@@ -23,10 +24,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 class UserData {
-     String username;
-     String password;
-     String teamName;
-     String[] teamMembers = new String[5];
+    String username;
+    String password;
+    String teamName;
+    String[] teamMembers = new String[5];
 
     public UserData(String username, String password, String teamName, String[] teamMembers) {
         this.username = username;
@@ -65,6 +66,8 @@ public class SignIn extends JFrame {
     private JRadioButton showPass;
     Hashtable<String, UserData> usersData;
     Hashtable<String, String> userAdmin;
+    // Edit fileDirectory
+ 	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -80,10 +83,10 @@ public class SignIn extends JFrame {
     }
 
     public SignIn() {
-    	 String T1FilePath = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/Team1.txt";
-         String T2FilePath = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/Team2.txt";
-         String T3FilePath = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/Team3.txt";
-         String T4FilePath = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/Team4.txt";
+    	String T1FilePath = fileDirectory + "Team1.txt";
+        String T2FilePath = fileDirectory + "Team2.txt";
+        String T3FilePath = fileDirectory + "Team3.txt";
+        String T4FilePath = fileDirectory + "Team4.txt";
          
     	FileHandler memberList = new FileHandler();
     	LinkedList <String> teamOne = new LinkedList<>();
@@ -178,17 +181,17 @@ public class SignIn extends JFrame {
 
         JLabel lblFB = new JLabel("");
         lblFB.setBounds(141, 220, 40, 30);
-        lblFB.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/facebook1.png"));
+        lblFB.setIcon(new ImageIcon(fileDirectory + "facebook1.png"));
         panelSignIn.add(lblFB);
 
         JLabel lblGgl =  new JLabel("");
         lblGgl.setBounds(226, 220, 30, 30);
-        lblGgl.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/google.png"));
+        lblGgl.setIcon(new ImageIcon(fileDirectory + "google.png"));
         panelSignIn.add(lblGgl);
 
         JLabel lblApl = new JLabel("");
         lblApl.setBounds(309, 208, 40, 53);
-        lblApl.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/apple11.png"));
+        lblApl.setIcon(new ImageIcon(fileDirectory + "apple11.png"));
         panelSignIn.add(lblApl);
         
         userAdmin = new Hashtable<String, String>();
@@ -197,7 +200,7 @@ public class SignIn extends JFrame {
         JLabel lblEnter = new JLabel("");
         lblEnter.setBorder(new CompoundBorder());
         lblEnter.setBounds(205, 274, 75, 75);
-        lblEnter.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/nextbutton3.png"));
+        lblEnter.setIcon(new ImageIcon(fileDirectory + "nextbutton3.png"));
         panelSignIn.add(lblEnter);
         lblEnter.addMouseListener(new MouseAdapter() {
             @Override
