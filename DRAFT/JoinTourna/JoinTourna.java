@@ -32,6 +32,8 @@ public class JoinTourna extends JFrame {
 	private JTextField textMember5;
 	boolean tournaIsSelected = false;
 	boolean tourna2IsFull = false;
+	// Edit fileDirectory
+	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
 
 	/**
 	 * Launch the application.
@@ -72,7 +74,7 @@ public class JoinTourna extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\carlo\\Downloads\\JOIN TOURNA.png"));
+		lblNewLabel.setIcon(new ImageIcon(fileDirectory + "JOIN TOURNA.png"));
 		lblNewLabel.setBounds(0, 0, 1500, 105);
 		contentPane.add(lblNewLabel);
 		
