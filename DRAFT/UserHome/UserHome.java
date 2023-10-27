@@ -1,5 +1,3 @@
-package trying;
-
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -156,7 +154,7 @@ public class UserHome extends JFrame {
 		
 		JPanel panelJoinNow = new JPanel();
 		panelJoinNow.setBackground(new Color(189, 57, 68));
-		panelJoinNow.setBounds(463, 510, 147, 70);
+		panelJoinNow.setBounds(463, 518, 147, 62);
 		contentPane.add(panelJoinNow);
 		panelJoinNow.setLayout(null);
 		
@@ -164,7 +162,7 @@ public class UserHome extends JFrame {
 		JLabel lblJoinNow = new JLabel("JOIN NOW", SwingConstants.CENTER);
 		lblJoinNow.setForeground(new Color(255, 251, 245));
 		lblJoinNow.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
-		lblJoinNow.setBounds(0, 0, 147, 70);
+		lblJoinNow.setBounds(0, 0, 147, 62);
 		lblJoinNow.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
