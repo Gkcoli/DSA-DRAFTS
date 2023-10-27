@@ -1,10 +1,10 @@
-package trying;
+package telemasters;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import java.awt.Font;
@@ -16,24 +16,53 @@ import java.util.Hashtable;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.border.CompoundBorder;
-import javax.swing.JButton;
-import java.awt.Dimension;
-import javax.swing.JRadioButton;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+
+class UserData {
+     String username;
+     String password;
+     String teamName;
+     String[] teamMembers = new String[5];
+
+    public UserData(String username, String password, String teamName, String[] teamMembers) {
+        this.username = username;
+        this.password = password;
+        this.teamName = teamName;
+        if (teamMembers.length >= 5) {
+            for (int i = 0; i < 5; i++) {
+                this.teamMembers[i] = teamMembers[i];
+            }
+        }
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public String[] getTeamMembers() {
+        return teamMembers;
+    }
+}
 
 public class SignIn extends JFrame {
-
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextField textSignIn;
     private JTextField txtUser;
     private JPasswordField passField;
     private JRadioButton showPass;
-
-    private Hashtable<String, String> predefinedUser; 
-    private Hashtable<String, String> predefinedAdmin;
+    Hashtable<String, UserData> usersData;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -49,6 +78,12 @@ public class SignIn extends JFrame {
     }
 
     public SignIn() {
+        usersData = new Hashtable<String, UserData>();
+        usersData.put("User1", new UserData("User1", "Pass123", "TeamA", new String[]{"Member1", "Member2", "Member3", "Member4", "Member5"}));
+        usersData.put("User2", new UserData("User2", "Pass1234", "TeamB", new String[]{"MemberA", "MemberB", "MemberC", "MemberD", "MemberE"}));
+        usersData.put("User3", new UserData("User3", "Pass12345", "TeamC", new String[]{"MemberX", "MemberY", "MemberZ", "MemberW", "MemberV"}));
+        usersData.put("User4", new UserData("User4", "Pass123456", "TeamD", new String[]{"MemberI", "MemberII", "MemberIII", "MemberIV", "MemberV"}));
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1080, 673);
         contentPane = new JPanel();
@@ -119,23 +154,12 @@ public class SignIn extends JFrame {
         passField.setBounds(141, 174, 208, 35);
         panel.add(passField);
 
-        predefinedUser = new Hashtable<String, String>();
-        predefinedUser.put("User1", "Pass123");
-        predefinedUser.put("User2", "Pass1234");
-        predefinedUser.put("User3", "Pass12345");
-        predefinedUser.put("User4", "Pass123456");
-        
-        predefinedAdmin = new Hashtable<String, String>();
-        predefinedAdmin.put("Admin1", "Pass12");
-        
-        
-
         JLabel lblFB = new JLabel("");
         lblFB.setBounds(141, 220, 40, 30);
         lblFB.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\facebook1.png"));
         panel.add(lblFB);
 
-        JLabel lblGgl = new JLabel("");
+        JLabel lblGgl =  new JLabel("");
         lblGgl.setBounds(226, 220, 30, 30);
         lblGgl.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\google.png"));
         panel.add(lblGgl);
@@ -152,36 +176,25 @@ public class SignIn extends JFrame {
         panel.add(lblEnter);
         lblEnter.addMouseListener(new MouseAdapter() {
             @Override
-            //Condition Statement Para Sa Predefine User and Admin tho edit nyo nalang since ito nadaw gagamitin sa draft.
             public void mouseClicked(MouseEvent e) {
                 if (e.getSource() == lblEnter) {
                     String userText = txtUser.getText();
                     char[] pwdText = passField.getPassword();
                     String password = new String(pwdText);
 
-                    if (predefinedUser.containsKey(userText)) {
-                        String expectedPassword = predefinedUser.get(userText);
+                    if (usersData.containsKey(userText)) {
+                        UserData userData = usersData.get(userText);
+                        String expectedPassword = userData.getPassword();
                         if (password.equals(expectedPassword)) {
                             JOptionPane.showMessageDialog(lblEnter, "Redirecting to User Home Page", "Login Successfully", 1);
                             setVisible(false);
 
-                            // This Line of Code will redirecting to User Home Page
-                            LeagueStats leagueStatsUserFrame = new LeagueStats();
-                            leagueStatsUserFrame.setVisible(true);
+                            UserHome userHomeFrame = new UserHome();
+                            userHomeFrame.updateLabels(userData); // Update the labels with user data
+                            userHomeFrame.setVisible(true);
+                            dispose();
                         } else {
                             JOptionPane.showMessageDialog(null, "Incorrect password for user. Please try again.");
-                        }
-                    } else if (predefinedAdmin.containsKey(userText)) {
-                        String expectedPassword = predefinedAdmin.get(userText);
-                        if (password.equals(expectedPassword)) {
-                            JOptionPane.showMessageDialog(lblEnter, "Redirecting to Admin Home Page", "Login Successfully", 1);
-                            setVisible(false);
-
-                            // This Line of Code will redirecting to Admin Home Page
-                            LeagueStats leagueStatsAdminFrame = new LeagueStats();
-                            leagueStatsAdminFrame.setVisible(true);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Incorrect password for admin. Please try again.");
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Incorrect username. Please try again.");
