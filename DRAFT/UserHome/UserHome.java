@@ -1,4 +1,4 @@
-package telemasters;
+package trying;
 
 import java.awt.EventQueue;
 
@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
 
 public class UserHome extends JFrame {
 
@@ -108,33 +109,39 @@ public class UserHome extends JFrame {
 		panel_1.setLayout(null);
 		
 		lblNewTeam = new JLabel("[TEAM 1 NAME]");
+		lblNewTeam.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewTeam.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
-		lblNewTeam.setBounds(82, 10, 171, 52);
+		lblNewTeam.setBounds(60, 11, 200, 52);
 		panel_1.add(lblNewTeam);
 		
 		lblNewMember1 = new JLabel("[Member 1 Name]");
+		lblNewMember1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewMember1.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblNewMember1.setBounds(95, 61, 132, 35);
+		lblNewMember1.setBounds(84, 59, 158, 35);
 		panel_1.add(lblNewMember1);
 		
 		lblNewMember2 = new JLabel("[Member 2 Name]");
+		lblNewMember2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewMember2.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblNewMember2.setBounds(95, 101, 132, 35);
+		lblNewMember2.setBounds(84, 101, 158, 35);
 		panel_1.add(lblNewMember2);
 		
 		lblNewMember3 = new JLabel("[Member 3 Name]");
+		lblNewMember3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewMember3.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblNewMember3.setBounds(95, 141, 132, 35);
+		lblNewMember3.setBounds(84, 141, 158, 35);
 		panel_1.add(lblNewMember3);
 		
 		lblNewMember4 = new JLabel("[Member 4 Name]");
+		lblNewMember4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewMember4.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblNewMember4.setBounds(95, 181, 132, 35);
+		lblNewMember4.setBounds(84, 181, 158, 35);
 		panel_1.add(lblNewMember4);
 		
 		lblNewMember5 = new JLabel("[Member 5 Name]");
+		lblNewMember5.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewMember5.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblNewMember5.setBounds(95, 221, 132, 35);
+		lblNewMember5.setBounds(84, 221, 158, 35);
 		panel_1.add(lblNewMember5);
 		
 		
@@ -174,11 +181,11 @@ public class UserHome extends JFrame {
 				lblNewLabel_13.setBackground(new Color(228, 195, 197));
 			}
 			
-			public void mouseClicked(MouseEvent e) {
-				dispose();
-				JoinTourna toJoinTourna = new JoinTourna();
-				toJoinTourna.setVisible(true);
-			}
+//			public void mouseClicked(MouseEvent e) {
+//				dispose();
+//				JoinTourna toJoinTourna = new JoinTourna();
+//				toJoinTourna.setVisible(true);
+			//}
 			
 		});
 		panel_2.add(lblNewLabel_13);
