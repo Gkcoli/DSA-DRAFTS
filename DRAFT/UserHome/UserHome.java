@@ -22,12 +22,12 @@ import javax.swing.JProgressBar;
 public class UserHome extends JFrame {
 
 	private JPanel contentPane;
-	JLabel lblNewLabel_7;
-	JLabel lblNewLabel_8;
-	JLabel lblNewLabel_9;
-	JLabel lblNewLabel_10;
-	JLabel lblNewLabel_11;
-	JLabel lblNewLabel_12;
+	JLabel lblNewTeam;
+	JLabel lblNewMember1;
+	JLabel lblNewMember2;
+	JLabel lblNewMember3;
+	JLabel lblNewMember4;
+	JLabel lblNewMember5;
 	/**
 	 * Launch the application.
 	 */
@@ -95,35 +95,35 @@ public class UserHome extends JFrame {
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
-		lblNewLabel_7 = new JLabel("[TEAM 1 NAME]");
-		lblNewLabel_7.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
-		lblNewLabel_7.setBounds(82, 10, 171, 52);
-		panel_1.add(lblNewLabel_7);
+		lblNewTeam = new JLabel("[TEAM 1 NAME]");
+		lblNewTeam.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
+		lblNewTeam.setBounds(82, 10, 171, 52);
+		panel_1.add(lblNewTeam);
 		
-		lblNewLabel_8 = new JLabel("[Member 1 Name]");
-		lblNewLabel_8.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblNewLabel_8.setBounds(95, 61, 132, 35);
-		panel_1.add(lblNewLabel_8);
+		lblNewMember1 = new JLabel("[Member 1 Name]");
+		lblNewMember1.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+		lblNewMember1.setBounds(95, 61, 132, 35);
+		panel_1.add(lblNewMember1);
 		
-		lblNewLabel_9 = new JLabel("[Member 2 Name]");
-		lblNewLabel_9.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblNewLabel_9.setBounds(95, 101, 132, 35);
-		panel_1.add(lblNewLabel_9);
+		lblNewMember2 = new JLabel("[Member 2 Name]");
+		lblNewMember2.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+		lblNewMember2.setBounds(95, 101, 132, 35);
+		panel_1.add(lblNewMember2);
 		
-		lblNewLabel_10 = new JLabel("[Member 3 Name]");
-		lblNewLabel_10.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblNewLabel_10.setBounds(95, 141, 132, 35);
-		panel_1.add(lblNewLabel_10);
+		lblNewMember3 = new JLabel("[Member 3 Name]");
+		lblNewMember3.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+		lblNewMember3.setBounds(95, 141, 132, 35);
+		panel_1.add(lblNewMember3);
 		
-		lblNewLabel_11 = new JLabel("[Member 4 Name]");
-		lblNewLabel_11.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblNewLabel_11.setBounds(95, 181, 132, 35);
-		panel_1.add(lblNewLabel_11);
+		lblNewMember4 = new JLabel("[Member 4 Name]");
+		lblNewMember4.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+		lblNewMember4.setBounds(95, 181, 132, 35);
+		panel_1.add(lblNewMember4);
 		
-		lblNewLabel_12 = new JLabel("[Member 5 Name]");
-		lblNewLabel_12.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblNewLabel_12.setBounds(95, 221, 132, 35);
-		panel_1.add(lblNewLabel_12);
+		lblNewMember5 = new JLabel("[Member 5 Name]");
+		lblNewMember5.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+		lblNewMember5.setBounds(95, 221, 132, 35);
+		panel_1.add(lblNewMember5);
 		
 		
 		JLabel lblNewLabel_5 = new JLabel("DIFFERENCE");
@@ -174,9 +174,5 @@ public class UserHome extends JFrame {
 		lblNewLabel_14.setFont(new Font("Tungsten Bold", Font.PLAIN, 45));
 		lblNewLabel_14.setBounds(179, 136, 227, 52);
 		contentPane.add(lblNewLabel_14);
-		
-		
-		
 	}
-	
 }
