@@ -1,5 +1,4 @@
-package telemasters;
-
+package trying;
 import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.ImageIcon;
@@ -149,9 +148,10 @@ public class SignIn extends JFrame {
         });
 
         passField = new JPasswordField();
+        passField.setFont(new Font("Tungsten Bold", Font.PLAIN, 17));
         passField.setBorder(null);
         passField.setBackground(new Color(192, 192, 192));
-        passField.setBounds(141, 174, 208, 35);
+        passField.setBounds(141, 184, 208, 35);
         panel.add(passField);
 
         JLabel lblFB = new JLabel("");
