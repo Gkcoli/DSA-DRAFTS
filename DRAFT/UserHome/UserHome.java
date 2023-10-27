@@ -31,6 +31,10 @@ public class UserHome extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	
+
+	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -42,6 +46,14 @@ public class UserHome extends JFrame {
 				}
 			}
 		});
+	}
+	public void updateLabels(UserData userData) {
+	    lblNewTeam.setText(userData.getTeamName());
+	    lblNewMember1.setText(userData.getTeamMembers()[0]);
+	    lblNewMember2.setText(userData.getTeamMembers()[1]);
+	    lblNewMember3.setText(userData.getTeamMembers()[2]);
+	    lblNewMember4.setText(userData.getTeamMembers()[3]);
+	    lblNewMember5.setText(userData.getTeamMembers()[4]);
 	}
 
 	/**
@@ -64,7 +76,7 @@ public class UserHome extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(106, 198, 382, 302);
+		panel.setBounds(106, 201, 382, 302);
 		panel.setBackground(new Color(255, 212, 212));
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -143,6 +155,7 @@ public class UserHome extends JFrame {
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		
+		
 		JLabel lblNewLabel_13 = new JLabel("JOIN NOW");
 		lblNewLabel_13.setForeground(new Color(255, 251, 245));
 		lblNewLabel_13.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
@@ -174,5 +187,9 @@ public class UserHome extends JFrame {
 		lblNewLabel_14.setFont(new Font("Tungsten Bold", Font.PLAIN, 45));
 		lblNewLabel_14.setBounds(179, 136, 227, 52);
 		contentPane.add(lblNewLabel_14);
+		
+		
+		
 	}
+	
 }
