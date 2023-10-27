@@ -18,6 +18,8 @@ public class AdminHomePage extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	// Edit fileDirectory
+	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
 
 	/**
 	 * Launch the application.
@@ -217,7 +219,7 @@ public class AdminHomePage extends JFrame {
 		
 		JLabel lblAdminHPBanner = new JLabel("");
 		lblAdminHPBanner.setBounds(0, 0, 1066, 115);
-		lblAdminHPBanner.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/adminHP.png"));
+		lblAdminHPBanner.setIcon(new ImageIcon(fileDirectory + "adminHP.png"));
 		contentPane.add(lblAdminHPBanner);
 		
 		JPanel panelLogOut = new JPanel();
