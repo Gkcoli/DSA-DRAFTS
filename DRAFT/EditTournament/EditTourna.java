@@ -1,4 +1,4 @@
-  import java.awt.EventQueue;
+import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -44,6 +44,8 @@ public class EditTourna {
 	private JTextField textField_16;
 	private JTextField textField_17;
 	private JTextField textField_18;
+	// Edit fileDirectory
+	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
 
 	/**
 	 * Launch the application.
@@ -80,7 +82,7 @@ public class EditTourna {
 		
 		JLabel lblHeader = new JLabel("New label");
 		lblHeader.setVerticalAlignment(SwingConstants.TOP);
-		lblHeader.setIcon(new ImageIcon("C:\\Users\\jessy\\Downloads\\TELEMASTERS\\PICS\\EDIT TOURNA.png"));
+		lblHeader.setIcon(new ImageIcon(fileDirectory + "EDIT TOURNA.png"));
 		lblHeader.setBounds(0, 0, 1066, 125);
 		frame.getContentPane().add(lblHeader);
 		
@@ -445,8 +447,8 @@ public class EditTourna {
 		btnPlayMatch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PlayMatch window = new PlayMatch();
-				window.frame.setVisible(true);
+//				PlayMatch window = new PlayMatch();
+//				window.frame.setVisible(true);
 			}
 		});
 		btnPlayMatch.setVerticalAlignment(SwingConstants.BOTTOM);
