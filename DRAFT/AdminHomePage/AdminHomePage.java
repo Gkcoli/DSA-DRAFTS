@@ -18,6 +18,20 @@ public class AdminHomePage extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	JLabel adminHPTournament;
+	JPanel panelTourna1;
+	JLabel labelTourna1;
+	JLabel lblFull;
+	JPanel panelTourna2;
+	JLabel labelTourna2;
+	JLabel lblOnGoing;
+	JPanel panelTourna3;
+	JLabel labelTourna3;
+	JLabel lblTBA;
+	JLabel lblAdminHPBanner;
+	JPanel panelLogOut;
+	JLabel lblLogOut;
+	
 	// Edit fileDirectory
 	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
 
@@ -50,24 +64,24 @@ public class AdminHomePage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel adminHPTournament = new JLabel("EPISODE 1 // ACT 1 TOURNAMENTS", SwingConstants.CENTER);
+		adminHPTournament = new JLabel("EPISODE 1 // ACT 1 TOURNAMENTS", SwingConstants.CENTER);
 		adminHPTournament.setFont(new Font("Tungsten Bold", Font.PLAIN, 50));
 		adminHPTournament.setForeground(new Color(189, 57, 68));
 		adminHPTournament.setBounds(0, 125, 1066, 60);
 		contentPane.add(adminHPTournament);
 		
-		JPanel panelTourna1 = new JPanel();
+		panelTourna1 = new JPanel();
 		panelTourna1.setBackground(new Color(228, 195, 197));
 		panelTourna1.setBounds(386, 184, 308, 94);
 		contentPane.add(panelTourna1);
 		panelTourna1.setLayout(null);
 		
-		JLabel labelTourna1 = new JLabel("LEAGUE OF ACES", SwingConstants.CENTER);
+		labelTourna1 = new JLabel("LEAGUE OF ACES", SwingConstants.CENTER);
 		labelTourna1.setBounds(0, 10, 308, 60);
 		labelTourna1.setFont(new Font("Tungsten Bold", Font.PLAIN, 50));
 		labelTourna1.setForeground(new Color(0, 0, 0));
 		
-		JLabel lblFull = new JLabel("FULL", SwingConstants.CENTER);
+		lblFull = new JLabel("FULL", SwingConstants.CENTER);
 		lblFull.setBounds(0, 52, 308, 42);
 		lblFull.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
 		lblFull.setForeground(new Color(0, 0, 0));
@@ -109,18 +123,18 @@ public class AdminHomePage extends JFrame {
 		});
 		panelTourna1.add(labelTourna1);
 		
-		JPanel panelTourna2 = new JPanel();
+		panelTourna2 = new JPanel();
 		panelTourna2.setBackground(new Color(228, 195, 197));
 		panelTourna2.setBounds(386, 304, 308, 94);
 		contentPane.add(panelTourna2);
 		panelTourna2.setLayout(null);
 		
-		JLabel labelTourna2 = new JLabel("VICTORY VANGUARD", SwingConstants.CENTER);
+		labelTourna2 = new JLabel("VICTORY VANGUARD", SwingConstants.CENTER);
 		labelTourna2.setFont(new Font("Tungsten Bold", Font.PLAIN, 50));
 		labelTourna2.setBounds(0, 10, 308, 60);
 		labelTourna2.setForeground(new Color(0, 0, 0));
 		
-		JLabel lblOnGoing = new JLabel("ONGOING", SwingConstants.CENTER);
+		lblOnGoing = new JLabel("ONGOING", SwingConstants.CENTER);
 		lblOnGoing.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
 		lblOnGoing.setBounds(0, 52, 308, 42);
 		lblOnGoing.setForeground(new Color(0, 0, 0));
@@ -164,18 +178,18 @@ public class AdminHomePage extends JFrame {
 		});
 		panelTourna2.add(labelTourna2);
 		
-		JPanel panelTourna3 = new JPanel();
+		panelTourna3 = new JPanel();
 		panelTourna3.setBackground(new Color(228, 195, 197));
 		panelTourna3.setBounds(386, 425, 308, 94);
 		contentPane.add(panelTourna3);
 		panelTourna3.setLayout(null);
 		
-		JLabel labelTourna3= new JLabel("WORLD VALORANT", SwingConstants.CENTER);
+		labelTourna3= new JLabel("WORLD VALORANT", SwingConstants.CENTER);
 		labelTourna3.setFont(new Font("Tungsten Bold", Font.PLAIN, 50));
 		labelTourna3.setBounds(0, 10, 308, 60);
 		labelTourna3.setForeground(new Color(0, 0, 0));
 		
-		JLabel lblTBA = new JLabel("TBA", SwingConstants.CENTER);
+		lblTBA = new JLabel("TBA", SwingConstants.CENTER);
 		lblTBA.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
 		lblTBA.setBounds(0, 52, 308, 42);
 		lblTBA.setForeground(new Color(0, 0, 0));
@@ -217,18 +231,18 @@ public class AdminHomePage extends JFrame {
 		});
 		panelTourna3.add(labelTourna3);
 		
-		JLabel lblAdminHPBanner = new JLabel("");
+		lblAdminHPBanner = new JLabel("");
 		lblAdminHPBanner.setBounds(0, 0, 1066, 115);
 		lblAdminHPBanner.setIcon(new ImageIcon(fileDirectory + "adminHP.png"));
 		contentPane.add(lblAdminHPBanner);
 		
-		JPanel panelLogOut = new JPanel();
+		panelLogOut = new JPanel();
 		panelLogOut.setBackground(new Color(228, 195, 197));
 		panelLogOut.setBounds(882, 505, 96, 26);
 		contentPane.add(panelLogOut);
 		panelLogOut.setLayout(null);
 		
-		JLabel lblLogOut = new JLabel("SIGN OUT", SwingConstants.CENTER);
+		lblLogOut = new JLabel("SIGN OUT", SwingConstants.CENTER);
 		lblLogOut.setForeground(Color.BLACK);
 		lblLogOut.setFont(new Font("Tungsten Bold", Font.PLAIN, 15));
 		lblLogOut.setBounds(0, 0, 96, 26);
