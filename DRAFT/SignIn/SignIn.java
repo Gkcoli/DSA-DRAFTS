@@ -12,6 +12,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.Stack;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.border.CompoundBorder;
@@ -78,11 +80,30 @@ public class SignIn extends JFrame {
     }
 
     public SignIn() {
+    	 String T1FilePath = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/Team1.txt";
+         String T2FilePath = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/Team2.txt";
+         String T3FilePath = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/Team3.txt";
+         String T4FilePath = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/Team4.txt";
+         
+    	FileHandler memberList = new FileHandler();
+    	LinkedList <String> teamOne = new LinkedList<>();
+    	teamOne.addAll(memberList.fileReader(T1FilePath));
+    	
+    	LinkedList <String> teamTwo = new LinkedList<>();
+    	teamTwo.addAll(memberList.fileReader(T2FilePath));
+    	
+    	LinkedList <String> teamThree = new LinkedList<>();
+    	teamThree.addAll(memberList.fileReader(T3FilePath));
+    	
+    	LinkedList <String> teamFour = new LinkedList<>();
+    	teamFour.addAll(memberList.fileReader(T4FilePath));
+ 
+    	
         usersData = new Hashtable<String, UserData>();
-        usersData.put("User1", new UserData("User1", "Pass123", "Team A", new String[]{"Member 1", "Member 2", "Member 3", "Member 4", "Member 5"}));
-        usersData.put("User2", new UserData("User2", "Pass1234", "Team B", new String[]{"Member A", "Member B", "Member C", "Member D", "Member E"}));
-        usersData.put("User3", new UserData("User3", "Pass12345", "Team C", new String[]{"Member X", "Member Y", "Member Z", "Member W", "Member V"}));
-        usersData.put("User4", new UserData("User4", "Pass123456", "Team D", new String[]{"Member I", "Member II", "Member III", "Member IV", "Member V"}));
+        usersData.put("User1", new UserData("User1", "Pass123", teamOne.get(0), new String[]{teamOne.get(1), teamOne.get(2), teamOne.get(3), teamOne.get(4), teamOne.get(5)}));
+        usersData.put("User2", new UserData("User2", "Pass1234", teamTwo.get(0), new String[]{teamTwo.get(1), teamTwo.get(2), teamTwo.get(3), teamTwo.get(4), teamTwo.get(5)}));
+        usersData.put("User3", new UserData("User3", "Pass12345", teamThree.get(0), new String[]{teamThree.get(1), teamThree.get(2), teamThree.get(3), teamThree.get(4), teamThree.get(5)}));
+        usersData.put("User4", new UserData("User4", "Pass123456", teamFour.get(0), new String[]{teamFour.get(1), teamFour.get(2), teamFour.get(3), teamFour.get(4), teamFour.get(5)}));
  
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1080, 673);
@@ -101,7 +122,7 @@ public class SignIn extends JFrame {
         showPass = new JRadioButton("");
         showPass.setHorizontalTextPosition(SwingConstants.CENTER);
         showPass.setForeground(new Color(192, 192, 192));
-        showPass.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\eye1.png"));
+        showPass.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/eye1.png"));
         showPass.setBackground(new Color(192, 192, 192));
         showPass.setBounds(309, 179, 40, 30);
         panelSignIn.add(showPass);
@@ -157,17 +178,17 @@ public class SignIn extends JFrame {
 
         JLabel lblFB = new JLabel("");
         lblFB.setBounds(141, 220, 40, 30);
-        lblFB.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\facebook1.png"));
+        lblFB.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/facebook1.png"));
         panelSignIn.add(lblFB);
 
         JLabel lblGgl =  new JLabel("");
         lblGgl.setBounds(226, 220, 30, 30);
-        lblGgl.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\google.png"));
+        lblGgl.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/google.png"));
         panelSignIn.add(lblGgl);
 
         JLabel lblApl = new JLabel("");
         lblApl.setBounds(309, 208, 40, 53);
-        lblApl.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\apple11.png"));
+        lblApl.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/apple11.png"));
         panelSignIn.add(lblApl);
         
         userAdmin = new Hashtable<String, String>();
@@ -176,7 +197,7 @@ public class SignIn extends JFrame {
         JLabel lblEnter = new JLabel("");
         lblEnter.setBorder(new CompoundBorder());
         lblEnter.setBounds(205, 274, 75, 75);
-        lblEnter.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\nextbutton3.png"));
+        lblEnter.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/nextbutton3.png"));
         panelSignIn.add(lblEnter);
         lblEnter.addMouseListener(new MouseAdapter() {
             @Override
@@ -195,6 +216,7 @@ public class SignIn extends JFrame {
                         UserHome userHomeFrame = new UserHome();
                         userHomeFrame.updateLabels(userData); // Update the labels with user data
                         userHomeFrame.setVisible(true);
+                   
                         dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Incorrect password for user. Please try again.");
@@ -204,7 +226,7 @@ public class SignIn extends JFrame {
 
                     if (password.equals(expectedAdminPassword)) {
                         // If it's an admin, open the AdminHome window
-                        AdminHome adminHomeFrame = new AdminHome();
+                        AdminHomePage adminHomeFrame = new AdminHomePage();
                         adminHomeFrame.setVisible(true);
                         dispose(); // Close the current window
                     } else {
