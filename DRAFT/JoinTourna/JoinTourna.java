@@ -1,5 +1,3 @@
-package telemasters;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -7,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -26,13 +25,13 @@ public class JoinTourna extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textTeam;
-	private JTextField textCoach;
 	private JTextField textMember1;
 	private JTextField textMember2;
 	private JTextField textMember3;
 	private JTextField textMember4;
 	private JTextField textMember5;
-	boolean panel1Clicked = false;
+	boolean tournaIsSelected = false;
+	boolean tourna2IsFull = false;
 
 	/**
 	 * Launch the application.
@@ -48,6 +47,15 @@ public class JoinTourna extends JFrame {
 				}
 			}
 		});
+	}
+	
+	public void updateText(UserData userData) {
+		textTeam.setText(userData.getTeamName());
+		textMember1.setText(userData.getTeamMembers()[0]);
+		textMember2.setText(userData.getTeamMembers()[1]);
+		textMember3.setText(userData.getTeamMembers()[2]);
+		textMember4.setText(userData.getTeamMembers()[3]);
+		textMember5.setText(userData.getTeamMembers()[4]);
 	}
 
 	/**
@@ -82,13 +90,8 @@ public class JoinTourna extends JFrame {
 		
 		JLabel lblNewLabel_3 = new JLabel("TEAM NAME");
 		lblNewLabel_3.setFont(new Font("Tungsten Bold", Font.PLAIN, 32));
-		lblNewLabel_3.setBounds(563, 133, 106, 39);
+		lblNewLabel_3.setBounds(557, 192, 106, 39);
 		contentPane.add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_4 = new JLabel("COACH:");
-		lblNewLabel_4.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
-		lblNewLabel_4.setBounds(605, 182, 64, 39);
-		contentPane.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("TEAM MEMBERS:");
 		lblNewLabel_5.setFont(new Font("Tungsten Bold", Font.PLAIN, 26));
@@ -98,9 +101,10 @@ public class JoinTourna extends JFrame {
 		textTeam = new JTextField();
 		textTeam.setBorder(null);
 		textTeam.setBackground(new Color(217, 217, 217));
-		textTeam.setBounds(688, 133, 211, 28);
+		textTeam.setBounds(688, 193, 211, 28);
 		contentPane.add(textTeam);
 		textTeam.setColumns(10); 
+		textTeam.setEnabled(false);
 		textTeam.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -112,30 +116,13 @@ public class JoinTourna extends JFrame {
 			}
 		});
 		
-		
-		textCoach = new JTextField();
-		textCoach.setBorder(null);
-		textCoach.setBackground(new Color(217, 217, 217));
-		textCoach.setBounds(688, 182, 211, 28);
-		contentPane.add(textCoach);
-		textCoach.setColumns(10);
-		textCoach.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				textCoach.setBackground(new Color(174, 174, 174));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				textCoach.setBackground(new Color(217, 217, 217));
-			}
-		});
-		
 		textMember1 = new JTextField();
 		textMember1.setBorder(null);
 		textMember1.setBackground(new Color(217, 217, 217));
 		textMember1.setBounds(688, 276, 211, 28);
 		contentPane.add(textMember1);
 		textMember1.setColumns(10);
+		textMember1.setEnabled(false);
 		textMember1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -153,6 +140,7 @@ public class JoinTourna extends JFrame {
 		textMember2.setBounds(688, 314, 211, 28);
 		contentPane.add(textMember2);
 		textMember2.setColumns(10);
+		textMember2.setEnabled(false);
 		textMember2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -170,6 +158,7 @@ public class JoinTourna extends JFrame {
 		textMember3.setBounds(688, 352, 211, 28);
 		contentPane.add(textMember3);
 		textMember3.setColumns(10);
+		textMember3.setEnabled(false);
 		textMember3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -187,6 +176,7 @@ public class JoinTourna extends JFrame {
 		textMember4.setBounds(688, 390, 211, 28);
 		contentPane.add(textMember4);
 		textMember4.setColumns(10);
+		textMember4.setEnabled(false);
 		textMember4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -204,6 +194,7 @@ public class JoinTourna extends JFrame {
 		textMember5.setBounds(688, 428, 211, 28);
 		contentPane.add(textMember5);
 		textMember5.setColumns(10);
+		textMember5.setEnabled(false);
 		textMember5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -215,141 +206,158 @@ public class JoinTourna extends JFrame {
 			}
 		});
 		
-		JPanel panel = 	new JPanel();
-		panel.setBackground(new Color(255, 212, 212));
-		panel.setBounds(118, 257, 252, 78);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JPanel panelT1 = 	new JPanel();
+		panelT1.setBackground(new Color(255, 212, 212));
+		panelT1.setBounds(118, 257, 252, 78);
+		contentPane.add(panelT1);
+		panelT1.setLayout(null);
 		
-		JLabel lblNewLabel_9 = new JLabel("FULL");
-		lblNewLabel_9.setBounds(112, 47, 53, 21);
-		panel.add(lblNewLabel_9);
-		lblNewLabel_9.setFont(new Font("Tungsten Bold", Font.PLAIN, 18));
+		JLabel lblTourna1Status = new JLabel("FULL", SwingConstants.CENTER);
+		lblTourna1Status.setBounds(0, 47, 252, 21);
+		panelT1.add(lblTourna1Status);
+		lblTourna1Status.setFont(new Font("Tungsten Bold", Font.PLAIN, 18));
 		
-		JLabel lblNewLabel_6 = new JLabel("[TOURNAMENT 1]");
-		lblNewLabel_6.setBounds(38, 10, 176, 43);
-		panel.add(lblNewLabel_6);
-		lblNewLabel_6.setFont(new Font("Tungsten Bold", Font.PLAIN, 34));
+		JLabel lblTourna1 = new JLabel("LEAGUE OF ACES", SwingConstants.CENTER);
+		lblTourna1.setBounds(0, 10, 252, 43);
+		panelT1.add(lblTourna1);
+		lblTourna1.setFont(new Font("Tungsten Bold", Font.PLAIN, 34));
 		
-		panel.addMouseListener(new MouseAdapter() {
+		panelT1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblNewLabel_9.setForeground(new Color(255, 255, 255));
-				lblNewLabel_6.setForeground(new Color(255, 255, 255));
-				lblNewLabel_6.setBackground(new Color(236, 73, 84));
+				lblTourna1Status.setForeground(new Color(255, 255, 255));
+				lblTourna1.setForeground(new Color(255, 255, 255));
+				lblTourna1.setBackground(new Color(236, 73, 84));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblNewLabel_9.setForeground(new Color(0, 0, 0));
-				lblNewLabel_6.setForeground(new Color(0, 0, 0));
-				lblNewLabel_6.setBackground(new Color(228, 195, 197));
+				lblTourna1Status.setForeground(new Color(0, 0, 0));
+				lblTourna1.setForeground(new Color(0, 0, 0));
+				lblTourna1.setBackground(new Color(228, 195, 197));
+			}
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Tournament is already full!");
 			}
 		});
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(255, 212, 212));
-		panel_1.setBounds(118, 352, 252, 78);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
+		JPanel panelT2 = new JPanel();
+		panelT2.setBackground(new Color(255, 212, 212));
+		panelT2.setBounds(118, 352, 252, 78);
+		contentPane.add(panelT2);
+		panelT2.setLayout(null);
 		
-		JLabel lblNewLabel_7 = new JLabel("4/5 TEAMS");
-		lblNewLabel_7.setBounds(94, 47, 64, 21);
-		panel_1.add(lblNewLabel_7);
-		lblNewLabel_7.setFont(new Font("Tungsten Bold", Font.PLAIN, 18));
+		JLabel lblTourna2Status = new JLabel("3/4 TEAMS", SwingConstants.CENTER);
+		lblTourna2Status.setBounds(0, 47, 252, 21);
+		panelT2.add(lblTourna2Status);
+		lblTourna2Status.setFont(new Font("Tungsten Bold", Font.PLAIN, 18));
 		
-		JLabel lblNewLabel_10 = new JLabel("VICTORY VANGUARD");
-		lblNewLabel_10.setBounds(10, 10, 232, 43);
-		panel_1.add(lblNewLabel_10);
-		lblNewLabel_10.setFont(new Font("Tungsten Bold", Font.PLAIN, 38));
+		JLabel lblTourna2 = new JLabel("VICTORY VANGUARD", SwingConstants.CENTER);
+		lblTourna2.setBounds(0, 10, 252, 43);
+		panelT2.add(lblTourna2);
+		lblTourna2.setFont(new Font("Tungsten Bold", Font.PLAIN, 38));
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(255, 212, 212));
-		panel_2.setBounds(118, 449, 252, 78);
-		contentPane.add(panel_2);
-		panel_2.setLayout(null);
+		JPanel panelT3 = new JPanel();
+		panelT3.setBackground(new Color(255, 212, 212));
+		panelT3.setBounds(118, 449, 252, 78);
+		contentPane.add(panelT3);
+		panelT3.setLayout(null);
 		
-		JLabel lblNewLabel_8 = new JLabel("FULL");
-		lblNewLabel_8.setBounds(116, 47, 22, 21);
-		panel_2.add(lblNewLabel_8);
-		lblNewLabel_8.setFont(new Font("Tungsten Bold", Font.PLAIN, 18));
+		JLabel lblTourna3Status = new JLabel("TBA", SwingConstants.CENTER);
+		lblTourna3Status.setBounds(0, 47, 252, 21);
+		panelT3.add(lblTourna3Status);
+		lblTourna3Status.setFont(new Font("Tungsten Bold", Font.PLAIN, 18));
 		
-		JLabel lblNewLabel_11 = new JLabel("[TOURNAMENT 3]");
-		lblNewLabel_11.setBounds(38, 10, 170, 43);
-		panel_2.add(lblNewLabel_11);
-		lblNewLabel_11.setFont(new Font("Tungsten Bold", Font.PLAIN, 34));
+		JLabel lblTourna3 = new JLabel("WORLD VALORANT", SwingConstants.CENTER);
+		lblTourna3.setBounds(0, 10, 252, 43);
+		panelT3.add(lblTourna3);
+		lblTourna3.setFont(new Font("Tungsten Bold", Font.PLAIN, 34));
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setForeground(new Color(255, 255, 255));
-		panel_3.setBackground(new Color(189, 57, 68));
-		panel_3.setFont(new Font("Tungsten Bold", Font.PLAIN, 24));
-		panel_3.setBounds(740, 480, 106, 52);
-		contentPane.add(panel_3)
+		JPanel panelJoinButton = new JPanel();
+		panelJoinButton.setForeground(new Color(255, 255, 255));
+		panelJoinButton.setBackground(new Color(189, 57, 68));
+		panelJoinButton.setFont(new Font("Tungsten Bold", Font.PLAIN, 24));
+		panelJoinButton.setBounds(740, 480, 106, 52);
+		contentPane.add(panelJoinButton)
 		;
-		panel_3.setLayout(null);
+		panelJoinButton.setLayout(null);
 		
-		JLabel lblNewLabel_12 = new JLabel("JOIN");
-		lblNewLabel_12.setForeground(new Color(255, 255, 255));
-		lblNewLabel_12.setFont(new Font("Tungsten Bold", Font.PLAIN, 24));
-		lblNewLabel_12.setBounds(32, 10, 50, 32);
-		panel_3.add(lblNewLabel_12);
+		JLabel lblJoin = new JLabel("JOIN", SwingConstants.CENTER);
+		lblJoin.setForeground(new Color(255, 255, 255));
+		lblJoin.setFont(new Font("Tungsten Bold", Font.PLAIN, 24));
+		lblJoin.setBounds(0, 10, 106, 32);
+		panelJoinButton.add(lblJoin);
 		
-		panel_2.addMouseListener(new MouseAdapter() {
+		panelT3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblNewLabel_8.setForeground(new Color(255, 255, 255));
-				lblNewLabel_11.setForeground(new Color(255, 255, 255));
-				lblNewLabel_11.setBackground(new Color(236, 73, 84));
+				lblTourna3Status.setForeground(new Color(255, 255, 255));
+				lblTourna3.setForeground(new Color(255, 255, 255));
+				lblTourna3.setBackground(new Color(236, 73, 84));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblNewLabel_8.setForeground(new Color(0, 0, 0));
-				lblNewLabel_11.setForeground(new Color(0, 0, 0));
-				lblNewLabel_11.setBackground(new Color(228, 195, 197));
+				lblTourna3Status.setForeground(new Color(0, 0, 0));
+				lblTourna3.setForeground(new Color(0, 0, 0));
+				lblTourna3.setBackground(new Color(228, 195, 197));
+			}
+			
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Tournament is not yet open!");
 			}
 			
 		});
 		
-		panel_1.addMouseListener(new MouseAdapter() {
+		panelT2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblNewLabel_7.setForeground(new Color(255, 255, 255));
-				lblNewLabel_10.setForeground(new Color(255, 255, 255));
-				lblNewLabel_10.setBackground(new Color(236, 73, 84));
+				lblTourna2Status.setForeground(new Color(255, 255, 255));
+				lblTourna2.setForeground(new Color(255, 255, 255));
+				lblTourna2.setBackground(new Color(236, 73, 84));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-		 		lblNewLabel_7.setForeground(new Color(0, 0, 0));
-				lblNewLabel_10.setForeground(new Color(0, 0, 0));
-				lblNewLabel_10.setBackground(new Color(228, 195, 197));
+		 		lblTourna2Status.setForeground(new Color(0, 0, 0));
+				lblTourna2.setForeground(new Color(0, 0, 0));
+				lblTourna2.setBackground(new Color(228, 195, 197));
 			}
 			public void mouseClicked(MouseEvent e) {
-		        panel1Clicked = true;
+		        if (tourna2IsFull == false) {
+		        	tournaIsSelected = true;
+		        	textTeam.setEnabled(true);
+		        	textMember1.setEnabled(true);
+		        	textMember2.setEnabled(true);
+		        	textMember3.setEnabled(true);
+		        	textMember4.setEnabled(true);
+		        	textMember5.setEnabled(true);
+		        } else {
+		        	JOptionPane.showMessageDialog(null, "Tournament is full");
+		        }
 		    }
 		});
 		
-		panel_3.addMouseListener(new MouseAdapter() {
+		panelJoinButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblNewLabel_12.setForeground(new Color(0, 0, 0));
-				lblNewLabel_12.setBackground(new Color(228, 195, 197));
+				lblJoin.setForeground(new Color(0, 0, 0));
+				lblJoin.setBackground(new Color(228, 195, 197));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblNewLabel_12.setForeground(new Color(255, 255, 255));
-				lblNewLabel_12.setBackground(new Color(236, 73, 84));
+				lblJoin.setForeground(new Color(255, 255, 255));
+				lblJoin.setBackground(new Color(236, 73, 84));
 			}
 			@Override
 		    public void mousePressed(MouseEvent e) {
-		        if (!panel1Clicked) {
+		        if (!tournaIsSelected) {
 		            e.consume(); // Ignore mouse if panel 1 is not clicked
 		        }
 		    }
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (panel1Clicked) {
+				if (tournaIsSelected) {
 		            dispose();
-		            AdminHomePage toEditTourna = new AdminHomePage();
-		            toEditTourna.setVisible(true);
+		            UserHome toUserHome = new UserHome();
+		            toUserHome.setVisible(true);
 				}	
 			}
 		});
