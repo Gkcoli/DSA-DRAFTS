@@ -17,12 +17,14 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class JoinTourna extends JFrame {
 
+	JLabel lblUserName;
 	private JPanel contentPane;
 	private JTextField textTeam;
 	private JTextField textMember1;
@@ -32,8 +34,11 @@ public class JoinTourna extends JFrame {
 	private JTextField textMember5;
 	boolean tournaIsSelected = false;
 	boolean tourna2IsFull = false;
+	FileHandler list = new FileHandler();
 	// Edit fileDirectory
 	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
+	LinkedList <String> teams = new LinkedList<>();
+	
 
 	/**
 	 * Launch the application.
@@ -50,20 +55,17 @@ public class JoinTourna extends JFrame {
 			}
 		});
 	}
-	
-	public void updateText(UserData userData) {
-		textTeam.setText(userData.getTeamName());
-		textMember1.setText(userData.getTeamMembers()[0]);
-		textMember2.setText(userData.getTeamMembers()[1]);
-		textMember3.setText(userData.getTeamMembers()[2]);
-		textMember4.setText(userData.getTeamMembers()[3]);
-		textMember5.setText(userData.getTeamMembers()[4]);
-	}
 
+	public void updateLabels(String user) {
+		lblUserName.setText(user.toUpperCase());
+	}
 	/**
 	 * Create the frame.
 	 */
 	public JoinTourna() {
+		// Adds all content of TEAMS.txt to linkedlist
+		teams.addAll(list.fileReader(fileDirectory + "TEAMS.txt"));
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1080, 630);
 		contentPane = new JPanel();
@@ -224,31 +226,25 @@ public class JoinTourna extends JFrame {
 		panelT1.add(lblTourna1);
 		lblTourna1.setFont(new Font("Tungsten Bold", Font.PLAIN, 34));
 		
-		panelT1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblTourna1Status.setForeground(new Color(255, 255, 255));
-				lblTourna1.setForeground(new Color(255, 255, 255));
-				lblTourna1.setBackground(new Color(236, 73, 84));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblTourna1Status.setForeground(new Color(0, 0, 0));
-				lblTourna1.setForeground(new Color(0, 0, 0));
-				lblTourna1.setBackground(new Color(228, 195, 197));
-			}
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Tournament is already full!");
-			}
-		});
-		
 		JPanel panelT2 = new JPanel();
 		panelT2.setBackground(new Color(255, 212, 212));
 		panelT2.setBounds(118, 352, 252, 78);
 		contentPane.add(panelT2);
 		panelT2.setLayout(null);
 		
-		JLabel lblTourna2Status = new JLabel("3/4 TEAMS", SwingConstants.CENTER);
+		JLabel lblTourna2Status = new JLabel("JOIN", SwingConstants.CENTER);
+		if (teams.size() == 0) {
+			lblTourna2Status.setText("0/4 TEAMS");
+		} else if (teams.size() == 1) {
+			lblTourna2Status.setText("1/4 TEAMS");
+		} else if (teams.size() == 2) {
+			lblTourna2Status.setText("2/4 TEAMS");
+		} else if (teams.size() == 3) {
+			lblTourna2Status.setText("3/4 TEAMS");
+		} else {
+			lblTourna2Status.setText("FULL");
+		}
+		
 		lblTourna2Status.setBounds(0, 47, 252, 21);
 		panelT2.add(lblTourna2Status);
 		lblTourna2Status.setFont(new Font("Tungsten Bold", Font.PLAIN, 18));
@@ -289,6 +285,68 @@ public class JoinTourna extends JFrame {
 		lblJoin.setBounds(0, 10, 106, 32);
 		panelJoinButton.add(lblJoin);
 		
+		JLabel lblGreet = new JLabel("LFG, ");
+		lblGreet.setFont(new Font("Tungsten Bold", Font.PLAIN, 55));
+		lblGreet.setBounds(557, 133, 80, 59);
+		contentPane.add(lblGreet);
+		
+		lblUserName = new JLabel("USER2");
+		lblUserName.setFont(new Font("Tungsten Bold", Font.PLAIN, 55));
+		lblUserName.setBounds(627, 133, 127, 59);
+		contentPane.add(lblUserName);
+		
+		JLabel lblExclamationPT = new JLabel("!");
+		lblExclamationPT.setFont(new Font("Tungsten Bold", Font.PLAIN, 55));
+		lblExclamationPT.setBounds(739, 133, 31, 59);
+		contentPane.add(lblExclamationPT);
+		
+		panelT1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblTourna1Status.setForeground(new Color(255, 255, 255));
+				lblTourna1.setForeground(new Color(255, 255, 255));
+				lblTourna1.setBackground(new Color(236, 73, 84));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblTourna1Status.setForeground(new Color(0, 0, 0));
+				lblTourna1.setForeground(new Color(0, 0, 0));
+				lblTourna1.setBackground(new Color(228, 195, 197));
+			}
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "Tournament is already full!");
+			}
+		});
+		
+		panelT2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblTourna2Status.setForeground(new Color(255, 255, 255));
+				lblTourna2.setForeground(new Color(255, 255, 255));
+				lblTourna2.setBackground(new Color(236, 73, 84));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+		 		lblTourna2Status.setForeground(new Color(0, 0, 0));
+				lblTourna2.setForeground(new Color(0, 0, 0));
+				lblTourna2.setBackground(new Color(228, 195, 197));
+			}
+			public void mouseClicked(MouseEvent e) {
+		        if (lblTourna2Status.getText() != "FULL") {
+		        	JOptionPane.showMessageDialog(null, "Please input your team name to join tournament.");
+		        	tournaIsSelected = true;
+		        	textTeam.setEnabled(true);
+		        	textMember1.setEnabled(true);
+		        	textMember2.setEnabled(true);
+		        	textMember3.setEnabled(true);
+		        	textMember4.setEnabled(true);
+		        	textMember5.setEnabled(true);
+		        } else {
+		        	JOptionPane.showMessageDialog(null, "Tournament is full");
+		        }
+		    }
+		});
+		
 		panelT3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -309,34 +367,6 @@ public class JoinTourna extends JFrame {
 			
 		});
 		
-		panelT2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblTourna2Status.setForeground(new Color(255, 255, 255));
-				lblTourna2.setForeground(new Color(255, 255, 255));
-				lblTourna2.setBackground(new Color(236, 73, 84));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-		 		lblTourna2Status.setForeground(new Color(0, 0, 0));
-				lblTourna2.setForeground(new Color(0, 0, 0));
-				lblTourna2.setBackground(new Color(228, 195, 197));
-			}
-			public void mouseClicked(MouseEvent e) {
-		        if (tourna2IsFull == false) {
-		        	tournaIsSelected = true;
-		        	textTeam.setEnabled(true);
-		        	textMember1.setEnabled(true);
-		        	textMember2.setEnabled(true);
-		        	textMember3.setEnabled(true);
-		        	textMember4.setEnabled(true);
-		        	textMember5.setEnabled(true);
-		        } else {
-		        	JOptionPane.showMessageDialog(null, "Tournament is full");
-		        }
-		    }
-		});
-		
 		panelJoinButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -348,19 +378,45 @@ public class JoinTourna extends JFrame {
 				lblJoin.setForeground(new Color(255, 255, 255));
 				lblJoin.setBackground(new Color(236, 73, 84));
 			}
-			@Override
-		    public void mousePressed(MouseEvent e) {
-		        if (!tournaIsSelected) {
-		            e.consume(); // Ignore mouse if panel 1 is not clicked
-		        }
-		    }
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (tournaIsSelected) {
-		            dispose();
-		            UserHome toUserHome = new UserHome();
-		            toUserHome.setVisible(true);
-				}	
+					if (textTeam.getText().isEmpty() || textMember1.getText().isEmpty() || textMember2.getText().isEmpty() 
+							|| textMember3.getText().isEmpty() || textMember4.getText().isEmpty() || textMember5.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Please input all credentials!");	
+					} else {
+						teams.add(textTeam.getText().toString());
+						list.fileWriter(teams, fileDirectory + "TEAMS.txt");
+						
+						LinkedList <String> inputTeamCred = new LinkedList<>(); 
+						inputTeamCred.add(textTeam.getText().toString());
+						inputTeamCred.add(textMember1.getText().toString());
+						inputTeamCred.add(textMember2.getText().toString());
+						inputTeamCred.add(textMember3.getText().toString());
+						inputTeamCred.add(textMember4.getText().toString());
+						inputTeamCred.add(textMember5.getText().toString());
+						
+						list.fileWriter(inputTeamCred, list.checkUser(lblUserName.getText().toString()));
+		            	UserHome toUserHome = new UserHome();
+		            	toUserHome.lblUser.setText(lblUserName.getText().toString());
+		            	toUserHome.lblNewTeam.setText(textTeam.getText().toString());
+		            	toUserHome.lblNewMember1.setText(textMember1.getText().toString());
+		            	toUserHome.lblNewMember2.setText(textMember2.getText().toString());
+		            	toUserHome.lblNewMember3.setText(textMember3.getText().toString());
+		            	toUserHome.lblNewMember4.setText(textMember4.getText().toString());
+		            	toUserHome.lblNewMember5.setText(textMember5.getText().toString());
+		            	toUserHome.setVisible(true);
+		            	dispose();
+					}
+				} else if (lblTourna2Status.getText() == "FULL") {
+					JOptionPane.showMessageDialog(null, "There are no open tournaments right now.");
+					SignIn toSignIn = new SignIn();
+					toSignIn.setVisible(true);
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "Please select a tournament to join!");
+				}
 			}
 		});
 
