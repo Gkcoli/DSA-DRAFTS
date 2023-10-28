@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 public class UserHome extends JFrame {
 
 	private JPanel contentPane;
+	JLabel lblUser;
 	JLabel lblNewTeam;
 	JLabel lblNewMember1;
 	JLabel lblNewMember2;
@@ -47,6 +48,7 @@ public class UserHome extends JFrame {
 		});
 	}
 	public void updateLabels(UserData userData) {
+		lblUser.setText(userData.getUsername().toUpperCase());
 	    lblNewTeam.setText(userData.getTeamName());
 	    lblNewMember1.setText(userData.getTeamMembers()[0]);
 	    lblNewMember2.setText(userData.getTeamMembers()[1]);
@@ -85,20 +87,15 @@ public class UserHome extends JFrame {
 		panelRecentTourna.add(lblRecentTournaBanner);
 		lblRecentTournaBanner.setFont(new Font("Tungsten Bold", Font.PLAIN, 68));
 		
-		JLabel lblNewLabel_3 = new JLabel("REGISTERED TO ANY");
-		lblNewLabel_3.setBounds(83, 164, 240, 47);
+		JLabel lblNewLabel_3 = new JLabel("COMING SOON...", SwingConstants.CENTER);
+		lblNewLabel_3.setBounds(0, 164, 382, 47);
 		panelRecentTourna.add(lblNewLabel_3);
 		lblNewLabel_3.setFont(new Font("Tungsten Bold", Font.PLAIN, 38));
 		
-		JLabel lblNewLabel_2 = new JLabel("YOUR TEAM IS NOT ");
-		lblNewLabel_2.setBounds(92, 126, 204, 47);
-		panelRecentTourna.add(lblNewLabel_2);
-		lblNewLabel_2.setFont(new Font("Tungsten Bold", Font.PLAIN, 38));
-		
-		JLabel lblNewLabel_4 = new JLabel("TOURNAMENT");
-		lblNewLabel_4.setBounds(116, 203, 148, 47);
-		panelRecentTourna.add(lblNewLabel_4);
-		lblNewLabel_4.setFont(new Font("Tungsten Bold", Font.PLAIN, 38));
+		JLabel lblVanguard = new JLabel("VICTORY VANGUARD", SwingConstants.CENTER);
+		lblVanguard.setBounds(0, 107, 382, 66);
+		panelRecentTourna.add(lblVanguard);
+		lblVanguard.setFont(new Font("Tungsten Bold", Font.PLAIN, 50));
 		
 		JPanel panelTeamComp = new JPanel();
 		panelTeamComp.setBackground(new Color(255, 212, 212));
@@ -180,21 +177,33 @@ public class UserHome extends JFrame {
 			}
 			
 			public void mouseClicked(MouseEvent e) {
+				
+				if (lblNewTeam.getText().toString() == "" || lblNewTeam.getText().toString() == "Team")
 				dispose();
 				JoinTourna toJoinTourna = new JoinTourna();
+				toJoinTourna.updateLabels(lblUser.getText().toString());
 				toJoinTourna.setVisible(true);
 			}
 			
 		});
 		panelJoinNow.add(lblJoinNow);
 		
-		JLabel lblEps1Act1 = new JLabel("EPISODE 1 // ACT 1");
-		lblEps1Act1.setFont(new Font("Tungsten Bold", Font.PLAIN, 45));
-		lblEps1Act1.setBounds(179, 136, 227, 52);
-		contentPane.add(lblEps1Act1);
+		JLabel lblGreetings = new JLabel("HELLO,");
+		lblGreetings.setFont(new Font("Tungsten Bold", Font.PLAIN, 55));
+		lblGreetings.setBounds(106, 127, 118, 76);
+		contentPane.add(lblGreetings);
+		
+		lblUser = new JLabel("USER");
+		lblUser.setFont(new Font("Tungsten Bold", Font.PLAIN, 55));
+		lblUser.setBounds(217, 127, 109, 76);
+		contentPane.add(lblUser);
+		
+		JLabel lblExclamationPt = new JLabel("!");
+		lblExclamationPt.setFont(new Font("Tungsten Bold", Font.PLAIN, 55));
+		lblExclamationPt.setBounds(330, 125, 27, 78);
+		contentPane.add(lblExclamationPt);
 		
 		
 		
 	}
-	
 }
