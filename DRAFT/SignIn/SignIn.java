@@ -1,5 +1,3 @@
-package trying;
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.ImageIcon;
@@ -104,9 +102,9 @@ public class SignIn extends JFrame {
     	
         usersData = new Hashtable<String, UserData>();
         usersData.put("User1", new UserData("User1", "Pass123", teamOne.get(0), new String[]{teamOne.get(1), teamOne.get(2), teamOne.get(3), teamOne.get(4), teamOne.get(5)}));
-        usersData.put("User2", new UserData("User2", "Pass1234", teamTwo.get(0), new String[]{teamTwo.get(1), teamTwo.get(2), teamTwo.get(3), teamTwo.get(4), teamTwo.get(5)}));
-        usersData.put("User3", new UserData("User3", "Pass12345", teamThree.get(0), new String[]{teamThree.get(1), teamThree.get(2), teamThree.get(3), teamThree.get(4), teamThree.get(5)}));
-        usersData.put("User4", new UserData("User4", "Pass123456", teamFour.get(0), new String[]{teamFour.get(1), teamFour.get(2), teamFour.get(3), teamFour.get(4), teamFour.get(5)}));
+        usersData.put("User2", new UserData("User2", "Pass123", teamTwo.get(0), new String[]{teamTwo.get(1), teamTwo.get(2), teamTwo.get(3), teamTwo.get(4), teamTwo.get(5)}));
+        usersData.put("User3", new UserData("User3", "Pass123", teamThree.get(0), new String[]{teamThree.get(1), teamThree.get(2), teamThree.get(3), teamThree.get(4), teamThree.get(5)}));
+        usersData.put("User4", new UserData("User4", "Pass123", teamFour.get(0), new String[]{teamFour.get(1), teamFour.get(2), teamFour.get(3), teamFour.get(4), teamFour.get(5)}));
  
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1080, 673);
@@ -157,7 +155,7 @@ public class SignIn extends JFrame {
         txtUser = new JTextField();
         txtUser.setHorizontalAlignment(SwingConstants.LEFT);
         txtUser.setFont(new Font("Tungsten Bold", Font.PLAIN, 17));
-        txtUser.setText(" USERNAME");
+        txtUser.setText("USERNAME");
         txtUser.setBackground(new Color(192, 192, 192));
         txtUser.setBorder(null);
         txtUser.setBounds(141, 113, 208, 35);
