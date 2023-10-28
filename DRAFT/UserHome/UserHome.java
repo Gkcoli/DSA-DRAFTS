@@ -178,7 +178,6 @@ public class UserHome extends JFrame {
 			
 			public void mouseClicked(MouseEvent e) {
 				
-				if (lblNewTeam.getText().toString() == "" || lblNewTeam.getText().toString() == "Team")
 				dispose();
 				JoinTourna toJoinTourna = new JoinTourna();
 				toJoinTourna.updateLabels(lblUser.getText().toString());
