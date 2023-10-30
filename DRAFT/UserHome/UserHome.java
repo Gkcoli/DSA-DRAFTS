@@ -18,6 +18,10 @@ import javax.swing.SwingConstants;
 
 public class UserHome extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	JLabel lblUser;
 	JLabel lblNewTeam;
@@ -28,12 +32,11 @@ public class UserHome extends JFrame {
 	JLabel lblNewMember5;
 	// Edit fileDirectory
 	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
+	FileHandler file = new FileHandler();
+	UserData userData;
 	/**
 	 * Launch the application.
 	 */
-	
-
-	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -103,7 +106,7 @@ public class UserHome extends JFrame {
 		contentPane.add(panelTeamComp);
 		panelTeamComp.setLayout(null);
 		
-		lblNewTeam = new JLabel("[TEAM 1 NAME]");
+		lblNewTeam = new JLabel("[TEAM NAME]");
 		lblNewTeam.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewTeam.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
 		lblNewTeam.setBounds(0, 11, 328, 52);
@@ -177,11 +180,14 @@ public class UserHome extends JFrame {
 			}
 			
 			public void mouseClicked(MouseEvent e) {
-				
-				dispose();
-				JoinTourna toJoinTourna = new JoinTourna();
-				toJoinTourna.updateLabels(lblUser.getText().toString());
-				toJoinTourna.setVisible(true);
+					if (lblNewTeam.getText().toString().equalsIgnoreCase("Team Name")) {
+						dispose();
+						JoinTourna toJoinTourna = new JoinTourna();
+						toJoinTourna.updateLabels(lblUser.getText().toString());
+						toJoinTourna.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(lblJoinNow, "You can only join one tournament at a time.");
+					}
 			}
 			
 		});
