@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,7 +10,6 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -64,7 +62,7 @@ public class JoinTourna extends JFrame {
 	 */
 	public JoinTourna() {
 		// Adds all content of TEAMS.txt to linkedlist
-		teams.addAll(list.fileReader(fileDirectory + "TEAMS.txt"));
+		teams.addAll(list.fileReader(fileDirectory + "VanguardTeams.txt"));
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1080, 630);
@@ -290,7 +288,7 @@ public class JoinTourna extends JFrame {
 		lblGreet.setBounds(557, 133, 80, 59);
 		contentPane.add(lblGreet);
 		
-		lblUserName = new JLabel("USER2");
+		lblUserName = new JLabel("USER");
 		lblUserName.setFont(new Font("Tungsten Bold", Font.PLAIN, 55));
 		lblUserName.setBounds(627, 133, 127, 59);
 		contentPane.add(lblUserName);
@@ -387,7 +385,7 @@ public class JoinTourna extends JFrame {
 						JOptionPane.showMessageDialog(null, "Please input all credentials!");	
 					} else {
 						teams.add(textTeam.getText().toString());
-						list.fileWriter(teams, fileDirectory + "TEAMS.txt");
+						list.fileWriter(teams, fileDirectory + "VanguardTeams.txt");
 						
 						LinkedList <String> inputTeamCred = new LinkedList<>(); 
 						inputTeamCred.add(textTeam.getText().toString());
