@@ -12,7 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Hashtable;
 import java.util.LinkedList;
-import java.util.Stack;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.border.CompoundBorder;
@@ -66,6 +65,7 @@ public class SignIn extends JFrame {
     Hashtable<String, String> userAdmin;
     // Edit fileDirectory
  	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
+ 	FileHandler memberList = new FileHandler();
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -85,27 +85,22 @@ public class SignIn extends JFrame {
         String T2FilePath = fileDirectory + "Team2.txt";
         String T3FilePath = fileDirectory + "Team3.txt";
         String T4FilePath = fileDirectory + "Team4.txt";
-         
-    	FileHandler memberList = new FileHandler();
-    	LinkedList <String> teamOne = new LinkedList<>();
-    	teamOne.addAll(memberList.fileReader(T1FilePath));
-    	
-    	LinkedList <String> teamTwo = new LinkedList<>();
-    	teamTwo.addAll(memberList.fileReader(T2FilePath));
-    	
-    	LinkedList <String> teamThree = new LinkedList<>();
-    	teamThree.addAll(memberList.fileReader(T3FilePath));
-    	
-    	LinkedList <String> teamFour = new LinkedList<>();
-    	teamFour.addAll(memberList.fileReader(T4FilePath));
- 
+        
+        LinkedList <String> teamOne = new LinkedList<>();
+        LinkedList <String> teamTwo = new LinkedList<>();
+        LinkedList <String> teamThree = new LinkedList<>();
+        LinkedList <String> teamFour = new LinkedList<>();
+        teamOne.addAll(memberList.teamCompositionReader(T1FilePath));
+        teamTwo.addAll(memberList.teamCompositionReader(T2FilePath));
+        teamThree.addAll(memberList.teamCompositionReader(T3FilePath));
+        teamFour.addAll(memberList.teamCompositionReader(T4FilePath));
     	
         usersData = new Hashtable<String, UserData>();
         usersData.put("User1", new UserData("User1", "Pass123", teamOne.get(0), new String[]{teamOne.get(1), teamOne.get(2), teamOne.get(3), teamOne.get(4), teamOne.get(5)}));
         usersData.put("User2", new UserData("User2", "Pass123", teamTwo.get(0), new String[]{teamTwo.get(1), teamTwo.get(2), teamTwo.get(3), teamTwo.get(4), teamTwo.get(5)}));
         usersData.put("User3", new UserData("User3", "Pass123", teamThree.get(0), new String[]{teamThree.get(1), teamThree.get(2), teamThree.get(3), teamThree.get(4), teamThree.get(5)}));
         usersData.put("User4", new UserData("User4", "Pass123", teamFour.get(0), new String[]{teamFour.get(1), teamFour.get(2), teamFour.get(3), teamFour.get(4), teamFour.get(5)}));
- 
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1080, 673);
         contentBG = new JPanel();
