@@ -102,7 +102,7 @@ public class SignIn extends JFrame {
         usersData.put("User4", new UserData("User4", "Pass123", teamFour.get(0), new String[]{teamFour.get(1), teamFour.get(2), teamFour.get(3), teamFour.get(4), teamFour.get(5)}));
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1080, 673);
+        setBounds(100, 100, 1080, 673); 
         contentBG = new JPanel();
         contentBG.setBackground(new Color(4, 18, 27));
         contentBG.setBorder(null);

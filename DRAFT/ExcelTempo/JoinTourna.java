@@ -394,7 +394,8 @@ public class JoinTourna extends JFrame {
 						inputTeamCred.add(textMember4.getText().toString());
 						inputTeamCred.add(textMember5.getText().toString());
 					
-						ExcelHandler.createSheet(inputTeamCred, ExcelHandler.checkUser(lblUserName.getText().toString()), textTeam.getText().toString());
+						String filePath = ExcelHandler.checkUser(lblUserName.getText().toString());
+						excel.writeAtSpecificColumn(filePath, 0, inputTeamCred);
 						
 		            	UserHome toUserHome = new UserHome();
 		            	toUserHome.lblUser.setText(lblUserName.getText().toString());
@@ -404,7 +405,7 @@ public class JoinTourna extends JFrame {
 		            	toUserHome.lblNewMember3.setText(textMember3.getText().toString());
 		            	toUserHome.lblNewMember4.setText(textMember4.getText().toString());
 		            	toUserHome.lblNewMember5.setText(textMember5.getText().toString());
-		            	toUserHome.setVisible(true);
+		            	toUserHome.setVisible(true); 
 		            	dispose();
 					}
 				} else if (lblTourna2Status.getText() == "FULL") {

@@ -179,8 +179,7 @@ public class UserHome extends JFrame {
 			}
 			
 			public void mouseClicked(MouseEvent e) {
-					if (lblNewTeam.getText().toString().equalsIgnoreCase("Team1") || lblNewTeam.getText().toString().equalsIgnoreCase("Team2")
-							|| lblNewTeam.getText().toString().equalsIgnoreCase("Team3") || lblNewTeam.getText().toString().equalsIgnoreCase("Team4")) {
+					if (lblNewTeam.getText().toString().equalsIgnoreCase("Team Name")) {
 						dispose();
 						JoinTourna toJoinTourna = new JoinTourna();
 						toJoinTourna.updateLabels(lblUser.getText().toString());
@@ -189,7 +188,7 @@ public class UserHome extends JFrame {
 						JOptionPane.showMessageDialog(lblJoinNow, "You can only join one tournament at a time.");
 					}
 			}
-			
+			 
 		});
 		panelJoinNow.add(lblJoinNow);
 		
