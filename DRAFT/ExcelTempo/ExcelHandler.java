@@ -4,13 +4,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.LinkedList;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelHandler {
 	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
@@ -19,9 +17,9 @@ public class ExcelHandler {
 	public void createFile(String filePath, int numRows, String sheetName) {
 		try   {  
 		//creating an instance of HSSFWorkbook class  
-		HSSFWorkbook workbook = new HSSFWorkbook();  
+		XSSFWorkbook workbook = new XSSFWorkbook();  
 		//invoking creatSheet() method and passing the name of the sheet to be created   
-		HSSFSheet sheet = workbook.createSheet(sheetName);    
+		XSSFSheet sheet = workbook.createSheet(sheetName);    
 		Row row;
 		
 		for (int i = 0; i < numRows; i++) {
@@ -63,10 +61,10 @@ public class ExcelHandler {
 	        FileInputStream fileInputStream = new FileInputStream(fileName);
 
 	        // Create a XSSFWorkbook object to work with the excel file
-	        HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
+	        XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 
 	        // Get the first sheet in the workbook
-	        HSSFSheet sheet = workbook.getSheetAt(0);
+	        XSSFSheet sheet = workbook.getSheetAt(0);
 
 	        // Iterate over each row in the sheet
 	        for (Row row : sheet) {
@@ -75,14 +73,7 @@ public class ExcelHandler {
 
 	            // Check the cell type and display the value accordingly
 	            if (cell != null) {
-	                switch (cell.getCellType()) {
-	                    case Cell.CELL_TYPE_STRING:
-	                    	names.add(cell.getStringCellValue());
-	                        break;
-	                    default:
-	                        System.out.print("Unknown value" + "\t");
-	                        break;
-	                }
+	               names.add(cell.getStringCellValue());           
 	            }
 	           
 	        }
@@ -153,8 +144,8 @@ public class ExcelHandler {
         
 		try {
 			FileInputStream inputStream = new FileInputStream(excelFilePath);
-			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
-			HSSFSheet firstSheet = workbook.getSheetAt(0);
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			XSSFSheet firstSheet = workbook.getSheetAt(0);
 			int totalRows = firstSheet.getPhysicalNumberOfRows();
 
 			for (int rowIndex = 0; rowIndex < totalRows; rowIndex++) {
