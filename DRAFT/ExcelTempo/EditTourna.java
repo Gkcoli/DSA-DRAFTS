@@ -227,8 +227,15 @@ public class EditTourna {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
-				AdminHomePage backToAdmin = new AdminHomePage();
-				backToAdmin.setVisible(true);
+				AdminHomePage backToAdmin;
+				try {
+					backToAdmin = new AdminHomePage();
+					backToAdmin.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		btnHome.setVerticalAlignment(SwingConstants.BOTTOM);
