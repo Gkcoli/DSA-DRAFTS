@@ -15,7 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelHandler {
-	String fileDirectory = "C:/Users/jessy/.vscode/TeleMasters Studio/";
+	static String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
 	
 	// Method that creates a file 
 	public void createFile(String filePath, int numRows, String sheetName) {
@@ -187,13 +187,13 @@ public class ExcelHandler {
 		String filePath = "";
 		 
 		if (User.equalsIgnoreCase("User1")) {
-			filePath = "C:/Users/jessy/.vscode/TeleMasters Studio/Team1.xlsx";
+			filePath = fileDirectory + "Team1.xlsx";
 		} else if (User.equalsIgnoreCase("User2")) {
-			filePath = "C:/Users/jessy/.vscode/TeleMasters Studio/Team2.xlsx";
+			filePath = fileDirectory + "Team2.xlsx";
 		} else if (User.equalsIgnoreCase("User3")) {
-			filePath = "C:/Users/jessy/.vscode/TeleMasters Studio/Team3.xlsx";
+			filePath = fileDirectory + "Team3.xlsx";
 		} else if (User.equalsIgnoreCase("User4")) {
-			filePath = "C:/Users/jessy/.vscode/TeleMasters Studio/Team4.xlsx";
+			filePath = fileDirectory + "Team4.xlsx";
 		} else {
 			return "";
 		}
@@ -347,5 +347,4 @@ public class ExcelHandler {
 		}
 	}
 }
-
 
