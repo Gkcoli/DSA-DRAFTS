@@ -33,6 +33,7 @@ public class UserHome extends JFrame {
 	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
 	FileHandler file = new FileHandler();
 	UserData userData;
+	ExcelHandler excel = new ExcelHandler();
 	/**
 	 * Launch the application.
 	 */
@@ -61,8 +62,9 @@ public class UserHome extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
-	public UserHome() {
+	public UserHome() throws Exception {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1080, 630);
 		contentPane = new JPanel();
@@ -89,10 +91,14 @@ public class UserHome extends JFrame {
 		panelRecentTourna.add(lblRecentTournaBanner);
 		lblRecentTournaBanner.setFont(new Font("Tungsten Bold", Font.PLAIN, 68));
 		
-		JLabel lblNewLabel_3 = new JLabel("COMING SOON...", SwingConstants.CENTER);
-		lblNewLabel_3.setBounds(0, 164, 382, 47);
-		panelRecentTourna.add(lblNewLabel_3);
-		lblNewLabel_3.setFont(new Font("Tungsten Bold", Font.PLAIN, 38));
+		JLabel lblTournaStatus = new JLabel("COMING SOON...", SwingConstants.CENTER);
+		String tournaStatus = excel.readSpecificCell(fileDirectory + "MatchSched.xlsx", 3, 3);
+		if (!(tournaStatus.equalsIgnoreCase("N/A"))) {
+			lblTournaStatus.setText("FINISHED");
+		}
+		lblTournaStatus.setBounds(0, 164, 382, 47);
+		panelRecentTourna.add(lblTournaStatus);
+		lblTournaStatus.setFont(new Font("Tungsten Bold", Font.PLAIN, 38));
 		
 		JLabel lblVanguard = new JLabel("VICTORY VANGUARD", SwingConstants.CENTER);
 		lblVanguard.setBounds(0, 107, 382, 66);
@@ -181,9 +187,16 @@ public class UserHome extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 					if (lblNewTeam.getText().toString().equalsIgnoreCase("Team Name")) {
 						dispose();
-						JoinTourna toJoinTourna = new JoinTourna();
-						toJoinTourna.updateLabels(lblUser.getText().toString());
-						toJoinTourna.setVisible(true);
+						JoinTourna toJoinTourna;
+						try {
+							toJoinTourna = new JoinTourna();
+							toJoinTourna.updateLabels(lblUser.getText().toString());
+							toJoinTourna.setVisible(true);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
 					} else {
 						JOptionPane.showMessageDialog(lblJoinNow, "You can only join one tournament at a time.");
 					}
