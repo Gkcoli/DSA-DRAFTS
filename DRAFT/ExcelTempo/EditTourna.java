@@ -302,20 +302,27 @@ public class EditTourna {
 		lblDifference.setBounds(58, 179, 351, 109);
 		frame.getContentPane().add(lblDifference);
 		
-		JButton btnPlayMatch = new JButton("PLAY MATCH");
-		btnPlayMatch.setVerticalAlignment(SwingConstants.BOTTOM);
-		btnPlayMatch.setForeground(Color.WHITE);
-		btnPlayMatch.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
-		btnPlayMatch.setBackground(new Color(189, 57, 68));
-		btnPlayMatch.setBounds(885, 315, 119, 39);
-		frame.getContentPane().add(btnPlayMatch);
-		
 		JButton btnMatchSched = new JButton("MATCH SCHED");
+		btnMatchSched.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					Match toMatch = new Match();
+					toMatch.main(null);
+					frame.dispose();
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		btnMatchSched.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnMatchSched.setForeground(Color.WHITE);
 		btnMatchSched.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
 		btnMatchSched.setBackground(new Color(189, 57, 68));
-		btnMatchSched.setBounds(885, 376, 119, 39);
+		btnMatchSched.setBounds(885, 315, 119, 39);
 		frame.getContentPane().add(btnMatchSched);
 		
 	}
