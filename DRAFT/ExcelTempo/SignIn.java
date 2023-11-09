@@ -209,11 +209,17 @@ public class SignIn extends JFrame {
                         JOptionPane.showMessageDialog(lblEnter, "Redirecting to User Home Page", "Login Successfully", 1);
                         setVisible(false);
 
-                        UserHome userHomeFrame = new UserHome();
-                        userHomeFrame.updateLabels(userData); // Update the labels with user data
-                        userHomeFrame.setVisible(true);
-                   
-                        dispose();
+                        UserHome userHomeFrame;
+						try {
+							userHomeFrame = new UserHome();
+							userHomeFrame.updateLabels(userData); // Update the labels with user data
+	                        userHomeFrame.setVisible(true);
+	                        dispose();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+                        
                     } else {
                         JOptionPane.showMessageDialog(null, "Incorrect password for user. Please try again.");
                     }
@@ -222,9 +228,16 @@ public class SignIn extends JFrame {
 
                     if (password.equals(expectedAdminPassword)) {
                         // If it's an admin, open the AdminHome window
-                        AdminHomePage adminHomeFrame = new AdminHomePage();
-                        adminHomeFrame.setVisible(true);
-                        dispose(); // Close the current window
+                        AdminHomePage adminHomeFrame;
+						try {
+							adminHomeFrame = new AdminHomePage();
+							adminHomeFrame.setVisible(true);
+	                        dispose(); // Close the current window
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+                        
                     } else {
                         JOptionPane.showMessageDialog(null, "Incorrect password for admin. Please try again.");
                     }
