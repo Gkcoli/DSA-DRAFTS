@@ -220,7 +220,7 @@ public class ExcelHandler {
 				int columnIndex = column; // 0-based index, so 1 means the second column
 				Cell cell = row.getCell(columnIndex);
 				if (cell == null) {
-					cell = row.getCell(columnIndex);
+					cell = row.createCell(columnIndex);
 				}
 				cell.setCellValue(list.get(rowIndex));
 				
