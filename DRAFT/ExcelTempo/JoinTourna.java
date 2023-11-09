@@ -1,27 +1,22 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-
 public class JoinTourna extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JLabel lblUserName;
 	private JPanel contentPane;
 	private JTextField textTeam;
@@ -58,10 +53,11 @@ public class JoinTourna extends JFrame {
 	}
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
 	public JoinTourna() {
 		// Adds all content of TEAMS.txt to linkedlist
-		teams.addAll(excel.fileReader(fileDirectory + "VanguardTeams.txt"));
+		teams.addAll(ExcelHandler.fileReader(fileDirectory + "VanguardTeams.txt"));
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1080, 630);
@@ -230,6 +226,16 @@ public class JoinTourna extends JFrame {
 		panelT2.setLayout(null);
 		
 		JLabel lblTourna2Status = new JLabel("JOIN", SwingConstants.CENTER);
+		String tournaStatus = "";
+		try {
+			tournaStatus = ExcelHandler.readSpecificCell(fileDirectory + "MatchSched.xlsx", 3, 3);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if (!(tournaStatus.equalsIgnoreCase("N/A"))) {
+			lblTourna2Status.setText("FINISHED");
+		}
 		if (teams.size() == 0) {
 			lblTourna2Status.setText("0/4 TEAMS");
 		} else if (teams.size() == 1) {
@@ -238,7 +244,10 @@ public class JoinTourna extends JFrame {
 			lblTourna2Status.setText("2/4 TEAMS");
 		} else if (teams.size() == 3) {
 			lblTourna2Status.setText("3/4 TEAMS");
-		} else {
+		} else if (!(tournaStatus.equalsIgnoreCase("N/A"))){
+			lblTourna2Status.setText("FINISHED");
+		} else{
+		
 			lblTourna2Status.setText("FULL");
 		}
 		
@@ -329,7 +338,7 @@ public class JoinTourna extends JFrame {
 				lblTourna2.setBackground(new Color(228, 195, 197));
 			}
 			public void mouseClicked(MouseEvent e) {
-		        if (lblTourna2Status.getText() != "FULL") {
+		        if (!(lblTourna2Status.getText().toString().equalsIgnoreCase("FULL") || lblTourna2Status.getText().toString().equalsIgnoreCase("FINISHED"))) {
 		        	JOptionPane.showMessageDialog(null, "Please input your team name to join tournament.");
 		        	tournaIsSelected = true;
 		        	textTeam.setEnabled(true);
@@ -339,7 +348,7 @@ public class JoinTourna extends JFrame {
 		        	textMember4.setEnabled(true);
 		        	textMember5.setEnabled(true);
 		        } else {
-		        	JOptionPane.showMessageDialog(null, "Tournament is full");
+		        	JOptionPane.showMessageDialog(null, "Tournament is not open!");
 		        }
 		    }
 		});
@@ -397,18 +406,25 @@ public class JoinTourna extends JFrame {
 						String filePath = ExcelHandler.checkUser(lblUserName.getText().toString());
 						excel.writeAtSpecificColumn(filePath, 0, inputTeamCred);
 						
-		            	UserHome toUserHome = new UserHome();
-		            	toUserHome.lblUser.setText(lblUserName.getText().toString());
-		            	toUserHome.lblNewTeam.setText(textTeam.getText().toString());
-		            	toUserHome.lblNewMember1.setText(textMember1.getText().toString());
-		            	toUserHome.lblNewMember2.setText(textMember2.getText().toString());
-		            	toUserHome.lblNewMember3.setText(textMember3.getText().toString());
-		            	toUserHome.lblNewMember4.setText(textMember4.getText().toString());
-		            	toUserHome.lblNewMember5.setText(textMember5.getText().toString());
-		            	toUserHome.setVisible(true); 
-		            	dispose();
+		            	UserHome toUserHome;
+						try {
+							toUserHome = new UserHome();
+							toUserHome.lblUser.setText(lblUserName.getText().toString());
+			            	toUserHome.lblNewTeam.setText(textTeam.getText().toString());
+			            	toUserHome.lblNewMember1.setText(textMember1.getText().toString());
+			            	toUserHome.lblNewMember2.setText(textMember2.getText().toString());
+			            	toUserHome.lblNewMember3.setText(textMember3.getText().toString());
+			            	toUserHome.lblNewMember4.setText(textMember4.getText().toString());
+			            	toUserHome.lblNewMember5.setText(textMember5.getText().toString());
+			            	toUserHome.setVisible(true); 
+			            	dispose();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+		            	
 					}
-				} else if (lblTourna2Status.getText() == "FULL") {
+				} else if (lblTourna2Status.getText() == "FULL" || lblTourna2Status.getText() == "FINISHED") {
 					JOptionPane.showMessageDialog(null, "There are no open tournaments right now.");
 					SignIn toSignIn;
 					try {
