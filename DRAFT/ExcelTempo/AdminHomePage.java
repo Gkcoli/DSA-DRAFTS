@@ -1,15 +1,12 @@
 import java.awt.Color;
 import java.awt.EventQueue;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -31,6 +28,7 @@ public class AdminHomePage extends JFrame {
 	JLabel lblAdminHPBanner;
 	JPanel panelLogOut;
 	JLabel lblLogOut;
+	ExcelHandler excel = new ExcelHandler();
 	
 	// Edit fileDirectory
 	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
@@ -53,8 +51,9 @@ public class AdminHomePage extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
-	public AdminHomePage() {
+	public AdminHomePage() throws Exception {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1080, 600);
 		contentPane = new JPanel();
@@ -135,6 +134,10 @@ public class AdminHomePage extends JFrame {
 		labelTourna2.setForeground(new Color(0, 0, 0));
 		
 		lblOnGoing = new JLabel("ONGOING", SwingConstants.CENTER);
+		String tournaStatus = ExcelHandler.readSpecificCell(fileDirectory + "MatchSched.xlsx", 3, 3);
+		if (!(tournaStatus.equalsIgnoreCase("N/A"))) {
+			lblOnGoing.setText("FINISHED");
+		}
 		lblOnGoing.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
 		lblOnGoing.setBounds(0, 52, 308, 42);
 		lblOnGoing.setForeground(new Color(0, 0, 0));
@@ -172,7 +175,7 @@ public class AdminHomePage extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				dispose();
 				EditTourna toEditTourna = new EditTourna();
-				toEditTourna.main(null);
+				EditTourna.main(null);
 			}
 			
 		});
@@ -260,9 +263,15 @@ public class AdminHomePage extends JFrame {
 			
 			public void mouseClicked(MouseEvent e) {
 				dispose();
-				SignIn toSignIn = new SignIn();
-				toSignIn.setVisible(true);
-			}
+				SignIn toSignIn;
+				try {
+					toSignIn = new SignIn();
+					toSignIn.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+							}
 		});
 		panelLogOut.add(lblLogOut);
 	}
