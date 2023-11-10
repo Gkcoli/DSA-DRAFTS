@@ -8,26 +8,30 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
+import java.util.LinkedList;
+
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 import javax.swing.JScrollPane;
 
 public class LeagueSummary extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable tableScoreboard;
+	private JTable tableScoreboardT1, tableScoreboardT2;
+	JTable tableRoundStats;
 	JLabel lblTeam1, lblTeam2;
 	JLabel lblT1Score, lblT2Score;
-	JPanel panelMO1, panelMO2, panelMO3, panelMO4, panelMO5, panelMO6, panelMO7, panelMO8, panelMO9, panelMO10, panelMO11, panelMO12, panelMO13, panelMO14, panelMO15;
-	JLabel lblMO1S, lblMO2S, lblMO3S, lblMO4S, lblMO5S, lblMO6S, lblMO7S, lblMO8S, lblMO9S, lblMO10S, lblMO11S, lblMO12S, lblMO13S, lblMO14S, lblMO15S;
-	JScrollPane scrollPane;
+	JScrollPane scrollPaneT1, scrollPaneT2;
 	JTableHeader tableHeader;
 	// Edit fileDirectory
 	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -118,233 +122,117 @@ public class LeagueSummary extends JFrame {
 		lblMatchScoreboard.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
 		contentPane.add(lblMatchScoreboard);
 		
-		panelMO1 = new JPanel();
-		panelMO1.setBounds(25, 275, 60, 36);
-		panelMO1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO1.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO1);
-		panelMO1.setLayout(null);
+		tableRoundStats = new JTable();
+		tableRoundStats.setFillsViewportHeight(true);
+		tableRoundStats.setCellSelectionEnabled(true);
+		tableRoundStats.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableRoundStats.setBackground(new Color(191, 151, 159));
 		
-		lblMO1S = new JLabel("13", SwingConstants.CENTER);
-		lblMO1S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO1S.setBounds(0, 8, 60, 26);
-		panelMO1.add(lblMO1S);
-		
-		panelMO2 = new JPanel();
-		panelMO2.setBounds(84, 275, 60, 36);
-		panelMO2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO2.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO2);
-		panelMO2.setLayout(null);
-		
-		lblMO2S = new JLabel("13", SwingConstants.CENTER);
-		lblMO2S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO2S.setBounds(0, 8, 60, 26);
-		panelMO2.add(lblMO2S);
-		
-		panelMO3 = new JPanel();
-		panelMO3.setBounds(142, 275, 60, 36);
-		panelMO3.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO3.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO3);
-		panelMO3.setLayout(null);
-		
-		lblMO3S = new JLabel("13", SwingConstants.CENTER);
-		lblMO3S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO3S.setBounds(0, 8, 60, 26);
-		panelMO3.add(lblMO3S);
-		
-		panelMO4 = new JPanel();
-		panelMO4.setBounds(201, 275, 60, 36);
-		panelMO4.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO4.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO4);
-		panelMO4.setLayout(null);
-		
-		lblMO4S = new JLabel("13", SwingConstants.CENTER);
-		lblMO4S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO4S.setBounds(0, 8, 60, 26);
-		panelMO4.add(lblMO4S);
-		
-		panelMO5 = new JPanel();
-		panelMO5.setBounds(260, 275, 60, 36);
-		panelMO5.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO5.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO5);
-		panelMO5.setLayout(null);
-		
-		lblMO5S = new JLabel("13", SwingConstants.CENTER);
-		lblMO5S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO5S.setBounds(0, 8, 60, 26);
-		panelMO5.add(lblMO5S);
-		
-		panelMO6 = new JPanel();
-		panelMO6.setBounds(319, 275, 60, 36);
-		panelMO6.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO6.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO6);
-		panelMO6.setLayout(null);
-		
-		lblMO6S = new JLabel("13", SwingConstants.CENTER);
-		lblMO6S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO6S.setBounds(0, 8, 60, 26);
-		panelMO6.add(lblMO6S);
-		
-		panelMO7 = new JPanel();
-		panelMO7.setBounds(378, 275, 60, 36);
-		panelMO7.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO7.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO7);
-		panelMO7.setLayout(null);
-		
-		lblMO7S = new JLabel("13", SwingConstants.CENTER);
-		lblMO7S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO7S.setBounds(0, 8, 60, 26);
-		panelMO7.add(lblMO7S);
-		
-		panelMO8 = new JPanel();
-		panelMO8.setBounds(437, 275, 60, 36);
-		panelMO8.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO8.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO8);
-		panelMO8.setLayout(null);
-		
-		lblMO8S = new JLabel("13", SwingConstants.CENTER);
-		lblMO8S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO8S.setBounds(0, 8, 60, 26);
-		panelMO8.add(lblMO8S);
-		
-		panelMO9 = new JPanel();
-		panelMO9.setBounds(495, 275, 60, 36);
-		panelMO9.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO9.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO9);
-		panelMO9.setLayout(null);
-		
-		lblMO9S = new JLabel("13", SwingConstants.CENTER);
-		lblMO9S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO9S.setBounds(0, 8, 60, 26);
-		panelMO9.add(lblMO9S);
-		
-		panelMO10 = new JPanel();
-		panelMO10.setBounds(554, 275, 60, 36);
-		panelMO10.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO10.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO10);
-		panelMO10.setLayout(null);
-		
-		lblMO10S = new JLabel("13", SwingConstants.CENTER);
-		lblMO10S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO10S.setBounds(0, 8, 60, 26);
-		panelMO10.add(lblMO10S);
-		
-		panelMO11 = new JPanel();
-		panelMO11.setBounds(613, 275, 60, 36);
-		panelMO11.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO11.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO11);
-		panelMO11.setLayout(null);
-		
-		lblMO11S = new JLabel("13", SwingConstants.CENTER);
-		lblMO11S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO11S.setBounds(0, 8, 60, 26);
-		panelMO11.add(lblMO11S);
-		
-		panelMO12 = new JPanel();
-		panelMO12.setBounds(671, 275, 60, 36);
-		panelMO12.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO12.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO12);
-		panelMO12.setLayout(null);
-		
-		lblMO12S = new JLabel("13", SwingConstants.CENTER);
-		lblMO12S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO12S.setBounds(0, 8, 60, 26);
-		panelMO12.add(lblMO12S);
-		
-		panelMO13 = new JPanel();
-		panelMO13.setBounds(726, 275, 60, 36);
-		panelMO13.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO13.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO13);
-		panelMO13.setLayout(null);
-		
-		lblMO13S = new JLabel("13", SwingConstants.CENTER);
-		lblMO13S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO13S.setBounds(0, 8, 60, 26);
-		panelMO13.add(lblMO13S);
-		
-		panelMO14 = new JPanel();
-		panelMO14.setBounds(782, 275, 60, 36);
-		panelMO14.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO14.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO14);
-		panelMO14.setLayout(null);
-		
-		lblMO14S = new JLabel("13", SwingConstants.CENTER);
-		lblMO14S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO14S.setBounds(0, 8, 60, 26);
-		panelMO14.add(lblMO14S);
-		
-		panelMO15 = new JPanel();
-		panelMO15.setBounds(837, 275, 60, 36);
-		panelMO15.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelMO15.setBackground(new Color(191, 151, 159));
-		contentPane.add(panelMO15);
-		panelMO15.setLayout(null);
-		
-		lblMO15S = new JLabel("13", SwingConstants.CENTER);
-		lblMO15S.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-		lblMO15S.setBounds(0, 8, 60, 26);
-		panelMO15.add(lblMO15S);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(25, 361, 975, 192);
-		contentPane.add(scrollPane);
-		
-		tableScoreboard = new JTable();
-		tableScoreboard.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
-		tableScoreboard.setBorder(new LineBorder(new Color(0, 0, 0)));
-		scrollPane.setViewportView(tableScoreboard);
-		tableScoreboard.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null},
+		tableRoundStats.setModel(new DefaultTableModel(
+			new String[][] {
+				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"PLAYER", "K", "D", "A", "P", "DF", "PLAYER", "K", "D", "A", "P", "DF"
+				"R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15"
+			} 
+			
+		){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditablesRS = new boolean[] {
+				false, false, false, false, false, false};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditablesRS[column];
 			}
+		});
+
+		tableRoundStats.setFont(new Font("Spiegel", Font.BOLD, 20));
+		tableRoundStats.setBounds(25, 272, 981, 50);
+		tableRoundStats.setRowHeight(50);
+		contentPane.add(tableRoundStats);
+		
+		scrollPaneT1 = new JScrollPane();
+		scrollPaneT1.setBounds(25, 361, 485, 192);
+		contentPane.add(scrollPaneT1);
+		
+		tableScoreboardT1 = new JTable();
+		tableScoreboardT1.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
+		tableScoreboardT1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		scrollPaneT1.setViewportView(tableScoreboardT1);
+		tableScoreboardT1.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+			},
+			new String[] {"PLAYER", "K", "D", "A", "P", "DF"}
 		) {
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, false, false, false, false, false, false
-			};
+			boolean[] columnEditables1 = new boolean[] {
+				false, false, false, false, false, false};
 			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+				return columnEditables1[column];
 			}
 		});
-		tableScoreboard.getColumnModel().getColumn(0).setPreferredWidth(150);
-		tableScoreboard.getColumnModel().getColumn(1).setPreferredWidth(24);
-		tableScoreboard.getColumnModel().getColumn(2).setPreferredWidth(24);
-		tableScoreboard.getColumnModel().getColumn(3).setPreferredWidth(24);
-		tableScoreboard.getColumnModel().getColumn(4).setPreferredWidth(24);
-		tableScoreboard.getColumnModel().getColumn(5).setPreferredWidth(24);
-		tableScoreboard.getColumnModel().getColumn(6).setPreferredWidth(150);
-		tableScoreboard.getColumnModel().getColumn(7).setPreferredWidth(24);
-		tableScoreboard.getColumnModel().getColumn(8).setPreferredWidth(24);
-		tableScoreboard.getColumnModel().getColumn(9).setPreferredWidth(24);
-		tableScoreboard.getColumnModel().getColumn(10).setPreferredWidth(24);
-		tableScoreboard.getColumnModel().getColumn(11).setPreferredWidth(24);
-		tableScoreboard.setRowHeight(33);
-		tableScoreboard.setBackground(new Color(255,251,245));
+		tableScoreboardT1.getColumnModel().getColumn(0).setPreferredWidth(150);
+		tableScoreboardT1.getColumnModel().getColumn(1).setPreferredWidth(24);
+		tableScoreboardT1.getColumnModel().getColumn(2).setPreferredWidth(24);
+		tableScoreboardT1.getColumnModel().getColumn(3).setPreferredWidth(24);
+		tableScoreboardT1.getColumnModel().getColumn(4).setPreferredWidth(24);
+		tableScoreboardT1.getColumnModel().getColumn(5).setPreferredWidth(24);
+		tableScoreboardT1.setRowHeight(33);
+		tableScoreboardT1.setBackground(new Color(255,251,245));
 		
-		tableHeader = tableScoreboard.getTableHeader();
+		tableHeader = tableScoreboardT1.getTableHeader();
+		tableHeader.setFont(new Font("Tungsten Bold", Font.PLAIN, 15));
+	    tableHeader.setBackground(new Color(191, 151, 159));
+	    tableHeader.setForeground(Color.black);
+		
+		scrollPaneT2 = new JScrollPane();
+		scrollPaneT2.setBounds(521, 361, 485, 192);
+		contentPane.add(scrollPaneT2);
+		
+		tableScoreboardT2 = new JTable();
+		tableScoreboardT2.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
+		tableScoreboardT2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		scrollPaneT2.setViewportView(tableScoreboardT2);
+		tableScoreboardT2.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+			},
+			new String[] {"PLAYER", "K", "D", "A", "P", "DF"}
+		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables2 = new boolean[] {
+				false, false, false, false, false, false};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables2[column];
+			}
+		});
+		tableScoreboardT2.getColumnModel().getColumn(0).setPreferredWidth(150);
+		tableScoreboardT2.getColumnModel().getColumn(1).setPreferredWidth(24);
+		tableScoreboardT2.getColumnModel().getColumn(2).setPreferredWidth(24);
+		tableScoreboardT2.getColumnModel().getColumn(3).setPreferredWidth(24);
+		tableScoreboardT2.getColumnModel().getColumn(4).setPreferredWidth(24);
+		tableScoreboardT2.getColumnModel().getColumn(5).setPreferredWidth(24);
+		tableScoreboardT2.setRowHeight(33);
+		tableScoreboardT2.setBackground(new Color(255,251,245));
+	    
+	    tableHeader = tableScoreboardT2.getTableHeader();
 		tableHeader.setFont(new Font("Tungsten Bold", Font.PLAIN, 15));
 	    tableHeader.setBackground(new Color(191, 151, 159));
 	    tableHeader.setForeground(Color.black);
