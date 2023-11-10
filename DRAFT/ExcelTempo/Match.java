@@ -29,7 +29,7 @@ public class Match {
 	// Edit fileDirectory
 	String fileDirectory = "C:/Users/jessy/.vscode/TeleMasters Studio/";
 
-	JFrame matchSchedFrame, playMatchFrame;
+	JFrame matchSchedFrame, playMatchFrame, leagueSummaryFrame;
 	private static JTable table;
 	private JScrollPane scrollPane;
 	private JPanel panel;
@@ -160,43 +160,40 @@ public class Match {
 		btnPlay.setBackground(new Color(189, 57, 68));
 		btnPlay.setForeground(new Color(255, 255, 255));
 
-		if (stats.getSched().isEmpty()) {
-			stats.setSched("GAME 1");
-			stats.setSched("GAME 2");
-			stats.setSched("GAME 3");
-			stats.setSched("GAME 4");
+		if(stats.getSched().isEmpty()) {
+			stats.setSched();
 		}
-		
+
 		btnPlay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
 				if (status1.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 0) { // If game 1 has not yet started
 					JOptionPane.showMessageDialog(playMatchFrame, "Redirecting to Play Match");
-			 		stats.removeFirst();
 			 		matchSchedFrame.dispose();
 			 		playMatch();
+					stats.removeFirst();
 				} else if (status1.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 1) { // If game 1 has not yet started and game 2 is selected
 					JOptionPane.showMessageDialog(playMatchFrame, "Previous game has not yet started");
 				} else if (status1.equals("FINISHED") && (status2.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 1)) { // If game 1 has finished and game 2 is selected
 					JOptionPane.showMessageDialog(playMatchFrame, "Redirecting to Play Match");
-			 		stats.removeFirst();
 			 		matchSchedFrame.dispose();
 			 		playMatch();
+					stats.removeFirst();
 				} else if (status2.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 0) { // If game 2 has not yet started and game 3 is selected
 					JOptionPane.showMessageDialog(playMatchFrame, "Previous game has not yet started");
 				} else if (status2.equals("FINISHED") && (status3.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 2)) { // If game 2 has finished and game 3 is selected
 					JOptionPane.showMessageDialog(playMatchFrame, "Redirecting to Play Match");
-			 		stats.removeFirst();
 			 		matchSchedFrame.dispose();
 			 		playMatch();
+					stats.removeFirst();
 				} else if (status3.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 1) { // If game 3 has not yet started and game 4 is selected
 					JOptionPane.showMessageDialog(playMatchFrame, "Previous game has not yet started");
 				} else if (status3.equals("FINISHED") && (status4.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 3)) { // if game 3 has finished and game 4 is selected
 					JOptionPane.showMessageDialog(playMatchFrame, "Redirecting to Play Match");
-			 		stats.removeFirst();
 			 		matchSchedFrame.dispose();
 			 		playMatch();
+					stats.removeFirst();
 				} else {
 					JOptionPane.showMessageDialog(playMatchFrame, "Game has already finished");
 				}
@@ -204,8 +201,34 @@ public class Match {
 				e1.printStackTrace();
 			} }
 		});
-		btnPlay.setBounds(455, 551, 118, 45);
-		matchSchedFrame.getContentPane().add(btnPlay);		
+		btnPlay.setBounds(352, 551, 118, 45);
+		matchSchedFrame.getContentPane().add(btnPlay);	
+		
+		// JButton btnSummary = new JButton("SUMMARY");
+		// btnSummary.addActionListener(new ActionListener() {
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		if (status1.equals("FINISHED") && table.getSelectedRow() == 0) {
+		// 			//leagueSummaryFrame.setVisible(true);
+		// 			//Method to display the results
+		// 		} else if (status2.equals("FINISHED") && table.getSelectedRow() == 1) {
+		// 			//leagueSummaryFrame.setVisible(true);
+		// 			//Method to display the results
+		// 		} else if (status3.equals("FINISHED") && table.getSelectedRow() == 2) {
+		// 			//leagueSummaryFrame.setVisible(true);
+		// 			//Method to display the results
+		// 		} else if (status4.equals("FINISHED") && table.getSelectedRow() == 3) {
+		// 			//leagueSummaryFrame.setVisible(true);
+		// 			//Method to display the results
+		// 		} else {
+		// 			//JOptionMessage = "Game has not yet started"
+		// 		}
+		// 	}
+		// });
+		// btnSummary.setForeground(Color.WHITE);
+		// btnSummary.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
+		// btnSummary.setBackground(new Color(189, 57, 68));
+		// btnSummary.setBounds(520, 551, 118, 45);
+		// matchSchedFrame.getContentPane().add(btnSummary);
 	}
 	
 
@@ -501,49 +524,25 @@ public class Match {
 					case "GAME 1":
 						game1W = stats.gameWinner(scoreT1,scoreT2, game1W, team1, team2);
 						game1L = stats.gameLoser(game1W, team1, team2, game1L);
-						status1 = "FINISHED";
-						sched.add(team1);
-						sched.add(team2);
-						sched.add(status1);
-						sched.add(game1W);
-						sched.add(game1L);
-						System.out.println(sched);
+						stats.updateSched("GAME 1", sched, team1, team2, status1, game1W, game1L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 0, sched);
 					break;
 					case "GAME 2":
 						game2W = stats.gameWinner(scoreT1,scoreT2, game2W, team3, team4);
 						game2L = stats.gameLoser(game2W, team3, team4, game2L);
-						status2 = "FINISHED";
-						sched.add(team3);
-						sched.add(team4);
-						sched.add(status2);
-						sched.add(game2W);
-						sched.add(game2L);
-						System.out.println(sched);
+						stats.updateSched("GAME 2", sched, team3, team4, status2, game2W, game2L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 1, sched);
 					break;
 					case "GAME 3":
 						game3W = stats.gameWinner(scoreT1,scoreT2, game3W, game1L, game2L);
 						game3L = stats.gameLoser(game3W, game1L, game2L, game3L);
-						status3 = "FINISHED";
-						sched.add(game1L); 
-						sched.add(game2L);
-						sched.add(status3);
-						sched.add(game3W);
-						sched.add(game3L);
-						System.out.println(sched);
+						stats.updateSched("GAME 3", sched, game1L, game2L, status3, game3W, game3L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 2, sched);
 					break; 
 					case "GAME 4":
 						game4W = stats.gameWinner(scoreT1,scoreT2, game4W, game1W, game2W);
 						game3L = stats.gameLoser(game4W, game1W, game2W, game4L);
-						status4 = "FINISHED";
-						sched.add(game1W); 
-						sched.add(game2W);
-						sched.add(status4);
-						sched.add(game4W);
-						sched.add(game4L);
-						System.out.println(sched);
+						stats.updateSched("GAME 4", sched, game1W, game2W, status4, game4W, game4L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 3, sched);
 					break;
 				}
@@ -557,6 +556,7 @@ public class Match {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
+				
 			}
 		});
 		btnSaveMatch.setVerticalAlignment(SwingConstants.BOTTOM);
