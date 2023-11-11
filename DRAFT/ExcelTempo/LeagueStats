@@ -190,7 +190,7 @@ import java.io.FileInputStream;
 			lblMostKills.setBackground(new Color(255,251,245));
 			contentBG.add(lblMostKills);
 			Color c = new Color(253, 69, 86);
-		    lblMostKills.setForeground(c);
+		    	lblMostKills.setForeground(c);
 			
 			JLabel lblTop = new JLabel("");
 			lblTop.setBounds(0, -59, 1054, 218);
@@ -201,7 +201,7 @@ import java.io.FileInputStream;
 			lblTeamName.setBorder(null);
 			lblTeamName.setHorizontalAlignment(SwingConstants.CENTER);
 			lblTeamName.setFont(new Font("Tungsten Bold", Font.PLAIN, 45));
-			lblTeamName.setText("[TEAM NAME]");
+			lblTeamName.setText("LEAGUE LEADERS");
 			lblTeamName.setBackground(new Color(255,251,245));
 			lblTeamName.setBounds(420, 145, 181, 66);
 			contentBG.add(lblTeamName);
