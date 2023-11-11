@@ -1,75 +1,107 @@
- import java.awt.EventQueue;
-	
+package telemasters; 
+import java.awt.EventQueue;	
 	import javax.swing.ImageIcon;
 	import javax.swing.JFrame;
 	import javax.swing.JPanel;
 	import javax.swing.border.EmptyBorder;
-	import java.awt.Color;
+
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.awt.Color;
 	import javax.swing.JLabel;
 	import javax.swing.SwingConstants;
-	import javax.swing.JTextField;
+	import javax.swing.JLabel;
 	import java.awt.Font;
-	import javax.swing.JComboBox;
+import java.awt.event.ActionEvent;
+import java.util.Hashtable;
+import java.util.LinkedList;
+
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 	
 	public class LeagueStats extends JFrame {
 	
 		private static final long serialVersionUID = 1L;
 		private JPanel contentBG;
-		private JTextField txtTeamName;
-		private JTextField txtName1;
-		private JTextField txtKills;
-		private JTextField txtMostKills;
-		private JTextField txtName2;
-		private JTextField txtPlants;
-		private JTextField txtMostPlants;
-		private JTextField txtName3;
-		private JTextField txtKDA;
-		private JTextField txtMatchMvp;
-		private JTextField txtName4;
-		private JTextField txtKDA2;
-		private JTextField txtTeamMvp;
-		private JTextField txtName5;
-		private JTextField txtMostDefuses;
-		private JTextField txtTeamDefuses;
-		private JTextField txtmostKills;
-		private JTextField txtTeam;
-		private JTextField txtOvrWL;
-		private JTextField txtOvrPlantsDefuses;
-		private JTextField txtWins;
-		private JTextField txtLosses;
-		private JTextField txtOvrWins;
-		private JTextField txtOvrLosses;
-		private JTextField txtOvrDefuses;
-		private JTextField txtOvrPlants;
-		private JTextField txtDefuses;
-		private JTextField txtPlants2;
+		private JLabel lblTeamName;
+		private JLabel lblMostKillsName;
+		private JLabel lblMostKillCount;
+		private JLabel lblMostPlantsName;
+		private JLabel lblMostPlantsCount;
+		private JLabel lblMostPlants;
+		private JLabel lblMatchMVPName;
+		private JLabel lblMatchMVPKDA;
+		private JLabel lblMatchMvp;
+		private JLabel lblSupportName;
+		private JLabel lblSupportAssists;
+		private JLabel lblTeamMvp;
+		private JLabel lblMostDefusesName;
+		private JLabel lblMostDefusesCount;
+		private JLabel lblTeamDefuses;
+		private JLabel lblMostKills;
+		private JLabel lblTeam;
+		private JLabel lblOvrWL;
+		private JLabel lblOvrPlantsDefuses;
+		private JLabel lblWins;
+		private JLabel lblLosses;
+		private JLabel lblDefuses;
+		private JLabel lblPlants;
+		private JLabel lblWin;
+		String fileDirectory = "C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/";
+		private JPanel panel_1;
+		private JLabel lblLoss;
+		private JPanel panel_2;
+		private JPanel panel_3;
+		private JLabel lblDef;
+		private JLabel lblPlant;
 		
-		
-		
-	
+		ExcelHandler excelHandler = new ExcelHandler();
 		/**
 		 * Launch the application.
 		 */
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						LeagueStats frame = new LeagueStats();
-						frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
+				 public void run() {
+			            try {
+			                LeagueStats frame = new LeagueStats();
+			                frame.setVisible(true);
+
+			                // Create an ExcelHandler instance
+			                ExcelHandler excelHandler = new ExcelHandler();
+
+			                // Update labels from Excel data
+			                excelHandler.updateLabels(frame);
+			            } catch (Exception e) {
+			                e.printStackTrace();
+			            }
+			        }
 			});
+			
 		}
-	
+		// Add a field to store the ExcelData
+		
+		public void updateLabels(String mostKillsName, String mostKillCount, String mostPlantsName, String mostPlantCount, String supportName, String supportAssistCount, String mostDefusesName, String mostDefusesCount, String matchMVPName, String MatchMVPKDA ) {
+		    lblMostKillsName.setText(mostKillsName);
+		    lblMostKillCount.setText(mostKillCount);
+		    lblMostPlantsName.setText(mostPlantsName);
+		    lblMostPlantsCount.setText(mostPlantCount);
+		    lblSupportName.setText(supportName);
+		    lblSupportAssists.setText(supportAssistCount);
+		    lblMostDefusesName.setText(mostDefusesName);
+		    lblMostDefusesCount.setText(mostDefusesCount);
+		    lblMatchMVPName.setText(matchMVPName);
+		    lblMatchMVPKDA.setText(MatchMVPKDA);
+		}
+
+		
 		/**
 		 * Create the frame.
 		 */
 		public LeagueStats() {
 			getContentPane().setLayout(null);
 		
-			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(100, 100, 1080, 750);
 			contentBG = new JPanel();
@@ -78,319 +110,309 @@
 			setContentPane(contentBG);
 			contentBG.setLayout(null);
 			
-			txtOvrLosses = new JTextField();
-			txtOvrLosses.setColumns(10);
-			txtOvrLosses.setBorder(null);
-			txtOvrLosses.setBackground(Color.LIGHT_GRAY);
-			txtOvrLosses.setBounds(129, 659, 72, 31);
-			contentBG.add(txtOvrLosses);
+			panel_2 = new JPanel();
+			panel_2.setBackground(new Color(192, 192, 192));
+			panel_2.setBounds(557, 621, 72, 31);
+			contentBG.add(panel_2);
+			panel_2.setLayout(null);
 			
-			txtOvrWins = new JTextField();
-			txtOvrWins.setBackground(new Color(192, 192, 192));
-			txtOvrWins.setBorder(null);
-			txtOvrWins.setBounds(129, 621, 72, 31);
-			contentBG.add(txtOvrWins);
-			txtOvrWins.setColumns(10);
+			lblDef = new JLabel("");
+			lblDef.setBounds(10, 10, 52, 11);
+			panel_2.add(lblDef);
 			
-			txtTeamDefuses = new JTextField();
-			txtTeamDefuses.setText("TEAM DEFUSES");
-			txtTeamDefuses.setHorizontalAlignment(SwingConstants.CENTER);
-			txtTeamDefuses.setForeground(new Color(253, 69, 86));
-			txtTeamDefuses.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
-			txtTeamDefuses.setEditable(false);
-			txtTeamDefuses.setColumns(10);
-			txtTeamDefuses.setBorder(null);
-			txtTeamDefuses.setBackground(new Color(255, 251, 245));
-			txtTeamDefuses.setBounds(784, 295, 170, 41);
-			contentBG.add(txtTeamDefuses);
+			panel_1 = new JPanel();
+			panel_1.setBackground(new Color(192, 192, 192));
+			panel_1.setForeground(new Color(192, 192, 192));
+			panel_1.setBounds(129, 659, 72, 31);
+			contentBG.add(panel_1);
+			panel_1.setLayout(null);
 			
-			txtTeamMvp = new JTextField();
-			txtTeamMvp.setText("TEAM MVP");
-			txtTeamMvp.setHorizontalAlignment(SwingConstants.CENTER);
-			txtTeamMvp.setForeground(new Color(253, 69, 86));
-			txtTeamMvp.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
-			txtTeamMvp.setEditable(false);
-			txtTeamMvp.setColumns(10);
-			txtTeamMvp.setBorder(null);
-			txtTeamMvp.setBackground(new Color(255, 251, 245));
-			txtTeamMvp.setBounds(583, 334, 160, 41);
-			contentBG.add(txtTeamMvp);
+			lblLoss = new JLabel("");
+			lblLoss.setBounds(10, 5, 48, 26);
+			panel_1.add(lblLoss);
 			
-			txtMatchMvp = new JTextField();
-			txtMatchMvp.setText("MATCH MVP");
-			txtMatchMvp.setHorizontalAlignment(SwingConstants.CENTER);
-			txtMatchMvp.setForeground(new Color(253, 69, 86));
-			txtMatchMvp.setFont(new Font("Tungsten Bold", Font.PLAIN, 50));
-			txtMatchMvp.setEditable(false);
-			txtMatchMvp.setColumns(10);
-			txtMatchMvp.setBorder(null);
-			txtMatchMvp.setBackground(new Color(255, 251, 245));
-			txtMatchMvp.setBounds(398, 431, 203, 60);
-			contentBG.add(txtMatchMvp);
+			JPanel panel = new JPanel();
+			panel.setBackground(new Color(192, 192, 192));
+			panel.setBounds(129, 621, 72, 31);
+			contentBG.add(panel);
+			panel.setLayout(null);
 			
-			txtKDA = new JTextField();
-			txtKDA.setText("?? K/D/A");
-			txtKDA.setHorizontalAlignment(SwingConstants.CENTER);
-			txtKDA.setFont(new Font("Tungsten Bold", Font.PLAIN, 35));
-			txtKDA.setColumns(10);
-			txtKDA.setEditable(false);
-			txtKDA.setBorder(null);
-			txtKDA.setBackground(new Color(255, 251, 245));
-			txtKDA.setBounds(440, 393, 111, 49);
-			contentBG.add(txtKDA);
+			lblWin = new JLabel("");
+			lblWin.setBounds(10, 10, 58, 26);
+			panel.add(lblWin);
+			lblWin.setBackground(new Color(192, 192, 192));
 			
-			txtMostKills = new JTextField();
-			txtMostKills.setEditable(false);
-			txtMostKills.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
-			txtMostKills.setHorizontalAlignment(SwingConstants.CENTER);
-			txtMostKills.setBorder(null);
-			txtMostKills.setText("MOST KILLS");
-			txtMostKills.setBounds(41, 295, 160, 41);
-			txtMostKills.setBackground(new Color(255,251,245));
-			contentBG.add(txtMostKills);
+			lblTeamDefuses = new JLabel();
+			lblTeamDefuses.setText("MOST DEFUSES");
+			lblTeamDefuses.setHorizontalAlignment(SwingConstants.CENTER);
+			lblTeamDefuses.setForeground(new Color(253, 69, 86));
+			lblTeamDefuses.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
+			lblTeamDefuses.setBorder(null);
+			lblTeamDefuses.setBackground(new Color(255, 251, 245));
+			lblTeamDefuses.setBounds(784, 295, 170, 41);
+			contentBG.add(lblTeamDefuses);
+			
+			lblTeamMvp = new JLabel();
+			lblTeamMvp.setText("BEST SUPPORT");
+			lblTeamMvp.setHorizontalAlignment(SwingConstants.CENTER);
+			lblTeamMvp.setForeground(new Color(253, 69, 86));
+			lblTeamMvp.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
+			lblTeamMvp.setBorder(null);
+			lblTeamMvp.setBackground(new Color(255, 251, 245));
+			lblTeamMvp.setBounds(566, 334, 182, 41);
+			contentBG.add(lblTeamMvp);
+			
+			lblMatchMvp = new JLabel();
+			lblMatchMvp.setText("MATCH MVP");
+			lblMatchMvp.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMatchMvp.setForeground(new Color(253, 69, 86));
+			lblMatchMvp.setFont(new Font("Tungsten Bold", Font.PLAIN, 50));
+			lblMatchMvp.setBorder(null);
+			lblMatchMvp.setBackground(new Color(255, 251, 245));
+			lblMatchMvp.setBounds(398, 431, 203, 60);
+			contentBG.add(lblMatchMvp);
+			
+			lblMatchMVPKDA = new JLabel();
+			lblMatchMVPKDA.setText("?? K/D/A");
+			lblMatchMVPKDA.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMatchMVPKDA.setFont(new Font("Tungsten Bold", Font.PLAIN, 35));
+			lblMatchMVPKDA.setBorder(null);
+			lblMatchMVPKDA.setBackground(new Color(255, 251, 245));
+			lblMatchMVPKDA.setBounds(440, 393, 111, 49);
+			contentBG.add(lblMatchMVPKDA);
+			
+			lblMostKills = new JLabel();
+			lblMostKills.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
+			lblMostKills.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMostKills.setBorder(null);
+			lblMostKills.setText("MOST KILLS");
+			lblMostKills.setBounds(41, 295, 160, 41);
+			lblMostKills.setBackground(new Color(255,251,245));
+			contentBG.add(lblMostKills);
 			Color c = new Color(253, 69, 86);
-		    txtMostKills.setForeground(c);
-			txtMostKills.setColumns(10);
+		    lblMostKills.setForeground(c);
 			
 			JLabel lblTop = new JLabel("");
 			lblTop.setBounds(0, -59, 1054, 218);
 			lblTop.setIcon(new ImageIcon("C:\\Users\\Ryujin\\Downloads\\LEAGUE STATS.png"));
 			contentBG.add(lblTop);
 			
-			txtTeamName = new JTextField();
-			txtTeamName.setEditable(false);
-			txtTeamName.setBorder(null);
-			txtTeamName.setHorizontalAlignment(SwingConstants.CENTER);
-			txtTeamName.setFont(new Font("Tungsten Bold", Font.PLAIN, 45));
-			txtTeamName.setText("[TEAM NAME]");
-			txtTeamName.setBackground(new Color(255,251,245));
-			txtTeamName.setEditable(false);
-			txtTeamName.setBounds(420, 145, 181, 66);
-			contentBG.add(txtTeamName);
-			txtTeamName.setColumns(10);
+			lblTeamName = new JLabel();
+			lblTeamName.setBorder(null);
+			lblTeamName.setHorizontalAlignment(SwingConstants.CENTER);
+			lblTeamName.setFont(new Font("Tungsten Bold", Font.PLAIN, 45));
+			lblTeamName.setText("[TEAM NAME]");
+			lblTeamName.setBackground(new Color(255,251,245));
+			lblTeamName.setBounds(420, 145, 181, 66);
+			contentBG.add(lblTeamName);
 			
-			txtName1 = new JTextField();
-			txtName1.setHorizontalAlignment(SwingConstants.CENTER);
-			txtName1.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-			txtName1.setText("[name]");
-			txtName1.setBorder(null);
-			txtName1.setEditable(false);
-			txtName1.setBounds(60, 246, 100, 30);
-			contentBG.add(txtName1);
-			txtName1.setBackground(new Color(255,251,245));
-			txtName1.setColumns(10);
+			lblMostKillsName = new JLabel();
+			lblMostKillsName.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMostKillsName.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+			lblMostKillsName.setText("[name]");
+			lblMostKillsName.setBorder(null);
+			lblMostKillsName.setBounds(60, 246, 100, 30);
+			contentBG.add(lblMostKillsName);
+			lblMostKillsName.setBackground(new Color(255,251,245));
 			
-			txtKills = new JTextField();
-			txtKills.setHorizontalAlignment(SwingConstants.CENTER);
-			txtKills.setFont(new Font("Tungsten Bold", Font.PLAIN, 19));
-			txtKills.setText("?? kills");
-			txtKills.setBorder(null);
-			txtKills.setEditable(false);
-			txtKills.setBounds(71, 270, 83, 30);
-			contentBG.add(txtKills);
-			txtKills.setBackground(new Color(255,251,245));
-			txtKills.setColumns(10);
+			lblMostKillCount = new JLabel();
+			lblMostKillCount.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMostKillCount.setFont(new Font("Tungsten Bold", Font.PLAIN, 19));
+			lblMostKillCount.setText("?? kills");
+			lblMostKillCount.setBorder(null);
+			lblMostKillCount.setBounds(71, 270, 83, 30);
+			contentBG.add(lblMostKillCount);
+			lblMostKillCount.setBackground(new Color(255,251,245));
 			
-			txtName2 = new JTextField();
-			txtName2.setText("[name]");
-			txtName2.setHorizontalAlignment(SwingConstants.CENTER);
-			txtName2.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-			txtName2.setEditable(false);
-			txtName2.setColumns(10);
-			txtName2.setBorder(null);
-			txtName2.setBackground(new Color(255, 251, 245));
-			txtName2.setBounds(251, 275, 100, 30);
-			contentBG.add(txtName2);
+			lblMostPlantsName = new JLabel();
+			lblMostPlantsName.setText("[name]");
+			lblMostPlantsName.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMostPlantsName.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+			lblMostPlantsName.setBorder(null);
+			lblMostPlantsName.setBackground(new Color(255, 251, 245));
+			lblMostPlantsName.setBounds(251, 275, 100, 30);
+			contentBG.add(lblMostPlantsName);
 			
-			txtPlants = new JTextField();
-			txtPlants.setText("?? plants");
-			txtPlants.setHorizontalAlignment(SwingConstants.CENTER);
-			txtPlants.setFont(new Font("Tungsten Bold", Font.PLAIN, 19));
-			txtPlants.setColumns(10);
-			txtPlants.setBorder(null);
-			txtPlants.setBackground(new Color(255, 251, 245));
-			txtPlants.setBounds(261, 305, 83, 30);
-			contentBG.add(txtPlants);
+			lblMostPlantsCount = new JLabel();
+			lblMostPlantsCount.setText("?? plants");
+			lblMostPlantsCount.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMostPlantsCount.setFont(new Font("Tungsten Bold", Font.PLAIN, 19));
+			lblMostPlantsCount.setBorder(null);
+			lblMostPlantsCount.setBackground(new Color(255, 251, 245));
+			lblMostPlantsCount.setBounds(261, 305, 83, 30);
+			contentBG.add(lblMostPlantsCount);
 			
-			txtMostPlants = new JTextField();
-			txtMostPlants.setText("MOST PLANTS");
-			txtMostPlants.setHorizontalAlignment(SwingConstants.CENTER);
-			txtMostPlants.setForeground(new Color(253, 69, 86));
-			txtMostPlants.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
-			txtMostPlants.setEditable(false);
-			txtMostPlants.setColumns(10);
-			txtMostPlants.setBorder(null);
-			txtMostPlants.setBackground(new Color(255, 251, 245));
-			txtMostPlants.setBounds(219, 334, 160, 41);
-			contentBG.add(txtMostPlants);
+			lblMostPlants = new JLabel();
+			lblMostPlants.setText("MOST PLANTS");
+			lblMostPlants.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMostPlants.setForeground(new Color(253, 69, 86));
+			lblMostPlants.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
+			lblMostPlants.setBorder(null);
+			lblMostPlants.setBackground(new Color(255, 251, 245));
+			lblMostPlants.setBounds(219, 334, 160, 41);
+			contentBG.add(lblMostPlants);
 			
-			txtName3 = new JTextField();
-			txtName3.setText("[name]");
-			txtName3.setHorizontalAlignment(SwingConstants.CENTER);
-			txtName3.setFont(new Font("Tungsten Bold", Font.PLAIN, 35));
-			txtName3.setEditable(false);
-			txtName3.setColumns(10);
-			txtName3.setBorder(null);
-			txtName3.setBackground(new Color(255, 251, 245));
-			txtName3.setBounds(451, 362, 100, 41);
-			contentBG.add(txtName3);
+			lblMatchMVPName = new JLabel();
+			lblMatchMVPName.setText("[name]");
+			lblMatchMVPName.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMatchMVPName.setFont(new Font("Tungsten Bold", Font.PLAIN, 35));
+			lblMatchMVPName.setBorder(null);
+			lblMatchMVPName.setBackground(new Color(255, 251, 245));
+			lblMatchMVPName.setBounds(451, 362, 100, 41);
+			contentBG.add(lblMatchMVPName);
 			
-			txtName4 = new JTextField();
-			txtName4.setText("[name]");
-			txtName4.setHorizontalAlignment(SwingConstants.CENTER);
-			txtName4.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-			txtName4.setEditable(false);
-			txtName4.setColumns(10);
-			txtName4.setBorder(null);
-			txtName4.setBackground(new Color(255, 251, 245));
-			txtName4.setBounds(603, 275, 100, 30);
-			contentBG.add(txtName4);
+			lblSupportName = new JLabel();
+			lblSupportName.setText("[name]");
+			lblSupportName.setHorizontalAlignment(SwingConstants.CENTER);
+			lblSupportName.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+			lblSupportName.setBorder(null);
+			lblSupportName.setBackground(new Color(255, 251, 245));
+			lblSupportName.setBounds(603, 275, 100, 30);
+			contentBG.add(lblSupportName);
 			
-			txtKDA2 = new JTextField();
-			txtKDA2.setText("?? K/D/A");
-			txtKDA2.setHorizontalAlignment(SwingConstants.CENTER);
-			txtKDA2.setFont(new Font("Tungsten Bold", Font.PLAIN, 19));
-			txtKDA2.setColumns(10);
-			txtKDA2.setBorder(null);
-			txtKDA2.setBackground(new Color(255, 251, 245));
-			txtKDA2.setBounds(610, 305, 83, 30);
-			contentBG.add(txtKDA2);
+			lblSupportAssists = new JLabel();
+			lblSupportAssists.setText("?? K/D/A");
+			lblSupportAssists.setHorizontalAlignment(SwingConstants.CENTER);
+			lblSupportAssists.setFont(new Font("Tungsten Bold", Font.PLAIN, 19));
+			lblSupportAssists.setBorder(null);
+			lblSupportAssists.setBackground(new Color(255, 251, 245));
+			lblSupportAssists.setBounds(610, 305, 83, 30);
+			contentBG.add(lblSupportAssists);
 			
-			txtName5 = new JTextField();
-			txtName5.setText("[name]");
-			txtName5.setHorizontalAlignment(SwingConstants.CENTER);
-			txtName5.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-			txtName5.setEditable(false);
-			txtName5.setColumns(10);
-			txtName5.setBorder(null);
-			txtName5.setBackground(new Color(255, 251, 245));
-			txtName5.setBounds(792, 246, 100, 30);
-			contentBG.add(txtName5);
+			lblMostDefusesName = new JLabel();
+			lblMostDefusesName.setText("[name]");
+			lblMostDefusesName.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMostDefusesName.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+			lblMostDefusesName.setBorder(null);
+			lblMostDefusesName.setBackground(new Color(255, 251, 245));
+			lblMostDefusesName.setBounds(792, 246, 100, 30);
+			contentBG.add(lblMostDefusesName);
 			
-			txtMostDefuses = new JTextField();
-			txtMostDefuses.setText("?? most defuses");
-			txtMostDefuses.setHorizontalAlignment(SwingConstants.CENTER);
-			txtMostDefuses.setFont(new Font("Tungsten Bold", Font.PLAIN, 19));
-			txtMostDefuses.setColumns(10);
-			txtMostDefuses.setBorder(null);
-			txtMostDefuses.setBackground(new Color(255, 251, 245));
-			txtMostDefuses.setBounds(812, 270, 100, 30);
-			contentBG.add(txtMostDefuses);
+			lblMostDefusesCount = new JLabel();
+			lblMostDefusesCount.setText("?? most defuses");
+			lblMostDefusesCount.setHorizontalAlignment(SwingConstants.CENTER);
+			lblMostDefusesCount.setFont(new Font("Tungsten Bold", Font.PLAIN, 19));
+			lblMostDefusesCount.setBorder(null);
+			lblMostDefusesCount.setBackground(new Color(255, 251, 245));
+			lblMostDefusesCount.setBounds(812, 270, 100, 30);
+			contentBG.add(lblMostDefusesCount);
 			
-			txtmostKills = new JTextField();
-			txtmostKills.setText("MOST KILLS");
-			txtmostKills.setHorizontalAlignment(SwingConstants.CENTER);
-			txtmostKills.setForeground(new Color(253, 69, 86));
-			txtmostKills.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
-			txtmostKills.setEditable(false);
-			txtmostKills.setColumns(10);
-			txtmostKills.setBorder(null);
-			txtmostKills.setBackground(new Color(255, 251, 245));
-			txtmostKills.setBounds(41, 295, 160, 41);
-			contentBG.add(txtmostKills);
-			
-			JComboBox cmbTeams = new JComboBox();
+			JComboBox<String> cmbTeams = new JComboBox<String>();
 			cmbTeams.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
 			cmbTeams.setBackground(new Color(192, 192, 192));
 			cmbTeams.setBounds(71, 527, 280, 30);
 			contentBG.add(cmbTeams);
+			cmbTeams.addItem("");
+			cmbTeams.addItem("Team 1");
+			cmbTeams.addItem("Team 2");
+			cmbTeams.addItem("Team 3");
+			cmbTeams.addItem("Team 4");
+			cmbTeams.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String selectedTeam = (String) cmbTeams.getSelectedItem();
+					 if (selectedTeam == "") {
+							lblWin.setText("");
+							lblLoss.setText("");
+							lblDef.setText("");
+							lblPlant.setText("");
+				        } else { 
+				        	try {
+				        		String noOfDefuses = excelHandler.columnSum(ExcelHandler.checkTeam(selectedTeam), 5);
+				        		String noOfPlants = excelHandler.columnSum(ExcelHandler.checkTeam(selectedTeam), 4);
+				        		lblDef.setText(noOfDefuses);
+								lblPlant.setText(noOfPlants);
+								
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+				        }
+				}
+			});
 			
-			txtTeam = new JTextField();
-			txtTeam.setText("TEAM");
-			txtTeam.setHorizontalAlignment(SwingConstants.CENTER);
-			txtTeam.setForeground(new Color(253, 69, 86));
-			txtTeam.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
-			txtTeam.setEditable(false);
-			txtTeam.setColumns(10);
-			txtTeam.setBorder(null);
-			txtTeam.setBackground(new Color(255, 251, 245));
-			txtTeam.setBounds(29, 493, 141, 41);
-			contentBG.add(txtTeam);
+
+		       
 			
-			txtOvrWL = new JTextField();
-			txtOvrWL.setText("OVERALL W/L");
-			txtOvrWL.setHorizontalAlignment(SwingConstants.CENTER);
-			txtOvrWL.setForeground(new Color(253, 69, 86));
-			txtOvrWL.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
-			txtOvrWL.setEditable(false);
-			txtOvrWL.setColumns(10);
-			txtOvrWL.setBorder(null);
-			txtOvrWL.setBackground(new Color(255, 251, 245));
-			txtOvrWL.setBounds(60, 586, 141, 41);
-			contentBG.add(txtOvrWL);
 			
-			txtWins = new JTextField();
-			txtWins.setEditable(false);
-			txtWins.setText("WINS");
-			txtWins.setHorizontalAlignment(SwingConstants.CENTER);
-			txtWins.setForeground(new Color(253, 69, 86));
-			txtWins.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-			txtWins.setColumns(10);
-			txtWins.setBorder(null);
-			txtWins.setBackground(new Color(255, 251, 245));
-			txtWins.setBounds(53, 621, 83, 41);
-			contentBG.add(txtWins);
+			lblTeam = new JLabel();
+			lblTeam.setText("TEAM");
+			lblTeam.setHorizontalAlignment(SwingConstants.CENTER);
+			lblTeam.setForeground(new Color(253, 69, 86));
+			lblTeam.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
+			lblTeam.setBorder(null);
+			lblTeam.setBackground(new Color(255, 251, 245));
+			lblTeam.setBounds(29, 493, 141, 41);
+			contentBG.add(lblTeam);
 			
-			txtLosses = new JTextField();
-			txtLosses.setText("LOSSES");
-			txtLosses.setHorizontalAlignment(SwingConstants.CENTER);
-			txtLosses.setForeground(new Color(253, 69, 86));
-			txtLosses.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-			txtLosses.setEditable(false);
-			txtLosses.setColumns(10);
-			txtLosses.setBorder(null);
-			txtLosses.setBackground(new Color(255, 251, 245));
-			txtLosses.setBounds(53, 659, 83, 41);
-			contentBG.add(txtLosses);
+			lblOvrWL = new JLabel();
+			lblOvrWL.setText("OVERALL W/L");
+			lblOvrWL.setHorizontalAlignment(SwingConstants.CENTER);
+			lblOvrWL.setForeground(new Color(253, 69, 86));
+			lblOvrWL.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
+			lblOvrWL.setBorder(null);
+			lblOvrWL.setBackground(new Color(255, 251, 245));
+			lblOvrWL.setBounds(60, 586, 141, 41);
+			contentBG.add(lblOvrWL);
 			
-			txtOvrDefuses = new JTextField();
-			txtOvrDefuses.setColumns(10);
-			txtOvrDefuses.setBorder(null);
-			txtOvrDefuses.setBackground(Color.LIGHT_GRAY);
-			txtOvrDefuses.setBounds(565, 621, 72, 31);
-			contentBG.add(txtOvrDefuses);
+			lblWins = new JLabel();
+			lblWins.setText("WINS");
+			lblWins.setHorizontalAlignment(SwingConstants.CENTER);
+			lblWins.setForeground(new Color(253, 69, 86));
+			lblWins.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+			lblWins.setBorder(null);
+			lblWins.setBackground(new Color(255, 251, 245));
+			lblWins.setBounds(53, 621, 83, 41);
+			contentBG.add(lblWins);
 			
-			txtOvrPlants = new JTextField();
-			txtOvrPlants.setColumns(10);
-			txtOvrPlants.setBorder(null);
-			txtOvrPlants.setBackground(Color.LIGHT_GRAY);
-			txtOvrPlants.setBounds(565, 659, 72, 30);
-			contentBG.add(txtOvrPlants);
+			lblLosses = new JLabel();
+			lblLosses.setText("LOSSES");
+			lblLosses.setHorizontalAlignment(SwingConstants.CENTER);
+			lblLosses.setForeground(new Color(253, 69, 86));
+			lblLosses.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+			lblLosses.setBorder(null);
+			lblLosses.setBackground(new Color(255, 251, 245));
+			lblLosses.setBounds(53, 659, 83, 41);
+			contentBG.add(lblLosses);
 			
-			txtOvrPlantsDefuses = new JTextField();
-			txtOvrPlantsDefuses.setText("OVERALL PLANTS AND DEFUSES");
-			txtOvrPlantsDefuses.setHorizontalAlignment(SwingConstants.CENTER);
-			txtOvrPlantsDefuses.setForeground(new Color(253, 69, 86));
-			txtOvrPlantsDefuses.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
-			txtOvrPlantsDefuses.setEditable(false);
-			txtOvrPlantsDefuses.setColumns(10);
-			txtOvrPlantsDefuses.setBorder(null);
-			txtOvrPlantsDefuses.setBackground(new Color(255, 251, 245));
-			txtOvrPlantsDefuses.setBounds(468, 586, 280, 41);
-			contentBG.add(txtOvrPlantsDefuses);
+			lblOvrPlantsDefuses = new JLabel();
+			lblOvrPlantsDefuses.setText("OVERALL PLANTS AND DEFUSES");
+			lblOvrPlantsDefuses.setHorizontalAlignment(SwingConstants.CENTER);
+			lblOvrPlantsDefuses.setForeground(new Color(253, 69, 86));
+			lblOvrPlantsDefuses.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
+			lblOvrPlantsDefuses.setBorder(null);
+			lblOvrPlantsDefuses.setBackground(new Color(255, 251, 245));
+			lblOvrPlantsDefuses.setBounds(468, 586, 280, 41);
+			contentBG.add(lblOvrPlantsDefuses);
 			
-			txtDefuses = new JTextField();
-			txtDefuses.setText("DEFUSES");
-			txtDefuses.setHorizontalAlignment(SwingConstants.CENTER);
-			txtDefuses.setForeground(new Color(253, 69, 86));
-			txtDefuses.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-			txtDefuses.setEditable(false);
-			txtDefuses.setColumns(10);
-			txtDefuses.setBorder(null);
-			txtDefuses.setBackground(new Color(255, 251, 245));
-			txtDefuses.setBounds(468, 621, 83, 41);
-			contentBG.add(txtDefuses);
+			lblDefuses = new JLabel();
+			lblDefuses.setText("DEFUSES");
+			lblDefuses.setHorizontalAlignment(SwingConstants.CENTER);
+			lblDefuses.setForeground(new Color(253, 69, 86));
+			lblDefuses.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+			lblDefuses.setBorder(null);
+			lblDefuses.setBackground(new Color(255, 251, 245));
+			lblDefuses.setBounds(468, 621, 83, 41);
+			contentBG.add(lblDefuses);
 			
-			txtPlants2 = new JTextField();
-			txtPlants2.setText("PLANTS");
-			txtPlants2.setHorizontalAlignment(SwingConstants.CENTER);
-			txtPlants2.setForeground(new Color(253, 69, 86));
-			txtPlants2.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
-			txtPlants2.setEditable(false);
-			txtPlants2.setColumns(10);
-			txtPlants2.setBorder(null);
-			txtPlants2.setBackground(new Color(255, 251, 245));
-			txtPlants2.setBounds(468, 659, 83, 41);
-			contentBG.add(txtPlants2);
+			lblPlants = new JLabel();
+			lblPlants.setText("PLANTS");
+			lblPlants.setHorizontalAlignment(SwingConstants.CENTER);
+			lblPlants.setForeground(new Color(253, 69, 86));
+			lblPlants.setFont(new Font("Tungsten Bold", Font.PLAIN, 25));
+			lblPlants.setBorder(null);
+			lblPlants.setBackground(new Color(255, 251, 245));
+			lblPlants.setBounds(468, 659, 83, 41);
+			contentBG.add(lblPlants);
+			
+			panel_3 = new JPanel();
+			panel_3.setBackground(new Color(192, 192, 192));
+			panel_3.setBounds(557, 659, 72, 31);
+			contentBG.add(panel_3);
+			panel_3.setLayout(null);
+			
+			lblPlant = new JLabel("");
+			lblPlant.setBounds(10, 10, 52, 21);
+			panel_3.add(lblPlant);
+			
 		}
 	}
