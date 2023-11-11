@@ -67,3 +67,44 @@ public class Stats {
         return loser;
     }
 }
+class LeaderEntry {
+    private String playerName;
+    private int kills;
+    private int defuses;
+    private int plants;
+    private int support;
+    private int deaths;
+
+    public LeaderEntry(String playerName, int kills, int defuses, int plants, int support, int deaths) {
+        this.playerName = playerName;
+        this.kills = kills;
+        this.defuses = defuses;
+        this.plants = plants;
+        this.support = support;
+        this.deaths = deaths;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public int getDefuses() {
+        return defuses;
+    }
+
+    public int getPlants() {
+        return plants;
+    }
+
+    public int getSupport() {
+        return support;
+    }
+
+    public int getDeaths() {
+        return deaths;
+    }
+}
