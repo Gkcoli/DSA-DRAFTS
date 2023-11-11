@@ -1,3 +1,4 @@
+package telemasters;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,8 +31,8 @@ public class UserHome extends JFrame {
 	JLabel lblNewMember4;
 	JLabel lblNewMember5;
 	// Edit fileDirectory
-	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
-	FileHandler file = new FileHandler();
+	String fileDirectory = "C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/";
+//	FileHandler file = new FileHandler();
 	UserData userData;
 	ExcelHandler excel = new ExcelHandler();
 	/**
@@ -161,7 +162,7 @@ public class UserHome extends JFrame {
 		
 		JPanel panelJoinNow = new JPanel();
 		panelJoinNow.setBackground(new Color(189, 57, 68));
-		panelJoinNow.setBounds(463, 518, 147, 62);
+		panelJoinNow.setBounds(559, 521, 147, 62);
 		contentPane.add(panelJoinNow);
 		panelJoinNow.setLayout(null);
 		
@@ -219,6 +220,43 @@ public class UserHome extends JFrame {
 		lblExclamationPt.setFont(new Font("Tungsten Bold", Font.PLAIN, 55));
 		lblExclamationPt.setBounds(330, 125, 27, 78);
 		contentPane.add(lblExclamationPt);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(189, 57, 68));
+		panel.setBounds(379, 521, 147, 62);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblSignout = new JLabel("Sign Out", SwingConstants.CENTER);
+		lblSignout.setForeground(new Color(255, 251, 245));
+		lblSignout.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
+		lblSignout.setBounds(0, 0, 147, 62);
+		panel.add(lblSignout);
+		lblSignout.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblSignout.setForeground(new Color(255, 255, 255));
+				lblSignout.setForeground(new Color(255, 255, 255));
+				lblSignout.setBackground(new Color(236, 73, 84));
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				lblSignout.setForeground(new Color(0, 0, 0));
+				lblSignout.setForeground(new Color(0, 0, 0));
+				lblSignout.setBackground(new Color(228, 195, 197));
+			}
+			
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+				SignIn toSignIn = null;
+				try {
+					toSignIn = new SignIn();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				toSignIn.setVisible(true);
+			}
+		});
 		
 		
 		
