@@ -233,21 +233,15 @@ public class JoinTourna extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		if (!(tournaStatus.equalsIgnoreCase("N/A"))) {
 			lblTourna2Status.setText("FINISHED");
 		}
-		if (teams.size() == 0) {
-			lblTourna2Status.setText("0/4 TEAMS");
-		} else if (teams.size() == 1) {
-			lblTourna2Status.setText("1/4 TEAMS");
-		} else if (teams.size() == 2) {
-			lblTourna2Status.setText("2/4 TEAMS");
-		} else if (teams.size() == 3) {
-			lblTourna2Status.setText("3/4 TEAMS");
-		} else if (!(tournaStatus.equalsIgnoreCase("N/A"))){
-			lblTourna2Status.setText("FINISHED");
-		} else{
 		
+		int tournaSize = teams.size();
+		if (tournaSize < 4) {
+			lblTourna2Status.setText(tournaSize + "/4 TEAMS");
+		} else{
 			lblTourna2Status.setText("FULL");
 		}
 		
