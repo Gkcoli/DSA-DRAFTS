@@ -564,7 +564,7 @@ public class Match {
 			            break;
 					case "GAME 4":
 						game4W = stats.gameWinner(scoreT1,scoreT2, game4W, game1W, game2W);
-						game3L = stats.gameLoser(game4W, game1W, game2W, game4L);
+						game4L = stats.gameLoser(game4W, game1W, game2W, game4L);
 						stats.updateSched("GAME 4", sched, game1W, game2W, status4, game4W, game4L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 3, sched);
 		
