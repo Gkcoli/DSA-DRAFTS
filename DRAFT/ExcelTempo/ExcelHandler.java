@@ -613,18 +613,16 @@ public class ExcelHandler {
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 
 	        // Iterate over each row in the sheet
-	        for (int rowIndex = 1; rowIndex < model.getRowCount(); rowIndex++) {
+	        for (int rowIndex = 1; rowIndex <= model.getRowCount(); rowIndex++) {
 	            Row row = sheet.getRow(rowIndex);
 				for (int colIndex = 1; colIndex < model.getColumnCount(); colIndex++) {
 					Cell cell = row.getCell(colIndex);
-					model.setValueAt(cell, rowIndex, colIndex);
+					model.setValueAt(cell, rowIndex-1, colIndex);
 				}
 	        }
-
 	        // Close the workbook and the file input stream
 	        workbook.close();
 	        fileInputStream.close();
-	
 		return data;
 	}
 
