@@ -581,12 +581,21 @@ public class Match {
 			            break;
 				}
 				
+				playMatchFrame.dispose();
+				matchSched();
+				leagueSummary();
+		 		leagueSummaryFrame.setVisible(true);
+
 				ExcelHandler.writeTable(team1FilePath, tableTeam1);
 				ExcelHandler.writeTable(team2FilePath, tableTeam2);
 				
-				playMatchFrame.dispose();
-				matchSched();
-				matchSchedFrame.setVisible(true);
+				ExcelHandler.readTable(team1FilePath, tableScoreboardT1);
+		 		ExcelHandler.readTable(team2FilePath, tableScoreboardT2);
+				updateTable(team1FilePath, team2FilePath, playersT1, playersT2, tableScoreboardT1, tableScoreboardT2);
+
+				for (int i = 0; i < roundStats.size(); i++) {
+		 			tableRoundStats.setValueAt(roundStats.get(i).toString(), 0, i);
+		 		}
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
