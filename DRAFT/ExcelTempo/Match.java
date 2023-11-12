@@ -31,9 +31,10 @@ public class Match {
 
 	JFrame matchSchedFrame, playMatchFrame, leagueSummaryFrame;
 	private static JTable table;
-	private JScrollPane scrollPane;
+	private JScrollPane scrollPane, scrollPaneT1, scrollPaneT2;
 	private JPanel panel;
-	private JTable tableRoundStats, tableTeam1, tableTeam2;
+	private JTable tableRoundStats, tableTeam1, tableTeam2, tableScoreboardT1, tableScoreboardT2;
+	private LinkedList<String> roundStats;
 	private int scoreT1, scoreT2;
 	private int i = 1;
 
@@ -49,13 +50,12 @@ public class Match {
 	String team1FilePath, team2FilePath;
 	String matchFilePath = fileDirectory + "MatchSched.xlsx";
 
+	LinkedList <String> playersT1, playersT2;
+
 	Stats stats = new Stats();
 	ExcelHandler statsExcel = new ExcelHandler();
 	UserData userData;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -69,18 +69,10 @@ public class Match {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 * @throws Exception
-	 */
 	public Match() throws Exception {
 		matchSched();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 * @throws Exception
-	 */
 	private void matchSched() throws Exception {
 		matchSchedFrame = new JFrame();
 		matchSchedFrame.getContentPane().setBackground(new Color(255, 251, 245));
@@ -201,37 +193,10 @@ public class Match {
 				e1.printStackTrace();
 			} }
 		});
-		btnPlay.setBounds(352, 551, 118, 45);
+		btnPlay.setBounds(455, 558, 118, 45);
 		matchSchedFrame.getContentPane().add(btnPlay);	
-		
-		// JButton btnSummary = new JButton("SUMMARY");
-		// btnSummary.addActionListener(new ActionListener() {
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		if (status1.equals("FINISHED") && table.getSelectedRow() == 0) {
-		// 			//leagueSummaryFrame.setVisible(true);
-		// 			//Method to display the results
-		// 		} else if (status2.equals("FINISHED") && table.getSelectedRow() == 1) {
-		// 			//leagueSummaryFrame.setVisible(true);
-		// 			//Method to display the results
-		// 		} else if (status3.equals("FINISHED") && table.getSelectedRow() == 2) {
-		// 			//leagueSummaryFrame.setVisible(true);
-		// 			//Method to display the results
-		// 		} else if (status4.equals("FINISHED") && table.getSelectedRow() == 3) {
-		// 			//leagueSummaryFrame.setVisible(true);
-		// 			//Method to display the results
-		// 		} else {
-		// 			//JOptionMessage = "Game has not yet started"
-		// 		}
-		// 	}
-		// });
-		// btnSummary.setForeground(Color.WHITE);
-		// btnSummary.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
-		// btnSummary.setBackground(new Color(189, 57, 68));
-		// btnSummary.setBounds(520, 551, 118, 45);
-		// matchSchedFrame.getContentPane().add(btnSummary);
 	}
 	
-
 	private void playMatch() throws Exception {
 		playMatchFrame = new JFrame();
 		playMatchFrame.getContentPane().setBackground(new Color(255, 251, 245));
@@ -377,7 +342,7 @@ public class Match {
 			}	
 		));
 
-		LinkedList<String> roundStats = new LinkedList<>();
+		roundStats = new LinkedList<>();
 		tableRoundStats.getModel().addTableModelListener(new TableModelListener() {
 			@Override
 			public void tableChanged(TableModelEvent e) {
@@ -473,52 +438,65 @@ public class Match {
 		tableHeaderT2.setForeground(Color.BLACK);
 		tableHeaderT2.setFont(new Font("Tungsten Bold", Font.PLAIN, 15));
 
-		LinkedList <String> playersT1 = new LinkedList<>();
-		LinkedList <String> playersT2 = new LinkedList<>();
+		playersT1 = new LinkedList<>();
+		playersT2 = new LinkedList<>();
 
 		switch (gameNum) {
 			case "GAME 1":
-				updateTable("Team1.xlsx", "Team2.xlsx", playersT1, playersT2, tableTeam1, tableTeam2);
+				team1FilePath = fileDirectory + "Team1.xlsx";
+				team2FilePath = fileDirectory + "Team2.xlsx";
 			break;
 			case "GAME 2":
-				updateTable("Team3.xlsx", "Team4.xlsx", playersT1, playersT2, tableTeam1, tableTeam2);
+				team1FilePath = fileDirectory + "Team3.xlsx";
+				team2FilePath = fileDirectory + "Team4.xlsx";
 			break;
 			case "GAME 3":
 				if (game1L.equals(team1)) {
 					if (game2L.equals(team3)) {
-						updateTable("Team1.xlsx", "Team3.xlsx", playersT1, playersT2, tableTeam1, tableTeam2);
+						team1FilePath = fileDirectory + "Team1.xlsx";
+						team2FilePath = fileDirectory + "Team3.xlsx";
 					} else {
-						updateTable("Team1.xlsx", "Team4.xlsx", playersT1, playersT2, tableTeam1, tableTeam2);
+						team1FilePath = fileDirectory + "Team1.xlsx";
+						team2FilePath = fileDirectory + "Team4.xlsx";
 					} }
 				else { 
 					if (game2L.equals(team4)) {
-						updateTable("Team2.xlsx", "Team4.xlsx", playersT1, playersT2, tableTeam1, tableTeam2);
+						team1FilePath = fileDirectory + "Team2.xlsx";
+						team2FilePath = fileDirectory + "Team4.xlsx";
 					} else {
-						updateTable("Team2.xlsx", "Team3.xlsx", playersT1, playersT2, tableTeam1, tableTeam2);
+						team1FilePath = fileDirectory + "Team2.xlsx";
+						team2FilePath = fileDirectory + "Team3.xlsx";
 					} }
 			break;
 			case "GAME 4":
 				if (game1W.equals(team1)) {
 					if (game2W.equals(team3)) {
-						updateTable("Team1.xlsx", "Team3.xlsx", playersT1, playersT2, tableTeam1, tableTeam2);
+						team1FilePath = fileDirectory + "Team1.xlsx";
+						team2FilePath = fileDirectory + "Team3.xlsx";
 					} else {
-						updateTable("Team1.xlsx", "Team4.xlsx", playersT1, playersT2, tableTeam1, tableTeam2);
-					} }
+						team1FilePath = fileDirectory + "Team1.xlsx";
+						team2FilePath = fileDirectory + "Team4.xlsx";
+					}}
 				else { 
 					if (game2W.equals(team4)) {
-						updateTable("Team2.xlsx", "Team4.xlsx", playersT1, playersT2, tableTeam1, tableTeam2);
+						team1FilePath = fileDirectory + "Team2.xlsx";
+						team2FilePath = fileDirectory + "Team4.xlsx";
 					} else {
-						updateTable("Team2.xlsx", "Team3.xlsx", playersT1, playersT2, tableTeam1, tableTeam2);
+						team1FilePath = fileDirectory + "Team2.xlsx";
+						team2FilePath = fileDirectory + "Team3.xlsx";
 					} }
 			break;
 			}
-		
+			updateTable(team1FilePath, team2FilePath, playersT1, playersT2, tableTeam1, tableTeam2);
+			
 		JButton btnSaveMatch = new JButton("SAVE MATCH");
 		btnSaveMatch.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
 				LinkedList<String> sched = new LinkedList<>();
+				playersT1 = new LinkedList<>();
+				playersT2 = new LinkedList<>();
 
 				switch(gameNum) {
 					case "GAME 1":
@@ -546,17 +524,25 @@ public class Match {
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 3, sched);
 					break;
 				}
-				
-				ExcelHandler.writeTable(team1FilePath, tableTeam1);
-				ExcelHandler.writeTable(team2FilePath, tableTeam2);
-
 				playMatchFrame.dispose();
 				matchSched();
-				matchSchedFrame.setVisible(true);
+				leagueSummary();
+		 		leagueSummaryFrame.setVisible(true);
+
+				ExcelHandler.writeTable(team1FilePath, tableTeam1);
+				ExcelHandler.writeTable(team2FilePath, tableTeam2);
+				
+				ExcelHandler.readTable(team1FilePath, tableScoreboardT1);
+		 		ExcelHandler.readTable(team2FilePath, tableScoreboardT2);
+				updateTable(team1FilePath, team2FilePath, playersT1, playersT2, tableScoreboardT1, tableScoreboardT2);
+
+				for (int i = 0; i < roundStats.size(); i++) {
+		 			tableRoundStats.setValueAt(roundStats.get(i).toString(), 0, i);
+		 		}
+
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				
 			}
 		});
 		btnSaveMatch.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -567,17 +553,203 @@ public class Match {
 		playMatchFrame.getContentPane().add(btnSaveMatch);
 	}
 
-	public void updateTable(String fileName1, String fileName2, LinkedList<String> T1, LinkedList<String> T2, JTable tableT1, JTable tableT2) throws Exception {
-			team1FilePath = fileDirectory + fileName1;
-			team2FilePath = fileDirectory + fileName2;
+	public void leagueSummary() throws Exception {
+		leagueSummaryFrame = new JFrame();
+		leagueSummaryFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		leagueSummaryFrame.setBounds(100, 100, 1080, 680);
+		leagueSummaryFrame.getContentPane().setBackground(new Color(255,251,245));
+		leagueSummaryFrame.getContentPane().setLayout(null);
+			
+		JLabel lblAdminHPBanner = new JLabel("");
+		lblAdminHPBanner.setBounds(0, 0, 1066, 115);
+		lblAdminHPBanner.setIcon(new ImageIcon(fileDirectory + "LEAGUE SUMMARY.png"));
+		leagueSummaryFrame.getContentPane().add(lblAdminHPBanner);
+			
+		JLabel lblFinalScore = new JLabel("FINAL SCORE", SwingConstants.CENTER);
+		lblFinalScore.setBounds(0, 125, 1066, 36);
+		lblFinalScore.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
+		lblFinalScore.setForeground(new Color(189, 57, 68));
+		leagueSummaryFrame.getContentPane().add(lblFinalScore);
+			
+		JLabel lblDash = new JLabel("-", SwingConstants.CENTER);
+		lblDash.setBounds(495, 171, 75, 36);
+		lblDash.setForeground(new Color(189, 57, 68));
+		lblDash.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
+		leagueSummaryFrame.getContentPane().add(lblDash);
+			
+		JPanel panel = new JPanel();
+		panel.setBounds(438, 158, 60, 60);
+		leagueSummaryFrame.getContentPane().add(panel);
+		panel.setLayout(null);
+			
+		JLabel lblT1Score = new JLabel("13", SwingConstants.CENTER);
+		lblT1Score.setBounds(0, 10, 60, 50);
+		lblT1Score.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
+		panel.add(lblT1Score);
+			
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(569, 158, 60, 60);
+		leagueSummaryFrame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+			
+		JLabel lblT2Score = new JLabel("13", SwingConstants.CENTER);
+		lblT2Score.setBounds(0, 10, 60, 50);
+		lblT2Score.setFont(new Font("Tungsten Bold", Font.PLAIN, 40));
+		panel_1.add(lblT2Score);
+			
+		JLabel lblTeam1 = new JLabel(t1, SwingConstants.CENTER);
+		lblTeam1.setBounds(175, 158, 263, 77);
+		lblTeam1.setForeground(new Color(189, 57, 68));
+		lblTeam1.setFont(new Font("Tungsten Bold", Font.PLAIN, 50));
+		leagueSummaryFrame.getContentPane().add(lblTeam1);
+			
+		JLabel lblTeam2 = new JLabel(t2, SwingConstants.CENTER);
+		lblTeam2.setBounds(629, 158, 263, 77);
+		lblTeam2.setForeground(new Color(189, 57, 68));
+		lblTeam2.setFont(new Font("Tungsten Bold", Font.PLAIN, 50));
+		leagueSummaryFrame.getContentPane().add(lblTeam2);
+			
+		JLabel lblMatchOverview = new JLabel("MATCH OVERVIEW", SwingConstants.LEFT);
+		lblMatchOverview.setBounds(25, 243, 202, 36);
+		lblMatchOverview.setForeground(new Color(189, 57, 68));
+		lblMatchOverview.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
+		leagueSummaryFrame.getContentPane().add(lblMatchOverview);
+			
+		JLabel lblMatchScoreboard = new JLabel("MATCH SCOREBOARD", SwingConstants.LEFT);
+		lblMatchScoreboard.setBounds(25, 329, 202, 36);
+		lblMatchScoreboard.setForeground(new Color(189, 57, 68));
+		lblMatchScoreboard.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
+		leagueSummaryFrame.getContentPane().add(lblMatchScoreboard);
+			
+		tableRoundStats = new JTable();
+		tableRoundStats.setFillsViewportHeight(true);
+		tableRoundStats.setCellSelectionEnabled(true);
+		tableRoundStats.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableRoundStats.setBackground(new Color(191, 151, 159));
+			
+		tableRoundStats.setModel(new DefaultTableModel(
+			new String[][] {
+				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15"
+			} 	
+		){
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditablesRS = new boolean[] {
+				false, false, false, false, false, false};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditablesRS[column];
+			}
+		});
+	
+		tableRoundStats.setFont(new Font("Spiegel", Font.BOLD, 20));
+		tableRoundStats.setBounds(25, 272, 981, 50);
+		tableRoundStats.setRowHeight(50);
+		leagueSummaryFrame.getContentPane().add(tableRoundStats);
+			
+		scrollPaneT1 = new JScrollPane();
+		scrollPaneT1.setBounds(25, 361, 485, 192);
+		leagueSummaryFrame.getContentPane().add(scrollPaneT1);
+			
+		tableScoreboardT1 = new JTable();
+		tableScoreboardT1.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
+		tableScoreboardT1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		scrollPaneT1.setViewportView(tableScoreboardT1);
+		tableScoreboardT1.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+			},
+			new String[] {"PLAYER", "K", "D", "A", "P", "DF"}
+		) {
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables1 = new boolean[] {
+				false, false, false, false, false, false};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables1[column];
+			}
+		});
+		tableScoreboardT1.getColumnModel().getColumn(0).setPreferredWidth(150);
+		tableScoreboardT1.getColumnModel().getColumn(1).setPreferredWidth(24);
+		tableScoreboardT1.getColumnModel().getColumn(2).setPreferredWidth(24);
+		tableScoreboardT1.getColumnModel().getColumn(3).setPreferredWidth(24);
+		tableScoreboardT1.getColumnModel().getColumn(4).setPreferredWidth(24);
+		tableScoreboardT1.getColumnModel().getColumn(5).setPreferredWidth(24);
+		tableScoreboardT1.setRowHeight(33);
+		tableScoreboardT1.setBackground(new Color(255,251,245));
+			
+		JTableHeader tableHeader = tableScoreboardT1.getTableHeader();
+		tableHeader.setFont(new Font("Tungsten Bold", Font.PLAIN, 15));
+		tableHeader.setBackground(new Color(191, 151, 159));
+		tableHeader.setForeground(Color.black);
+			
+		scrollPaneT2 = new JScrollPane();
+		scrollPaneT2.setBounds(521, 361, 485, 192);
+		leagueSummaryFrame.getContentPane().add(scrollPaneT2);
+			
+		tableScoreboardT2 = new JTable();
+		tableScoreboardT2.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
+		tableScoreboardT2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		scrollPaneT2.setViewportView(tableScoreboardT2);
+		tableScoreboardT2.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+				{null, null, null, null, null, null},
+			},
+			new String[] {"PLAYER", "K", "D", "A", "P", "DF"}
+		) {
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables2 = new boolean[] {
+				false, false, false, false, false, false};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables2[column];
+			}
+		});
+		tableScoreboardT2.getColumnModel().getColumn(0).setPreferredWidth(150);
+		tableScoreboardT2.getColumnModel().getColumn(1).setPreferredWidth(24);
+		tableScoreboardT2.getColumnModel().getColumn(2).setPreferredWidth(24);
+		tableScoreboardT2.getColumnModel().getColumn(3).setPreferredWidth(24);
+		tableScoreboardT2.getColumnModel().getColumn(4).setPreferredWidth(24);
+		tableScoreboardT2.getColumnModel().getColumn(5).setPreferredWidth(24);
+		tableScoreboardT2.setRowHeight(33);
+		tableScoreboardT2.setBackground(new Color(255,251,245));
+		
+		tableHeader = tableScoreboardT2.getTableHeader();
+		tableHeader.setFont(new Font("Tungsten Bold", Font.PLAIN, 15));
+		tableHeader.setBackground(new Color(191, 151, 159));
+		tableHeader.setForeground(Color.black);	
 
-			T1 = ExcelHandler.readSpecificColumn(team1FilePath, 0);
-			T2 = ExcelHandler.readSpecificColumn(team2FilePath, 0);
+		JButton btnLeagueStats = new JButton("STATS");
+        btnLeagueStats.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+				// Put the League Stats window here
+                // leagueSummaryFrame.dispose(); 
+            }
+        });
+        btnLeagueStats.setVerticalAlignment(SwingConstants.BOTTOM);
+		btnLeagueStats.setForeground(new Color(255, 255, 255));
+		btnLeagueStats.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
+		btnLeagueStats.setBackground(new Color(189, 57, 68));
+		btnLeagueStats.setBounds(468, 574, 117, 31);
+        leagueSummaryFrame.getContentPane().add(btnLeagueStats);
+}
 
-			for (int i = 0; i < tableT1.getRowCount(); i++) {
-				tableTeam1.setValueAt(T1.get(i), i, 0); }
-			for (int i = 0; i < tableT2.getRowCount(); i++) {
-				tableTeam2.setValueAt(T2.get(i), i, 0);
+	public void updateTable(String team1FilePath, String team2FilePath, LinkedList<String> T1, LinkedList<String> T2, JTable tableT1, JTable tableT2) throws Exception {
+		T1 = ExcelHandler.readSpecificColumn(team1FilePath, 0);
+		T2 = ExcelHandler.readSpecificColumn(team2FilePath, 0);
+
+		for (int i = 0; i < tableT1.getRowCount(); i++) {
+			tableT1.setValueAt(T1.get(i), i, 0); }
+		for (int i = 0; i < tableT2.getRowCount(); i++) {
+			tableT2.setValueAt(T2.get(i), i, 0);
 		}
 	}
 }
