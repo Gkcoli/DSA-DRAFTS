@@ -521,30 +521,36 @@ public class ExcelHandler {
 		}
 	}   
 	
-	public static void writeIntAtSpecificCell(String excelFilePath, int row, int column, int value) {
+	public static void writeIntAtSpecificCell(String filePath, int sheetIndex, int colIndex, int value) {
+	    FileInputStream inputStream;
 	    try {
-	        FileInputStream inputStream = new FileInputStream(excelFilePath);
+	        inputStream = new FileInputStream(filePath);
 	        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-	        XSSFSheet firstSheet = workbook.getSheetAt(0);
+	        XSSFSheet sheet = workbook.getSheetAt(sheetIndex);
 
-	        Row currentRow = firstSheet.getRow(row);
-	        if (currentRow == null) {
-	            currentRow = firstSheet.createRow(row);
+	        int rowIndex = 1;
+	        while (rowIndex <= sheet.getLastRowNum()) {
+	            Row row = sheet.getRow(rowIndex);
+	            if (row == null) {
+	                row = sheet.createRow(rowIndex);
+	            }
+	            Cell cell = row.getCell(colIndex);
+	            if (cell == null) {
+	                cell = row.createCell(colIndex);
+	            }
+	            if (cell.getCellType() == CellType.BLANK || cell.getCellType() == CellType.ERROR) {
+	                // Check if the cell is empty or contains an error
+	                cell.setCellValue(value);
+	                break;  // Value written, so exit the loop
+	            }
+	            rowIndex++;
 	        }
 
-	        // Overwrite only the specific cell
-	        Cell cell = currentRow.createCell(column);
-	        cell.setCellValue(value);
-
-	        inputStream.close();
-
-	        FileOutputStream outputStream = new FileOutputStream(excelFilePath);
+	        FileOutputStream outputStream = new FileOutputStream(filePath);
 	        workbook.write(outputStream);
 	        outputStream.close();
-
 	        workbook.close();
-
-	        System.out.println("Successfully written to file");
+	        inputStream.close();
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
