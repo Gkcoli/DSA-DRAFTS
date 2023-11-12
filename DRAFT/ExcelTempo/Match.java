@@ -495,6 +495,8 @@ public class Match {
 			public void mouseClicked(MouseEvent e) {
 				try {
 				LinkedList<String> sched = new LinkedList<>();
+				playersT1 = new LinkedList<>();
+				playersT2 = new LinkedList<>();
 				
 				int rowToWrite = 0; // Specify the row index
 				int columnToWrite = 6; // Specify the column index
@@ -502,10 +504,10 @@ public class Match {
 
 				switch(gameNum) {
 				case "GAME 1":
-		            game1W = stats.gameWinner(scoreT1, scoreT2, game1W, team1, team2);
-		            game1L = stats.gameLoser(game1W, team1, team2, game1L);
-		            stats.updateSched("GAME 1", sched, team1, team2, status1, game1W, game1L);
-		            ExcelHandler.writeAtSpecificRow(matchFilePath, 0, sched);
+		           	game1W = stats.gameWinner(scoreT1, scoreT2, game1W, team1, team2);
+		            	game1L = stats.gameLoser(game1W, team1, team2, game1L);
+		            	stats.updateSched("GAME 1", sched, team1, team2, status1, game1W, game1L);
+		            	ExcelHandler.writeAtSpecificRow(matchFilePath, 0, sched);
 		            
 
 		            // Determine which Team's stats to update
