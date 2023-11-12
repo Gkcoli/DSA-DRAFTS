@@ -740,7 +740,16 @@ public class Match {
 		tableScoreboardT1.getColumnModel().getColumn(5).setPreferredWidth(24);
 		tableScoreboardT1.setRowHeight(33);
 		tableScoreboardT1.setBackground(new Color(255,251,245));
-			
+		
+		JButton btnLeagueStats = new JButton("STATS");
+        btnLeagueStats.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	LeagueStats stats = new LeagueStats();
+  		        stats.setVisible(true);
+  		        // Close the current window
+            }
+        });	
 		JTableHeader tableHeader = tableScoreboardT1.getTableHeader();
 		tableHeader.setFont(new Font("Tungsten Bold", Font.PLAIN, 15));
 		tableHeader.setBackground(new Color(191, 151, 159));
