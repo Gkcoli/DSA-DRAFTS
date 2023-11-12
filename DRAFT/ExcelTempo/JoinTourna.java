@@ -48,6 +48,23 @@ public class JoinTourna extends JFrame {
 		});
 	}
 
+	public static boolean canJoinTourna(JLabel label) {
+		String checkLabel = label.getText().toString();
+		boolean canJoin = false;
+		if (checkLabel.equals("FULL")) {
+			JOptionPane.showMessageDialog(label, "Tournament is already full!");
+		} else if (checkLabel.equals("TBA")) {
+			JOptionPane.showMessageDialog(label, "Tournament is not yet opened!");
+		} else if (checkLabel.equals("FINISHED")) {
+			JOptionPane.showMessageDialog(label, "Tournament is already finished!");
+		} else {
+			JOptionPane.showMessageDialog(label, "Please input your team credentials to join tournament.");
+			canJoin = true;
+		}
+		
+		return canJoin;
+	}
+	
 	public void updateLabels(String user) {
 		lblUserName.setText(user.toUpperCase());
 	}
@@ -68,32 +85,32 @@ public class JoinTourna extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(fileDirectory + "JOIN TOURNA.png"));
-		lblNewLabel.setBounds(0, 0, 1500, 105);
-		contentPane.add(lblNewLabel);
+		JLabel lblAdminHPBanner = new JLabel("New label");
+		lblAdminHPBanner.setIcon(new ImageIcon(fileDirectory + "JOIN TOURNA.png"));
+		lblAdminHPBanner.setBounds(0, 0, 1500, 105);
+		contentPane.add(lblAdminHPBanner);
 		
-		JLabel lblNewLabel_1 = new JLabel("EPISODE 1 // ACT 1 TOURNAMENTS");
-		lblNewLabel_1.setForeground(new Color(189, 57, 68));
-		lblNewLabel_1.setFont(new Font("Tungsten Bold", Font.PLAIN, 48));
-		lblNewLabel_1.setBounds(25, 133, 452, 52);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblAdminTourna = new JLabel("EPISODE 1 // ACT 1 TOURNAMENTS");
+		lblAdminTourna.setForeground(new Color(189, 57, 68));
+		lblAdminTourna.setFont(new Font("Tungsten Bold", Font.PLAIN, 48));
+		lblAdminTourna.setBounds(25, 133, 452, 52);
+		contentPane.add(lblAdminTourna);
 		
-		JLabel lblNewLabel_2 = new JLabel("SELECT A TOURNAMENT");
-		lblNewLabel_2.setFont(new Font("Tungsten Bold", Font.PLAIN, 41));
-		lblNewLabel_2.setForeground(new Color(189, 57, 68));
-		lblNewLabel_2.setBounds(111, 184, 286, 52);
-		contentPane.add(lblNewLabel_2);
+		JLabel lblSelectTourna = new JLabel("SELECT A TOURNAMENT");
+		lblSelectTourna.setFont(new Font("Tungsten Bold", Font.PLAIN, 41));
+		lblSelectTourna.setForeground(new Color(189, 57, 68));
+		lblSelectTourna.setBounds(111, 184, 286, 52);
+		contentPane.add(lblSelectTourna);
 		
-		JLabel lblNewLabel_3 = new JLabel("TEAM NAME");
-		lblNewLabel_3.setFont(new Font("Tungsten Bold", Font.PLAIN, 32));
-		lblNewLabel_3.setBounds(557, 192, 106, 39);
-		contentPane.add(lblNewLabel_3);
+		JLabel lblTeamName = new JLabel("TEAM NAME");
+		lblTeamName.setFont(new Font("Tungsten Bold", Font.PLAIN, 32));
+		lblTeamName.setBounds(557, 192, 106, 39);
+		contentPane.add(lblTeamName);
 		
-		JLabel lblNewLabel_5 = new JLabel("TEAM MEMBERS:");
-		lblNewLabel_5.setFont(new Font("Tungsten Bold", Font.PLAIN, 26));
-		lblNewLabel_5.setBounds(605, 233, 127, 39);
-		contentPane.add(lblNewLabel_5);
+		JLabel lblTeamMembers = new JLabel("TEAM MEMBERS:");
+		lblTeamMembers.setFont(new Font("Tungsten Bold", Font.PLAIN, 26));
+		lblTeamMembers.setBounds(605, 233, 127, 39);
+		contentPane.add(lblTeamMembers);
 		
 		textTeam = new JTextField();
 		textTeam.setBorder(null);
@@ -314,7 +331,7 @@ public class JoinTourna extends JFrame {
 				lblTourna1.setBackground(new Color(228, 195, 197));
 			}
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Tournament is already full!");
+				canJoinTourna(lblTourna1Status);
 			}
 		});
 		
@@ -332,8 +349,7 @@ public class JoinTourna extends JFrame {
 				lblTourna2.setBackground(new Color(228, 195, 197));
 			}
 			public void mouseClicked(MouseEvent e) {
-		        if (!(lblTourna2Status.getText().toString().equalsIgnoreCase("FULL") || lblTourna2Status.getText().toString().equalsIgnoreCase("FINISHED"))) {
-		        	JOptionPane.showMessageDialog(null, "Please input your team name to join tournament.");
+		        if (canJoinTourna(lblTourna2Status)) {
 		        	tournaIsSelected = true;
 		        	textTeam.setEnabled(true);
 		        	textMember1.setEnabled(true);
@@ -341,9 +357,7 @@ public class JoinTourna extends JFrame {
 		        	textMember3.setEnabled(true);
 		        	textMember4.setEnabled(true);
 		        	textMember5.setEnabled(true);
-		        } else {
-		        	JOptionPane.showMessageDialog(null, "Tournament is already open!");
-		        }
+		        } 
 		    }
 		});
 		
@@ -362,7 +376,7 @@ public class JoinTourna extends JFrame {
 			}
 			
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "Tournament is not yet open!");
+				canJoinTourna(lblTourna3Status);
 			}
 			
 		});
@@ -419,7 +433,7 @@ public class JoinTourna extends JFrame {
 		            	
 					}
 				} else if (lblTourna2Status.getText() == "FULL" || lblTourna2Status.getText() == "FINISHED") {
-					JOptionPane.showMessageDialog(null, "There are no open tournaments right now.");
+					JOptionPane.showMessageDialog(null, "Unable to join to a tournament right now.");
 					SignIn toSignIn;
 					try {
 						toSignIn = new SignIn();
