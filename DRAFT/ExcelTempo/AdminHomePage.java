@@ -138,6 +138,7 @@ public class AdminHomePage extends JFrame {
 		if (!(tournaStatus.equalsIgnoreCase("N/A"))) {
 			lblOnGoing.setText("FINISHED");
 		}
+		
 		lblOnGoing.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
 		lblOnGoing.setBounds(0, 52, 308, 42);
 		lblOnGoing.setForeground(new Color(0, 0, 0));
@@ -173,9 +174,13 @@ public class AdminHomePage extends JFrame {
 			}
 			
 			public void mouseClicked(MouseEvent e) {
-				dispose();
-				EditTourna toEditTourna = new EditTourna();
-				EditTourna.main(null);
+				if (lblOnGoing.getText().toString().equalsIgnoreCase("FINISHED")) {
+					JOptionPane.showMessageDialog(rootPane, "Tournament is already finished.");
+				} else {
+					dispose();
+					EditTourna toEditTourna = new EditTourna();
+					EditTourna.main(null);
+				}
 			}
 			
 		});
