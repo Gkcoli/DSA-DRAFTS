@@ -1,4 +1,3 @@
-package telemasters;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -7,8 +6,6 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -31,7 +28,7 @@ public class UserHome extends JFrame {
 	JLabel lblNewMember4;
 	JLabel lblNewMember5;
 	// Edit fileDirectory
-	String fileDirectory = "C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/";
+	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
 //	FileHandler file = new FileHandler();
 	UserData userData;
 	ExcelHandler excel = new ExcelHandler();
@@ -93,7 +90,7 @@ public class UserHome extends JFrame {
 		lblRecentTournaBanner.setFont(new Font("Tungsten Bold", Font.PLAIN, 68));
 		
 		JLabel lblTournaStatus = new JLabel("COMING SOON...", SwingConstants.CENTER);
-		String tournaStatus = excel.readSpecificCell(fileDirectory + "MatchSched.xlsx", 3, 3);
+		String tournaStatus = ExcelHandler.readSpecificCell(fileDirectory + "MatchSched.xlsx", 3, 3);
 		if (!(tournaStatus.equalsIgnoreCase("N/A"))) {
 			lblTournaStatus.setText("FINISHED");
 		}
@@ -166,46 +163,6 @@ public class UserHome extends JFrame {
 		contentPane.add(panelJoinNow);
 		panelJoinNow.setLayout(null);
 		
-		
-		JLabel lblJoinNow = new JLabel("JOIN NOW", SwingConstants.CENTER);
-		lblJoinNow.setForeground(new Color(255, 251, 245));
-		lblJoinNow.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
-		lblJoinNow.setBounds(0, 0, 147, 62);
-		lblJoinNow.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblJoinNow.setForeground(new Color(255, 255, 255));
-				lblJoinNow.setForeground(new Color(255, 255, 255));
-				lblJoinNow.setBackground(new Color(236, 73, 84));
-			}
-			
-			public void mouseExited(MouseEvent e) {
-				lblJoinNow.setForeground(new Color(0, 0, 0));
-				lblJoinNow.setForeground(new Color(0, 0, 0));
-				lblJoinNow.setBackground(new Color(228, 195, 197));
-			}
-			
-			public void mouseClicked(MouseEvent e) {
-					if (lblNewTeam.getText().toString().equalsIgnoreCase("Team Name")) {
-						dispose();
-						JoinTourna toJoinTourna;
-						try {
-							toJoinTourna = new JoinTourna();
-							toJoinTourna.updateLabels(lblUser.getText().toString());
-							toJoinTourna.setVisible(true);
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						
-					} else {
-						JOptionPane.showMessageDialog(lblJoinNow, "You can only join one tournament at a time.");
-					}
-			}
-			 
-		});
-		panelJoinNow.add(lblJoinNow);
-		
 		JLabel lblGreetings = new JLabel("HELLO,");
 		lblGreetings.setFont(new Font("Tungsten Bold", Font.PLAIN, 55));
 		lblGreetings.setBounds(106, 127, 118, 76);
@@ -227,7 +184,48 @@ public class UserHome extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblSignout = new JLabel("Sign Out", SwingConstants.CENTER);
+		
+		JLabel lblJoinNow = new JLabel("JOIN NOW", SwingConstants.CENTER);
+		lblJoinNow.setForeground(new Color(255, 251, 245));
+		lblJoinNow.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
+		lblJoinNow.setBounds(0, 0, 147, 62);
+		lblJoinNow.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblJoinNow.setForeground(new Color(255, 255, 255));
+				lblJoinNow.setForeground(new Color(255, 255, 255));
+				lblJoinNow.setBackground(new Color(236, 73, 84));
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				lblJoinNow.setForeground(new Color(0, 0, 0));
+				lblJoinNow.setForeground(new Color(0, 0, 0));
+				lblJoinNow.setBackground(new Color(228, 195, 197));
+			}
+			
+			public void mouseClicked(MouseEvent e) {
+				String user = lblUser.getText().toString();
+					if (!(ExcelHandler.fileReader(fileDirectory + "VanguardTeams.txt").contains(user))) {
+						dispose();
+						JoinTourna toJoinTourna;
+						try {
+							toJoinTourna = new JoinTourna();
+							toJoinTourna.updateLabels(lblUser.getText().toString());
+							toJoinTourna.setVisible(true);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					} else {
+						JOptionPane.showMessageDialog(lblJoinNow, "You can only join one tournament at a time.");
+					}
+			}
+			 
+		});
+		panelJoinNow.add(lblJoinNow);
+		
+		JLabel lblSignout = new JLabel("SIGN OUT", SwingConstants.CENTER);
 		lblSignout.setForeground(new Color(255, 251, 245));
 		lblSignout.setFont(new Font("Tungsten Bold", Font.PLAIN, 30));
 		lblSignout.setBounds(0, 0, 147, 62);
