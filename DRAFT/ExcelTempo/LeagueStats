@@ -319,6 +319,11 @@ import java.io.FileInputStream;
 				        	try {
 				        		String noOfDefuses = excelHandler.columnSum(ExcelHandler.checkTeam(selectedTeam), 5);
 				        		String noOfPlants = excelHandler.columnSum(ExcelHandler.checkTeam(selectedTeam), 4);
+				        		String noOfWins = excelHandler.columnSum(ExcelHandler.checkTeam(selectedTeam), 6);
+				        		String noOfLoss = excelHandler.columnSum(ExcelHandler.checkTeam(selectedTeam), 7);
+
+				        		lblWin.setText(noOfWins);
+				        		lblLoss.setText(noOfLoss);
 				        		lblDef.setText(noOfDefuses);
 								lblPlant.setText(noOfPlants);
 								
