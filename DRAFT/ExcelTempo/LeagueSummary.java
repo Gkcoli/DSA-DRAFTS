@@ -18,6 +18,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LeagueSummary extends JFrame {
 
@@ -53,7 +56,7 @@ public class LeagueSummary extends JFrame {
 	 */
 	public LeagueSummary() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1080, 600);
+		setBounds(100, 100, 1080, 672);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(new Color(255,251,245));
@@ -99,7 +102,7 @@ public class LeagueSummary extends JFrame {
 		panel_1.add(lblT2Score);
 		
 		lblTeam1 = new JLabel("TEAM 1 NAME", SwingConstants.CENTER);
-		lblTeam1.setBounds(175, 158, 263, 77);
+		lblTeam1.setBounds(198, 158, 263, 77);
 		lblTeam1.setForeground(new Color(189, 57, 68));
 		lblTeam1.setFont(new Font("Tungsten Bold", Font.PLAIN, 50));
 		contentPane.add(lblTeam1);
@@ -149,7 +152,7 @@ public class LeagueSummary extends JFrame {
 		});
 
 		tableRoundStats.setFont(new Font("Spiegel", Font.BOLD, 20));
-		tableRoundStats.setBounds(25, 272, 981, 50);
+		tableRoundStats.setBounds(25, 272, 999, 50);
 		tableRoundStats.setRowHeight(50);
 		contentPane.add(tableRoundStats);
 		
@@ -196,7 +199,7 @@ public class LeagueSummary extends JFrame {
 	    tableHeader.setForeground(Color.black);
 		
 		scrollPaneT2 = new JScrollPane();
-		scrollPaneT2.setBounds(521, 361, 485, 192);
+		scrollPaneT2.setBounds(539, 361, 485, 192);
 		contentPane.add(scrollPaneT2);
 		
 		tableScoreboardT2 = new JTable();
@@ -231,6 +234,26 @@ public class LeagueSummary extends JFrame {
 		tableScoreboardT2.getColumnModel().getColumn(5).setPreferredWidth(24);
 		tableScoreboardT2.setRowHeight(33);
 		tableScoreboardT2.setBackground(new Color(255,251,245));
+		
+		JButton btnLeagueStats = new JButton("STATS");
+		btnLeagueStats.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        // Save league summary here (if needed)
+
+		        // Open the LeagueStats window
+		        LeagueStats stats = new LeagueStats();
+		        stats.setVisible(true);
+		        dispose(); // Close the current window
+		    }
+		});
+		btnLeagueStats.setBorder(null);
+		btnLeagueStats.setBackground(new Color(255, 0, 0));
+		btnLeagueStats.setForeground(new Color(255, 255, 255));
+		btnLeagueStats.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
+		btnLeagueStats.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnLeagueStats.setBounds(468, 574, 117, 31);
+		contentPane.add(btnLeagueStats);
 	    
 	    tableHeader = tableScoreboardT2.getTableHeader();
 		tableHeader.setFont(new Font("Tungsten Bold", Font.PLAIN, 15));
