@@ -495,54 +495,102 @@ public class Match {
 			public void mouseClicked(MouseEvent e) {
 				try {
 				LinkedList<String> sched = new LinkedList<>();
-				playersT1 = new LinkedList<>();
-				playersT2 = new LinkedList<>();
+				
+				int rowToWrite = 0; // Specify the row index
+				int columnToWrite = 6; // Specify the column index
+				int valueToWrite = 1;
 
 				switch(gameNum) {
-					case "GAME 1":
-						game1W = stats.gameWinner(scoreT1,scoreT2, game1W, team1, team2);
-						game1L = stats.gameLoser(game1W, team1, team2, game1L);
-						stats.updateSched("GAME 1", sched, team1, team2, status1, game1W, game1L);
-						ExcelHandler.writeAtSpecificRow(matchFilePath, 0, sched);
-					break;
+				case "GAME 1":
+		            game1W = stats.gameWinner(scoreT1, scoreT2, game1W, team1, team2);
+		            game1L = stats.gameLoser(game1W, team1, team2, game1L);
+		            stats.updateSched("GAME 1", sched, team1, team2, status1, game1W, game1L);
+		            ExcelHandler.writeAtSpecificRow(matchFilePath, 0, sched);
+		            
+
+		            // Determine which Team's stats to update
+		            if (game1W.equals(t1)) {
+		            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 0, 6, 1);
+		            } else if (game1W.equals(t2)) {
+		            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 0, 6, 1);
+		            }
+
+		            if (game1L.equals(t1)) {
+		            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 0, 7, 1);
+		            } else if (game1L.equals(t2)) {
+		            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 0, 7, 1);
+		            }
+
+		            break;
+		            
 					case "GAME 2":
 						game2W = stats.gameWinner(scoreT1,scoreT2, game2W, team3, team4);
 						game2L = stats.gameLoser(game2W, team3, team4, game2L);
 						stats.updateSched("GAME 2", sched, team3, team4, status2, game2W, game2L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 1, sched);
-					break;
+						if (game2W.equals(t1)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 1, 6, 1);
+			            } else if (game2W.equals(t2)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 1, 6, 1);
+			            }
+
+			            if (game2L.equals(t1)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 1, 7, 1);
+			            } else if (game2L.equals(t2)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 1, 7, 1);
+			            }
+
+			            break;
+				
 					case "GAME 3":
 						game3W = stats.gameWinner(scoreT1,scoreT2, game3W, game1L, game2L);
 						game3L = stats.gameLoser(game3W, game1L, game2L, game3L);
 						stats.updateSched("GAME 3", sched, game1L, game2L, status3, game3W, game3L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 2, sched);
-					break; 
+						if (game3W.equals(t1)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 2, 6, 1);
+			            } else if (game3W.equals(t2)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 2, 6, 1);
+			            }
+
+			            if (game3L.equals(t1)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 2, 7, 1);
+			            } else if (game3L.equals(t2)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 2, 7, 1);
+			            }
+
+			            break;
 					case "GAME 4":
 						game4W = stats.gameWinner(scoreT1,scoreT2, game4W, game1W, game2W);
 						game3L = stats.gameLoser(game4W, game1W, game2W, game4L);
 						stats.updateSched("GAME 4", sched, game1W, game2W, status4, game4W, game4L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 3, sched);
-					break;
-				}
-				playMatchFrame.dispose();
-				matchSched();
-				leagueSummary();
-		 		leagueSummaryFrame.setVisible(true);
+		
+						if (game4W.equals(t1)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 3, 6, 1);
+			            } else if (game4W.equals(t2)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 3, 6, 1);
+			            }
 
+			            if (game4L.equals(t1)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 3, 7, 1);
+			            } else if (game4L.equals(t2)) {
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 3, 7, 1);
+			            }
+
+			            break;
+				}
+				
 				ExcelHandler.writeTable(team1FilePath, tableTeam1);
 				ExcelHandler.writeTable(team2FilePath, tableTeam2);
 				
-				ExcelHandler.readTable(team1FilePath, tableScoreboardT1);
-		 		ExcelHandler.readTable(team2FilePath, tableScoreboardT2);
-				updateTable(team1FilePath, team2FilePath, playersT1, playersT2, tableScoreboardT1, tableScoreboardT2);
-
-				for (int i = 0; i < roundStats.size(); i++) {
-		 			tableRoundStats.setValueAt(roundStats.get(i).toString(), 0, i);
-		 		}
-
+				playMatchFrame.dispose();
+				matchSched();
+				matchSchedFrame.setVisible(true);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
+				
 			}
 		});
 		btnSaveMatch.setVerticalAlignment(SwingConstants.BOTTOM);
