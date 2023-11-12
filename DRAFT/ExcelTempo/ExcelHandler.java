@@ -1,5 +1,7 @@
+package telemasters;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -10,13 +12,16 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelHandler {
-	static String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
-	
+	String fileDirectory = "C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/";
+	Stats stats = new Stats();
 	// Method that creates a file 
 	public void createFile(String filePath, int numRows, String sheetName) {
 		try   {  
@@ -99,8 +104,9 @@ public class ExcelHandler {
 	        XSSFSheet sheet = workbook.getSheetAt(0);
 
 	        // Iterate over each row in the sheet
-	        Cell cell = sheet.getRow(row).getCell(col);     
-			String data = cell.getRichStringCellValue().toString();
+	        Cell cell = sheet.getRow(row).getCell(col);
+	        String data = (cell != null) ? cell.getRichStringCellValue().toString() : "";
+
 
 	        // Close the workbook and the file input stream
 	        // workbook.close();
@@ -181,25 +187,25 @@ public class ExcelHandler {
 		}
 		return list;
 	}
-	
 	// Method that returns a designated filePath from a user
 	public static String checkUser(String User) {
 		String filePath = "";
 		 
 		if (User.equalsIgnoreCase("User1")) {
-			filePath = fileDirectory + "Team1.xlsx";
+			filePath = "C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/Team1.xlsx";
 		} else if (User.equalsIgnoreCase("User2")) {
-			filePath = fileDirectory + "Team2.xlsx";
+			filePath = "C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/Team2.xlsx";
 		} else if (User.equalsIgnoreCase("User3")) {
-			filePath = fileDirectory + "Team3.xlsx";
+			filePath = "C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/Team3.xlsx";;
 		} else if (User.equalsIgnoreCase("User4")) {
-			filePath = fileDirectory + "Team4.xlsx";
+			filePath = "C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/Team4.xlsx";;
 		} else {
 			return "";
 		}
 		
 		return filePath;
 	}
+	
 	public static String checkTeam(String Team) {
 		String filePath = "";
 		 
@@ -233,14 +239,11 @@ public class ExcelHandler {
 	                Cell cell = row.getCell(colIndex);
 	                if (cell != null) {
 	                    if (cell.getCellType() == CellType.NUMERIC) {
-	                        // Check if the cell contains a numeric value
 	                        sum += (int) cell.getNumericCellValue();
 	                    } else if (cell.getCellType() == CellType.STRING) {
 	                        try {
-	                            // Try to parse the string as a numeric value
 	                            sum += Integer.parseInt(cell.getStringCellValue());
 	                        } catch (NumberFormatException e) {
-	                            // Handle the case where the string is not numeric
 	                            System.out.println("Non-numeric value found at row " + rowIndex + ", column " + colIndex);
 	                        }
 	                    }
@@ -291,27 +294,26 @@ public class ExcelHandler {
     public static void readExcelFile(String fileName, LinkedList<LeaderEntry> leadersKills, LinkedList<LeaderEntry> leadersDefuses, LinkedList<LeaderEntry> leadersPlants, LinkedList<LeaderEntry> leadersSupport, LinkedList<LeaderEntry> leadersMatchMVP) {
         try {
             FileInputStream excelFile = new FileInputStream(new File(fileName));
-            XSSFWorkbook workbook = new XSSFWorkbook(excelFile);
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            try (XSSFWorkbook workbook = new XSSFWorkbook(excelFile)) {
+				XSSFSheet sheet = workbook.getSheetAt(0);
 
-            for (Row row : sheet) {
-                String playerName = row.getCell(0).getStringCellValue();
-                int kills = readSpecificColumnInt(row, 1); // Read column 2 using index 1
-                int defuses = readSpecificColumnInt(row, 5); // Read column 5 using index 4
-                int plants = readSpecificColumnInt(row, 4);
-                int support = readSpecificColumnInt(row, 3);
-                int deaths = readSpecificColumnInt(row, 2);
-                int matchMVP = ((kills + support)- deaths);
-                
-                leadersKills.add(new LeaderEntry(playerName, kills, 0, 0, 0, 0)); // Initialize other values to 0
-                leadersDefuses.add(new LeaderEntry(playerName, 0, defuses, 0, 0, 0)); // Initialize other values to 0
-                leadersPlants.add(new LeaderEntry(playerName, 0, 0, plants, 0, 0)); // Initialize other values to 0
-                leadersSupport.add(new LeaderEntry(playerName, 0, 0, 0, support, 0)); // Initialize other values to 0
-                leadersMatchMVP.add(new LeaderEntry(playerName, kills, 0, 0, support, deaths));
+				for (Row row : sheet) {
+				    String playerName = row.getCell(0).getStringCellValue();
+				    int kills = readSpecificColumnInt(row, 1); // Read column 2 using index 1
+				    int defuses = readSpecificColumnInt(row, 5); // Read column 5 using index 4
+				    int plants = readSpecificColumnInt(row, 4);
+				    int support = readSpecificColumnInt(row, 3);
+				    int deaths = readSpecificColumnInt(row, 2);
+				    
+				    leadersKills.add(new LeaderEntry(playerName, kills, 0, 0, 0, 0)); // Initialize other values to 0
+				    leadersDefuses.add(new LeaderEntry(playerName, 0, defuses, 0, 0, 0)); // Initialize other values to 0
+				    leadersPlants.add(new LeaderEntry(playerName, 0, 0, plants, 0, 0)); // Initialize other values to 0
+				    leadersSupport.add(new LeaderEntry(playerName, 0, 0, 0, support, 0)); // Initialize other values to 0
+				    leadersMatchMVP.add(new LeaderEntry(playerName, kills, 0, 0, support, deaths));
 
 
-            }
-
+				}
+			}
             excelFile.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -478,6 +480,9 @@ public class ExcelHandler {
         return "";
     }
 
+
+
+
 	// Method that writes on a specific column
 	public void writeAtSpecificColumn(String excelFilePath, int column, LinkedList <String> list) {
         
@@ -497,7 +502,7 @@ public class ExcelHandler {
 				int columnIndex = column; // 0-based index, so 1 means the second column
 				Cell cell = row.getCell(columnIndex);
 				if (cell == null) {
-					cell = row.createCell(columnIndex);
+					cell = row.getCell(columnIndex);
 				}
 				cell.setCellValue(list.get(rowIndex));
 				
@@ -516,45 +521,76 @@ public class ExcelHandler {
 		}
 	}   
 	
+	public static void writeIntAtSpecificCell(String excelFilePath, int row, int column, int value) {
+	    try {
+	        FileInputStream inputStream = new FileInputStream(excelFilePath);
+	        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+	        XSSFSheet firstSheet = workbook.getSheetAt(0);
+
+	        Row currentRow = firstSheet.getRow(row);
+	        if (currentRow == null) {
+	            currentRow = firstSheet.createRow(row);
+	        }
+
+	        // Overwrite only the specific cell
+	        Cell cell = currentRow.createCell(column);
+	        cell.setCellValue(value);
+
+	        inputStream.close();
+
+	        FileOutputStream outputStream = new FileOutputStream(excelFilePath);
+	        workbook.write(outputStream);
+	        outputStream.close();
+
+	        workbook.close();
+
+	        System.out.println("Successfully written to file");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
+
 	// Method that writes on a specific column
 	public static void writeAtSpecificRow(String excelFilePath, int rowIndex, LinkedList <String> list) {
         
 		try {
 			FileInputStream inputStream = new FileInputStream(excelFilePath);
-			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-			XSSFSheet firstSheet = workbook.getSheetAt(0);
-			
-			for (int colIndex = 0; colIndex < list.size(); colIndex++) {
-				Row row = firstSheet.getRow(rowIndex);
-				if (row == null) {
-					row = firstSheet.createRow(rowIndex);
+			try (XSSFWorkbook workbook = new XSSFWorkbook(inputStream)) {
+				XSSFSheet firstSheet = workbook.getSheetAt(0);
+				
+				for (int colIndex = 0; colIndex < list.size(); colIndex++) {
+					Row row = firstSheet.getRow(rowIndex);
+					if (row == null) {
+						row = firstSheet.createRow(rowIndex);
+					}
+
+					// Overwrite only a specific column (for example, column B)
+					// 0-based index, so 1 means the second column
+					Cell cell = row.getCell(colIndex);
+					if (cell == null) {
+						cell = row.getCell(rowIndex);
+					}
+					cell.setCellValue(list.get(colIndex));
+					
 				}
 
-				// Overwrite only a specific column (for example, column B)
-				// 0-based index, so 1 means the second column
-				Cell cell = row.getCell(colIndex);
-				if (cell == null) {
-					cell = row.getCell(rowIndex);
-				}
-				cell.setCellValue(list.get(colIndex));
-				
+				// for (int colIndex = 0; colIndex < list.size(); colIndex++) {
+				// 	Row row = firstSheet.getRow(rowIndex);
+				// 	Cell cell = row.getCell(rowIndex);
+				// 	if (cell == null) {
+				// 		cell = row.getCell(rowIndex);
+				// 	}
+				// 	cell.setCellValue(list.get(colIndex));
+					
+
+				inputStream.close();
+
+				FileOutputStream outputStream = new FileOutputStream(excelFilePath);
+				workbook.write(outputStream);
+				outputStream.close();
 			}
-
-			// for (int colIndex = 0; colIndex < list.size(); colIndex++) {
-			// 	Row row = firstSheet.getRow(rowIndex);
-			// 	Cell cell = row.getCell(rowIndex);
-			// 	if (cell == null) {
-			// 		cell = row.getCell(rowIndex);
-			// 	}
-			// 	cell.setCellValue(list.get(colIndex));
-				
-
-			inputStream.close();
-
-			FileOutputStream outputStream = new FileOutputStream(excelFilePath);
-			workbook.write(outputStream);
-			outputStream.close();
-
 			System.out.println("Succesfully written to file");
 		
 	 } catch (Exception e) {
