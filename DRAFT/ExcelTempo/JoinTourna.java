@@ -342,7 +342,7 @@ public class JoinTourna extends JFrame {
 		        	textMember4.setEnabled(true);
 		        	textMember5.setEnabled(true);
 		        } else {
-		        	JOptionPane.showMessageDialog(null, "Tournament is not open!");
+		        	JOptionPane.showMessageDialog(null, "Tournament is already open!");
 		        }
 		    }
 		});
