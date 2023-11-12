@@ -172,14 +172,14 @@ public class Match {
 			 		matchSchedFrame.dispose();
 			 		playMatch();
 					stats.removeFirst();
-				} else if (status2.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 0) { // If game 2 has not yet started and game 3 is selected
+				} else if (status2.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 2) { // If game 2 has not yet started and game 3 is selected
 					JOptionPane.showMessageDialog(playMatchFrame, "Previous game has not yet started");
 				} else if (status2.equals("FINISHED") && (status3.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 2)) { // If game 2 has finished and game 3 is selected
 					JOptionPane.showMessageDialog(playMatchFrame, "Redirecting to Play Match");
 			 		matchSchedFrame.dispose();
 			 		playMatch();
 					stats.removeFirst();
-				} else if (status3.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 1) { // If game 3 has not yet started and game 4 is selected
+				} else if (status3.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 3) { // If game 3 has not yet started and game 4 is selected
 					JOptionPane.showMessageDialog(playMatchFrame, "Previous game has not yet started");
 				} else if (status3.equals("FINISHED") && (status4.equals("WAITING FOR TEAMS") && table.getSelectedRow() == 3)) { // if game 3 has finished and game 4 is selected
 					JOptionPane.showMessageDialog(playMatchFrame, "Redirecting to Play Match");
