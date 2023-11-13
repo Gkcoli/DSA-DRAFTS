@@ -605,8 +605,7 @@ public class ExcelHandler {
 	}  
  
 
-	public static LinkedList <String> readTable(String fileName, JTable table) throws Exception {
-		LinkedList <String> data = new LinkedList<>();
+	public static void readTable(String fileName, JTable table) throws Exception {
 	        // Create a FileInputStream object to read the excel file
 	        FileInputStream fileInputStream = new FileInputStream(fileName);
 
@@ -629,7 +628,6 @@ public class ExcelHandler {
 	        // Close the workbook and the file input stream
 	        workbook.close();
 	        fileInputStream.close();
-		return data;
 	}
 
 	public static void writeTable(String excelFilePath, JTable table) {
