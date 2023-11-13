@@ -369,6 +369,22 @@ public class Match {
 		});
 		btnPlay.setBounds(455, 558, 118, 45);
 		matchSchedFrame.getContentPane().add(btnPlay);	
+
+		JButton btnHome = new JButton("  >  ");
+		btnHome.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				matchSchedFrame.dispose();
+				AdminHomePage backToAdmin = new AdminHomePage();
+				backToAdmin.setVisible(true);
+			}
+		});
+		btnHome.setVerticalAlignment(SwingConstants.TOP);
+		btnHome.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
+		btnHome.setForeground(new Color(255, 255, 255));
+		btnHome.setBackground(new Color(189, 57, 68));
+		btnHome.setBounds(980, 90, 50, 25);
+		matchSchedFrame.getContentPane().add(btnHome);
 	}
 	
 	private void playMatch() throws Exception {
