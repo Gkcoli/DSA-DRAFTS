@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 	import javax.swing.JPanel;
 	import javax.swing.border.EmptyBorder;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -13,6 +16,7 @@ import java.awt.Color;
 	import javax.swing.SwingConstants;
 	import javax.swing.JLabel;
 	import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -20,10 +24,14 @@ import java.util.LinkedList;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 	
 	public class LeagueStats extends JFrame {
 	
 		private static final long serialVersionUID = 1L;
+		private JButton btnNewButton;
 		private JPanel contentBG;
 		private JLabel lblTeamName;
 		private JLabel lblMostKillsName;
@@ -68,11 +76,7 @@ import java.io.FileInputStream;
 			                LeagueStats frame = new LeagueStats();
 			                frame.setVisible(true);
 
-			                // Create an ExcelHandler instance
-			                ExcelHandler excelHandler = new ExcelHandler();
-
-			                // Update labels from Excel data
-			                excelHandler.updateLabels(frame);
+			                
 			            } catch (Exception e) {
 			                e.printStackTrace();
 			            }
@@ -80,7 +84,6 @@ import java.io.FileInputStream;
 			});
 			
 		}
-		// Add a field to store the ExcelData
 		
 		public void updateLabels(String mostKillsName, String mostKillCount, String mostPlantsName, String mostPlantCount, String supportName, String supportAssistCount, String mostDefusesName, String mostDefusesCount, String matchMVPName, String MatchMVPKDA ) {
 		    lblMostKillsName.setText(mostKillsName);
@@ -94,7 +97,50 @@ import java.io.FileInputStream;
 		    lblMatchMVPName.setText(matchMVPName);
 		    lblMatchMVPKDA.setText(MatchMVPKDA);
 		}
+		
+		public void updateLabelsBasedOnGame(String gameNum) {
+		    try (FileInputStream fis = new FileInputStream("C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/LeagueLeaders_" + gameNum + ".xlsx");
+		         XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
+		        XSSFSheet sheet = workbook.getSheetAt(0);
+		        System.out.println("Reading Excel for " + gameNum);
 
+		        String mostKillsName = getCellValue(sheet.getRow(2).getCell(2));
+		        String mostKillCount = getCellValue(sheet.getRow(2).getCell(1));
+		        String mostPlantsName = getCellValue(sheet.getRow(3).getCell(2));
+			        String mostPlantCount = getCellValue(sheet.getRow(3).getCell(1));
+			        String supportName = getCellValue(sheet.getRow(4).getCell(2));
+			        String supportAssistCount = getCellValue(sheet.getRow(4).getCell(1));
+			        String mostDefusesName = getCellValue(sheet.getRow(1).getCell(2));
+			        String mostDefusesCount = getCellValue(sheet.getRow(1).getCell(1));
+			        String matchMVPName = getCellValue(sheet.getRow(5).getCell(4));
+			        String matchMVPKDA = getCellValue(sheet.getRow(5).getCell(1)) + "/" + getCellValue(sheet.getRow(5).getCell(2)) + "/" + getCellValue(sheet.getRow(5).getCell(3));
+	
+			        // Update the JLabels in LeagueStats
+			        updateLabels(mostKillsName, mostKillCount, mostPlantsName, mostPlantCount, supportName, supportAssistCount, mostDefusesName, mostDefusesCount, matchMVPName, matchMVPKDA);
+			    } catch (Exception e) {
+			        e.printStackTrace();
+			    }
+		
+			}
+			private String getCellValue(Cell cell) {
+			    if (cell != null) {
+			        CellType cellType = cell.getCellType();
+			        switch (cellType) {
+			            case STRING:
+			                return cell.getStringCellValue();
+			            case NUMERIC:
+			                // Check if it's a whole number (integer)
+			                if (DateUtil.isCellDateFormatted(cell) || cell.getNumericCellValue() != (int) cell.getNumericCellValue()) {
+			                    return String.valueOf(cell.getNumericCellValue());
+			                } else {
+			                    return String.valueOf((int) cell.getNumericCellValue());
+			                }
+			            default:
+			                return "";
+			        }
+			    }
+			    return ""; 
+			}
 		
 		/**
 		 * Create the frame.
@@ -105,7 +151,7 @@ import java.io.FileInputStream;
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(100, 100, 1080, 750);
 			contentBG = new JPanel();
-			contentBG.setBorder(new EmptyBorder(5, 5, 5, 5));
+			contentBG.setBorder(null);
 			contentBG.setBackground(new Color(255,251,245));
 			setContentPane(contentBG);
 			contentBG.setLayout(null);
@@ -419,5 +465,30 @@ import java.io.FileInputStream;
 			lblPlant.setBounds(10, 10, 52, 21);
 			panel_3.add(lblPlant);
 			
+			JButton btnNewButton = new JButton("New button");
+			btnNewButton.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
+			btnNewButton.setBackground(new Color(189, 57, 68));
+			btnNewButton.setForeground(new Color(255, 255, 255));
+
+			btnNewButton.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseClicked(MouseEvent e) {
+			    	try {
+			    		dispose();
+			    		Match window = new Match();
+				       window. matchSchedFrame.setVisible(true);
+					} catch (Exception e2) {
+						// TODO: handle exception
+					} 
+			       
+			    }
+			});
+
+
+			btnNewButton.setBounds(819, 612, 176, 60);
+			contentBG.add(btnNewButton);
+			
 		}
+
+		
 	}
