@@ -9,9 +9,6 @@ import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 
 public class UserHome extends JFrame {
