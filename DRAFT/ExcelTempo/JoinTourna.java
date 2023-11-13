@@ -29,7 +29,7 @@ public class JoinTourna extends JFrame {
 	boolean tourna2IsFull = false;
 	ExcelHandler excel = new ExcelHandler();
 	// Edit fileDirectory
-	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
+	String fileDirectory = ExcelHandler.fileDirectory();
 	LinkedList <String> teams = new LinkedList<>();
 
 	/**
@@ -247,7 +247,6 @@ public class JoinTourna extends JFrame {
 		try {
 			tournaStatus = ExcelHandler.readSpecificCell(fileDirectory + "MatchSched.xlsx", 3, 3);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -427,7 +426,6 @@ public class JoinTourna extends JFrame {
 			            	toUserHome.setVisible(true); 
 			            	dispose();
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 		            	
@@ -440,7 +438,6 @@ public class JoinTourna extends JFrame {
 						toSignIn.setVisible(true);
 						dispose();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				} else {
