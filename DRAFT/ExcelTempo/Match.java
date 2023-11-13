@@ -1,3 +1,5 @@
+package telemasters;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -5,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
@@ -25,19 +30,30 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 public class Match {
 	// Edit fileDirectory
-	String fileDirectory = "C:/Users/jessy/.vscode/TeleMasters Studio/";
+	String fileDirectory = "C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/";
 
 	JFrame matchSchedFrame, playMatchFrame, leagueSummaryFrame;
 	private static JTable table;
 	private JScrollPane scrollPane, scrollPaneT1, scrollPaneT2;
 	private JPanel panel;
 	private JTable tableRoundStats, tableTeam1, tableTeam2, tableScoreboardT1, tableScoreboardT2;
+	
 	private LinkedList<String> roundStats;
 	private int scoreT1, scoreT2;
 	private String T1Score, T2Score;
 	private int i = 1;
+	private LeagueStats leagueStatsFrame;
+	private int selectedGame = 1;
+	private static final int MAX_GAMES = 4; // Define the maximum number of games
 
 	private String gameNum, status1, status2, status3, status4, game1W, game2W, game3W, game4W, game1L, game2L, game3L, game4L, team1FilePath, team2FilePath, t1, t2;
 
@@ -49,6 +65,7 @@ public class Match {
 	String matchFilePath = fileDirectory + "MatchSched.xlsx";
 
 	LinkedList <String> playersT1, playersT2;
+	LeagueStats leagueStats = new LeagueStats();
 
 	static Stats stats = new Stats();
 	ExcelHandler statsExcel = new ExcelHandler();
@@ -65,6 +82,166 @@ public class Match {
 				}
 			}
 		});
+	}
+	public static void readExcelFile(String fileName, LinkedList<LeaderEntry> leadersKills, LinkedList<LeaderEntry> leadersDefuses, LinkedList<LeaderEntry> leadersPlants, LinkedList<LeaderEntry> leadersSupport, LinkedList<LeaderEntry> leadersMatchMVP) {
+        try {
+            FileInputStream excelFile = new FileInputStream(new File(fileName));
+            try (XSSFWorkbook workbook = new XSSFWorkbook(excelFile)) {
+				XSSFSheet sheet = workbook.getSheetAt(0);
+
+				for (Row row : sheet) {
+				    String playerName = row.getCell(0).getStringCellValue();
+				    int kills = readSpecificColumnInt(row, 1); // Read column 2 using index 1
+				    int defuses = readSpecificColumnInt(row, 5); // Read column 5 using index 4
+				    int plants = readSpecificColumnInt(row, 4);
+				    int support = readSpecificColumnInt(row, 3);
+				    int deaths = readSpecificColumnInt(row, 2);
+				    
+				    leadersKills.add(new LeaderEntry(playerName, kills, 0, 0, 0, 0)); // Initialize other values to 0
+				    leadersDefuses.add(new LeaderEntry(playerName, 0, defuses, 0, 0, 0)); // Initialize other values to 0
+				    leadersPlants.add(new LeaderEntry(playerName, 0, 0, plants, 0, 0)); // Initialize other values to 0
+				    leadersSupport.add(new LeaderEntry(playerName, 0, 0, 0, support, 0)); // Initialize other values to 0
+				    leadersMatchMVP.add(new LeaderEntry(playerName, kills, 0, 0, support, deaths));
+
+
+				}
+			}
+            excelFile.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int readSpecificColumnInt(Row row, int columnIndex) {
+        Cell cell = row.getCell(columnIndex);
+        if (cell != null) {
+            if (cell.getCellType() == CellType.NUMERIC) {
+                return (int) cell.getNumericCellValue();
+            } else if (cell.getCellType() == CellType.STRING) {
+                try {
+                    return Integer.parseInt(cell.getStringCellValue());
+                } catch (NumberFormatException e) {
+                    return 0; 
+                }
+            }
+        }
+        return 0; 
+    }
+	 public static LeaderEntry mergeSort(LinkedList<LeaderEntry> leaders, int columnIndex) {
+	        if (leaders.size() <= 1) {
+	            return leaders.getFirst();
+	        }
+
+	        int mid = leaders.size() / 2;
+	        LinkedList<LeaderEntry> left = new LinkedList<>(leaders.subList(0, mid));
+	        LinkedList<LeaderEntry> right = new LinkedList<>(leaders.subList(mid, leaders.size()));
+
+	        LeaderEntry maxLeft = mergeSort(left, columnIndex);
+	        LeaderEntry maxRight = mergeSort(right, columnIndex);
+
+	        if (columnIndex == 2) {
+	            return (maxLeft.getKills() >= maxRight.getKills()) ? maxLeft : maxRight;
+	        } else if (columnIndex == 6) {
+	            return (maxLeft.getDefuses() >= maxRight.getDefuses()) ? maxLeft : maxRight;
+	        } else if (columnIndex == 5) {
+	            return (maxLeft.getPlants() >= maxRight.getPlants()) ? maxLeft : maxRight;
+	        } else if (columnIndex == 4) {
+	            return (maxLeft.getSupport() >= maxRight.getSupport()) ? maxLeft : maxRight;
+	        } else {
+	            return null;
+	        }
+	    }
+	    
+	    public static LeaderEntry mergeSortMatchMVP(LinkedList<LeaderEntry> leaders) {
+	        if (leaders.size() <= 1) {
+	            return leaders.getFirst();
+	        }
+
+	        int mid = leaders.size() / 2;
+	        LinkedList<LeaderEntry> left = new LinkedList<>(leaders.subList(0, mid));
+	        LinkedList<LeaderEntry> right = new LinkedList<>(leaders.subList(mid, leaders.size()));
+
+	        LeaderEntry maxLeft = mergeSortMatchMVP(left);
+	        LeaderEntry maxRight = mergeSortMatchMVP(right);
+
+	        // Compare the values individually for Match MVP
+	        int maxLeftValue = maxLeft.getKills() + maxLeft.getSupport() - maxLeft.getDeaths();
+	        int maxRightValue = maxRight.getKills() + maxRight.getSupport() - maxRight.getDeaths();
+
+	        return (maxLeftValue >= maxRightValue) ? maxLeft : maxRight;
+	    }
+
+	    public static void sortAndWriteLeaders(String team1FilePath, String team2FilePath, LinkedList<LeaderEntry> leadersKills, LinkedList<LeaderEntry> leadersDefuses, LinkedList<LeaderEntry> leadersPlants, LinkedList<LeaderEntry> leadersSupport, LinkedList<LeaderEntry> leadersMatchMVP, String gameName) {
+	        // Read the team1FilePath and team2FilePath and populate the leader lists (leadersKills, leadersDefuses, leadersPlants, leadersSupport, leadersMatchMVP)
+
+	        // Example: Call the readExcelFile method for each file
+	        readExcelFile(team1FilePath, leadersKills, leadersDefuses, leadersPlants, leadersSupport, leadersMatchMVP);
+	        readExcelFile(team2FilePath, leadersKills, leadersDefuses, leadersPlants, leadersSupport, leadersMatchMVP);
+
+	        // Sort the leader lists using mergeSort methods
+	        LeaderEntry maxKills = mergeSort(leadersKills, 2);
+	        LeaderEntry maxDefuses = mergeSort(leadersDefuses, 6);
+	        LeaderEntry maxPlants = mergeSort(leadersPlants, 5);
+	        LeaderEntry maxSupport = mergeSort(leadersSupport, 4);
+	        LeaderEntry matchMVP = mergeSortMatchMVP(leadersMatchMVP);
+
+	        // Create a new .xlsx file and write the sorted results
+	        writeResultsToExcel(maxKills, maxDefuses, maxPlants, maxSupport, matchMVP, gameName);
+	    }
+
+	// Define a modified method to write results to Excel including the game name
+	public static void writeResultsToExcel(LeaderEntry maxKills, LeaderEntry maxDefuses, LeaderEntry maxPlants, LeaderEntry maxSupport, LeaderEntry matchMVP, String gameName) {
+	    try {
+	        // Your existing code for writing results to Excel
+	        // Make sure to include the "gameName" parameter in the sheet name or file name
+	        XSSFWorkbook workbook = new XSSFWorkbook();
+	        XSSFSheet sheet = workbook.createSheet("LeagueLeaders_" + gameName);
+
+	        // Create the header row
+            Row rowHeader = sheet.createRow(0);
+            rowHeader.createCell(0).setCellValue("Category");
+            rowHeader.createCell(1).setCellValue("Value");
+            rowHeader.createCell(2).setCellValue("Player Name");
+
+            // Create the max defuses row
+            Row rowMaxDefuse = sheet.createRow(1);
+            rowMaxDefuse.createCell(0).setCellValue("Defuse");
+            rowMaxDefuse.createCell(1).setCellValue(maxDefuses.getDefuses());
+            rowMaxDefuse.createCell(2).setCellValue(maxDefuses.getPlayerName());
+
+            // Create the max kills row
+            Row rowMaxKills = sheet.createRow(2);
+            rowMaxKills.createCell(0).setCellValue("Kills");
+            rowMaxKills.createCell(1).setCellValue(maxKills.getKills());
+            rowMaxKills.createCell(2).setCellValue(maxKills.getPlayerName());
+            
+            // Create the plants row
+            Row rowMaxPlants = sheet.createRow(3);
+            rowMaxPlants.createCell(0).setCellValue("Plants");
+            rowMaxPlants.createCell(1).setCellValue(maxPlants.getPlants());
+            rowMaxPlants.createCell(2).setCellValue(maxPlants.getPlayerName());
+            
+            // Create the max support row
+            Row rowMaxSupport = sheet.createRow(4);
+            rowMaxSupport.createCell(0).setCellValue("Support");
+            rowMaxSupport.createCell(1).setCellValue(maxSupport.getSupport());
+            rowMaxSupport.createCell(2).setCellValue(maxSupport.getPlayerName());
+            
+            
+            Row rowMatchMVP = sheet.createRow(5);
+            rowMatchMVP.createCell(0).setCellValue("Match MVP");
+            rowMatchMVP.createCell(1).setCellValue(matchMVP.getKills());
+            rowMatchMVP.createCell(2).setCellValue(matchMVP.getDeaths());
+            rowMatchMVP.createCell(3).setCellValue(matchMVP.getSupport());
+            rowMatchMVP.createCell(4).setCellValue(matchMVP.getPlayerName());
+	        // Save the workbook to a file
+	        FileOutputStream outputStream = new FileOutputStream("C:/Users/carlo/OneDrive/Desktop/pransue/School/FIRST YEAR/ECLIPSE/telemasters/src/LeagueLeaders_" + gameName + ".xlsx");
+	        workbook.write(outputStream);
+	        outputStream.close();
+	        workbook.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	public Match() throws Exception {
@@ -334,10 +511,10 @@ public class Match {
 		
 		tableRoundStats.setModel(new DefaultTableModel(
 			new String[][] {
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25"
+				"R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15"
 			}	
 		));
 
@@ -497,9 +674,11 @@ public class Match {
 				playersT1 = new LinkedList<>();
 				playersT2 = new LinkedList<>();
 				
-				int rowToWrite = 0; // Specify the row index
-				int columnToWrite = 6; // Specify the column index
-				int valueToWrite = 1;
+				LinkedList<LeaderEntry> leadersKills = new LinkedList<>();
+			    LinkedList<LeaderEntry> leadersDefuses = new LinkedList<>();
+			    LinkedList<LeaderEntry> leadersPlants = new LinkedList<>();
+			    LinkedList<LeaderEntry> leadersSupport = new LinkedList<>();
+			    LinkedList<LeaderEntry> leadersMatchMVP = new LinkedList<>();
 
 				switch(gameNum) {
 				case "GAME 1":
@@ -507,7 +686,7 @@ public class Match {
 		            	game1L = stats.gameLoser(game1W, team1, team2, game1L);
 		            	stats.updateSched("GAME 1", sched, team1, team2, status1, game1W, game1L);
 		            	ExcelHandler.writeAtSpecificRow(matchFilePath, 0, sched);
-		            
+	                    sortAndWriteLeaders(team1FilePath, team2FilePath, leadersKills, leadersDefuses, leadersPlants, leadersSupport, leadersMatchMVP, "GAME 1");
 
 		            // Determine which Team's stats to update
 		            if (game1W.equals(t1)) {
@@ -530,15 +709,15 @@ public class Match {
 						stats.updateSched("GAME 2", sched, team3, team4, status2, game2W, game2L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 1, sched);
 						if (game2W.equals(t1)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 1, 6, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 0, 6, 1);
 			            } else if (game2W.equals(t2)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 1, 6, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 0, 6, 1);
 			            }
 
 			            if (game2L.equals(t1)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 1, 7, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 0, 7, 1);
 			            } else if (game2L.equals(t2)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 1, 7, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 0, 7, 1);
 			            }
 
 			            break;
@@ -548,16 +727,17 @@ public class Match {
 						game3L = stats.gameLoser(game3W, game1L, game2L, game3L);
 						stats.updateSched("GAME 3", sched, game1L, game2L, status3, game3W, game3L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 2, sched);
+
 						if (game3W.equals(t1)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 2, 6, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 0, 6, 1);
 			            } else if (game3W.equals(t2)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 2, 6, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 0, 6, 1);
 			            }
 
 			            if (game3L.equals(t1)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 2, 7, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 0, 7, 1);
 			            } else if (game3L.equals(t2)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 2, 7, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 0, 7, 1);
 			            }
 
 			            break;
@@ -567,16 +747,16 @@ public class Match {
 						stats.updateSched("GAME 4", sched, game1W, game2W, status4, game4W, game4L);
 						ExcelHandler.writeAtSpecificRow(matchFilePath, 3, sched);
 						
-				    if (game4W.equals(t1)) {
-			            ExcelHandler.writeIntAtSpecificCell(team1FilePath, 3, 6, 1);
+	                    if (game4W.equals(t1)) {
+	                    	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 0, 6, 1);
 			            } else if (game4W.equals(t2)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 3, 6, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 0, 6, 1);
 			            }
 
 			            if (game4L.equals(t1)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 3, 7, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team1FilePath, 0, 7, 1);
 			            } else if (game4L.equals(t2)) {
-			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 3, 7, 1);
+			            	ExcelHandler.writeIntAtSpecificCell(team2FilePath, 0, 7, 1);
 			            }
 
 			            break;
@@ -589,7 +769,23 @@ public class Match {
 
 				ExcelHandler.writeTable(team1FilePath, tableTeam1);
 				ExcelHandler.writeTable(team2FilePath, tableTeam2);
+				if ("GAME 1".equals(gameNum)) {
+				    System.out.println("Updating for GAME 1");
+				    sortAndWriteLeaders(team1FilePath, team2FilePath, leadersKills, leadersDefuses, leadersPlants, leadersSupport, leadersMatchMVP, "GAME 1");
+				} else if ("GAME 2".equals(gameNum)) {
+				    System.out.println("Updating for GAME 2");
+				    sortAndWriteLeaders(team1FilePath, team2FilePath, leadersKills, leadersDefuses, leadersPlants, leadersSupport, leadersMatchMVP, "GAME 2");
+				} else if ("GAME 3".equals(gameNum)) {
+				    System.out.println("Updating for GAME 3");
+				    sortAndWriteLeaders(team1FilePath, team2FilePath, leadersKills, leadersDefuses, leadersPlants, leadersSupport, leadersMatchMVP, "GAME 3");
+				} else if ("GAME 4".equals(gameNum)) {
+				    System.out.println("Updating for GAME 4");
+				    sortAndWriteLeaders(team1FilePath, team2FilePath, leadersKills, leadersDefuses, leadersPlants, leadersSupport, leadersMatchMVP, "GAME 4");
+				} else {
+				    System.out.println("Invalid gameNum: " + gameNum);
+				}
 				
+
 				ExcelHandler.readTable(team1FilePath, tableScoreboardT1);
 		 		ExcelHandler.readTable(team2FilePath, tableScoreboardT2);
 				updateTable(team1FilePath, team2FilePath, playersT1, playersT2, tableScoreboardT1, tableScoreboardT2);
@@ -688,11 +884,11 @@ public class Match {
 			
 		tableRoundStats.setModel(new DefaultTableModel(
 			new String[][] {
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15", "R16", "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25"
-			}	
+				"R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8", "R9", "R10", "R11", "R12", "R13", "R14", "R15"
+			} 	
 		){
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditablesRS = new boolean[] {
@@ -785,24 +981,28 @@ public class Match {
 		tableHeader.setFont(new Font("Tungsten Bold", Font.PLAIN, 15));
 		tableHeader.setBackground(new Color(191, 151, 159));
 		tableHeader.setForeground(Color.black);	
+		
 
 		JButton btnLeagueStats = new JButton("STATS");
-       		btnLeagueStats.addMouseListener(new MouseAdapter() {
-          	  @Override
-           	public void mouseClicked(MouseEvent e) {
-            		LeagueStats stats = new LeagueStats();
-  		        stats.setVisible(true);
-  		        // Close the current window
-           		}
-        	});
-        	btnLeagueStats.setVerticalAlignment(SwingConstants.BOTTOM);
+		btnLeagueStats.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        LeagueStats statsFrame = new LeagueStats();
+		        statsFrame.updateLabelsBasedOnGame(gameNum); // Provide the correct game number
+		        statsFrame.setVisible(true);
+		    }
+		});
+
+        btnLeagueStats.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnLeagueStats.setForeground(new Color(255, 255, 255));
 		btnLeagueStats.setFont(new Font("Tungsten Bold", Font.PLAIN, 20));
 		btnLeagueStats.setBackground(new Color(189, 57, 68));
 		btnLeagueStats.setBounds(468, 574, 117, 31);
-        	leagueSummaryFrame.getContentPane().add(btnLeagueStats);
+        leagueSummaryFrame.getContentPane().add(btnLeagueStats);
 }
 
+
+        
 	public void updateTable(String team1FilePath, String team2FilePath, LinkedList<String> T1, LinkedList<String> T2, JTable tableT1, JTable tableT2) throws Exception {
 		T1 = ExcelHandler.readSpecificColumn(team1FilePath, 0);
 		T2 = ExcelHandler.readSpecificColumn(team2FilePath, 0);
