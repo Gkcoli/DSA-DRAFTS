@@ -3,7 +3,6 @@ import java.util.Queue;
 
 public class Stats {
     LinkedList <String> roundStats;
-    ExcelHandler excel = new ExcelHandler();
     public Queue<String> Schedule = new LinkedList<>(); 
     
 	
