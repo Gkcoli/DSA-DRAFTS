@@ -25,7 +25,7 @@ public class UserHome extends JFrame {
 	JLabel lblNewMember4;
 	JLabel lblNewMember5;
 	// Edit fileDirectory
-	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
+	String fileDirectory = ExcelHandler.fileDirectory();
 //	FileHandler file = new FileHandler();
 	UserData userData;
 	ExcelHandler excel = new ExcelHandler();
