@@ -31,8 +31,7 @@ public class AdminHomePage extends JFrame {
 	ExcelHandler excel = new ExcelHandler();
 	
 	// Edit fileDirectory
-	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
-
+	String fileDirectory = ExcelHandler.fileDirectory();
 	/**
 	 * Launch the application.
 	 */
