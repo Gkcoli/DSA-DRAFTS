@@ -178,7 +178,6 @@ public class AdminHomePage extends JFrame {
 					JOptionPane.showMessageDialog(rootPane, "Tournament is already finished.");
 				} else {
 					dispose();
-					EditTourna toEditTourna = new EditTourna();
 					EditTourna.main(null);
 				}
 			}
@@ -273,7 +272,6 @@ public class AdminHomePage extends JFrame {
 					toSignIn = new SignIn();
 					toSignIn.setVisible(true);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 							}
