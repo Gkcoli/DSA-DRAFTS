@@ -64,7 +64,7 @@ public class SignIn extends JFrame {
     Hashtable<String, UserData> usersData;
     Hashtable<String, String> userAdmin;
     // Edit fileDirectory
- 	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
+ 	String fileDirectory = ExcelHandler.fileDirectory();
  	ExcelHandler excel = new ExcelHandler();
 
     public static void main(String[] args) {
