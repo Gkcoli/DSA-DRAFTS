@@ -1,26 +1,18 @@
 import java.awt.EventQueue;
 import java.awt.Font;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerListModel;
 import javax.swing.SwingConstants;
-
 import java.awt.Color;
-import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
-
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
@@ -34,7 +26,7 @@ public class EditTourna {
 	private JTextField txtField_T1M4;
 	private JTextField txtField_T1M5; 
 	// Edit fileDirectory
-	String fileDirectory = "C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/";
+	String fileDirectory = ExcelHandler.fileDirectory();
 	JoinTourna teamList = new JoinTourna();
 	FileHandler fileHandler = new FileHandler();
 	ExcelHandler excel = new ExcelHandler();
@@ -314,8 +306,7 @@ public class EditTourna {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					Match toMatch = new Match();
-					toMatch.main(null);
+					Match.main(null);
 					frame.dispose();
 					
 				} catch (Exception e1) {
