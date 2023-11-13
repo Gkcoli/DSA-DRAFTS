@@ -118,7 +118,7 @@ public class SignIn extends JFrame {
         showPass = new JRadioButton("");
         showPass.setHorizontalTextPosition(SwingConstants.CENTER);
         showPass.setForeground(new Color(192, 192, 192));
-        showPass.setIcon(new ImageIcon("C:/Users/jeric/eclipse-workspace/TeleMastersValorantTournamentManager/src/eye1.png"));
+        showPass.setIcon(new ImageIcon(fileDirectory + "eye1.png"));
         showPass.setBackground(new Color(192, 192, 192));
         showPass.setBounds(309, 179, 40, 30);
         panelSignIn.add(showPass);
@@ -163,9 +163,32 @@ public class SignIn extends JFrame {
                     txtUser.setText("");
                 }
             }
+            
+        	@Override
+        	public void focusLost(FocusEvent e) {
+        		if (txtUser.getText().trim().equals("")) {
+                    txtUser.setText("USERNAME");
+                }
+        	}
         });
 
-        pwdField = new JPasswordField();
+        pwdField = new JPasswordField("PASSWORD");
+        pwdField.setEchoChar((char)0);
+        pwdField.addFocusListener(new FocusAdapter() {
+        	@Override
+        	public void focusGained(FocusEvent e) {
+        		if (pwdField.getText().trim().equals("PASSWORD")) {
+        			pwdField.setEchoChar('\u2022');
+        			pwdField.setText("");
+                }
+        	}
+        	@Override
+        	public void focusLost(FocusEvent e) {
+        		if (pwdField.getText().trim().equals("")) {
+        			pwdField.setText("PASSWORD");
+                }
+        	}
+        });
         pwdField.setFont(new Font("Tungsten Bold", Font.PLAIN, 17));
         pwdField.setBorder(null);
         pwdField.setBackground(new Color(192, 192, 192));
@@ -216,7 +239,6 @@ public class SignIn extends JFrame {
 	                        userHomeFrame.setVisible(true);
 	                        dispose();
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
                         
@@ -234,7 +256,6 @@ public class SignIn extends JFrame {
 							adminHomeFrame.setVisible(true);
 	                        dispose(); // Close the current window
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
                         
